@@ -1,0 +1,53 @@
+{
+  "exp_id": "EXP-0010",
+  "title": "Per-embryo combo + @98.0 window probe",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "combo": {
+    "44b6_0113de3b": {
+      "edge_raw": 0.9038461538461539,
+      "edge_adj": 0.938213715036662,
+      "div": 1.0,
+      "score": 1.038213715036662,
+      "ec": {
+        "TP": 47,
+        "FP": 2,
+        "FN": 3
+      },
+      "T_true": 25755
+    },
+    "6bba_05b6850b": {
+      "edge_raw": 0.7988571428571428,
+      "edge_adj": 0.8194375712938429,
+      "div": 1.0,
+      "score": 0.9194375712938428,
+      "ec": {
+        "TP": 699,
+        "FP": 30,
+        "FN": 146
+      },
+      "T_true": 6362
+    }
+  },
+  "combo_worst": 0.8194375712938429,
+  "uniform99_worst": 0.7121,
+  "uniform985_worst": 0.8194,
+  "window_probe98": {
+    "recall_mean": 1.0,
+    "det_per_frame": 56.9
+  },
+  "checks": {
+    "combo_ge_u99_per_sample": true,
+    "combo_ge_u985_per_sample": true,
+    "combo_ge_u99_worst": true,
+    "combo_ge_u985_worst": true,
+    "probe98_recall_1.00": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "Combo/policy verdict per checks. Window probe gates EXP-0011 full-video @98.0. Assembly+probe rung: keep-trying ceiling (single deterministic pass)."
+}
