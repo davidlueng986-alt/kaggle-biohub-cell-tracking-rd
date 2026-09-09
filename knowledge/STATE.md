@@ -40,6 +40,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
   `export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"`
   then `kaggle competitions download -c biohub-cell-tracking-during-development -p data/` (requires Rules acceptance on competition page first).
 - `gh`: **UNAUTHENTICATED (verified 2026-09-09: `gh auth status` → "not logged in")** — cannot create/push `davidlueng986-alt/kaggle-biohub-cell-tracking-rd`. Unblock: `gh auth login` (device-code flow), verify with `gh auth status`.
+- Push attempt 2026-09-09: local `origin` set to `https://github.com/davidlueng986-alt/kaggle-biohub-cell-tracking-rd.git`; `git push -u origin main` fails `could not read Username` (no creds) and repo 404s (not yet created). After login: `gh repo create davidlueng986-alt/kaggle-biohub-cell-tracking-rd --private --source=. --push` (or `--public`), or create via web then `git push -u origin main`. 4 local commits ready (HEAD `fe4829d`).
 - Never commit secrets. See `docs/AUTH.md`.
 
 ## What exists
