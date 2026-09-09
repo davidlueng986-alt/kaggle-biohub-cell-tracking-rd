@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-09 (PM GOLD watch: gh unblocked, subset DL 450/738). Maintainer: gold-watch.
+Last updated: 2026-09-09 (PM GOLD: subset DONE 738/738, EXP-0003 real floor green). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -40,7 +40,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
   `export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"`
   then `kaggle competitions download -c biohub-cell-tracking-during-development -p data/` (requires Rules acceptance on competition page first).
 - `gh`: **WORKS (verified 2026-09-09: logged in as davidlueng986-alt, remote HEAD in sync)**. Repo: https://github.com/davidlueng986-alt/kaggle-biohub-cell-tracking-rd (exists). Push frequent small commits.
-- Subset download (PROMPT-GOLD §1, restarted after early-stop fix — `scripts/download_subset.py` no longer stops while ids missing): target ids in `data/SUBSET_IDS.txt` = `44b6_0113de3b, 44b6_0b24845f, 44b6_0c582fdc, 6bba_05b6850b, 6bba_05db0fb1, 6bba_062c8d37` (3×44b6 + 3×6bba, embryo-paired). 738 files (`data/SUBSET_FILES.txt`); progress ~450/738 ok, 0 fail (see `/tmp/biohub-subset-dl.log`). Full `.zarr` + `.geff` per sample into `data/` (gitignored). Do NOT download full ~88GB.
+- Subset download DONE 2026-09-09 (PROMPT-GOLD §1, after early-stop fix): 6 ids (3×44b6 + 3×6bba, embryo-paired), 738/738 files ok 0 fail, 2.6 GB in `data/` (gitignored). EDA needs `pip install zarr numcodecs` — DONE (zarr 3.3.0 on VM).
 - Never commit secrets. See `docs/AUTH.md`.
 - Never commit secrets. See `docs/AUTH.md`.
 
@@ -51,15 +51,17 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0000/`: template; `run_loop.sh --dry-run` validates it.
 - `experiments/EXP-0001/`: DONE — legacy toy harness re-scored under v1.1 (fold0 0.5/1.0/0.6 hand-calc match, `dry_run:true`, keep-trying). Do not recreate.
 - `experiments/EXP-0002/`: DONE 2026-09-09 — full-scorer geometric validation (H-001+H-004): perfect 1.1 / idswitch 0.333 (FP≥1) / inflated adj 0.9 / division TP then FN; 6/6 checks pass; `dry_run:true`, keep-trying (no real data, NOT promotable).
-- `knowledge/`: this file + HYPOTHESES.md (H-001 active, H-004 active, H-002/H-003/H-005 backlog) + RESULTS.md (EXP-0000/0001/0002 rows).
+- `experiments/EXP-0003/`: DONE 2026-09-09 — FIRST REAL-DATA result (H-001+H-002): oracle GT nodes + causal Hungarian linker on subset 6 → 44b6-micro 1.0933 / 6bba-micro 1.0705 / worst 1.0705; div 0/0/4 (no forks); `real_data:true`, keep-trying (floor, not a model). Helpers: `scripts/geff_to_graph.py`, `scripts/baseline_link.py`.
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002 active, H-003/H-005 backlog) + RESULTS.md (EXP-0000…0003 rows).
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Real-data subset IN PROGRESS (see Auth status): 6 train samples downloading; EXP-0003 baseline starts when all 6 complete. EDA needs `pip install zarr numcodecs` (not yet installed; CPU-only, fine on VM).
 
 ## Current best
 
-None yet (real-data best). Harness results (NOT promotable):
-- EXP-0001 legacy toy: fold0 0.600 / fold1 0.333 (hand-calc match).
-- EXP-0002 geometric (v1.1): perfect 1.1, idswitch 0.333, inflated-adj 0.9, division TP→FN. Next promotable target: EXP-0003 real embryo-CV baseline after Rules acceptance + download.
+Oracle-linker floor (real data, NOT promotable — beat this):
+- EXP-0003: worst-fold edge 1.0705 (44b6 1.0933 / 6bba 1.0705), division 0/0/4.
+- Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
+- Next: EXP-0004 (image-based DoG detection probe on 1–2 zarr timepoints, CPU) or fork-proposing linker variant (division sub-gate); then Kaggle notebook skeleton (GOLD §§4–5).
 
 ## Next loop steps (cold agent — copy/paste)
 

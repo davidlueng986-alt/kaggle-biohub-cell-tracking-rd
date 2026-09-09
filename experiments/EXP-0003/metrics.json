@@ -1,0 +1,125 @@
+{
+  "exp_id": "EXP-0003",
+  "title": "Real-data oracle-linker baseline (subset 6)",
+  "hypothesis_id": "H-001+H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "subset_ids": [
+    "44b6_0113de3b",
+    "44b6_0b24845f",
+    "44b6_0c582fdc",
+    "6bba_05b6850b",
+    "6bba_05db0fb1",
+    "6bba_062c8d37"
+  ],
+  "per_sample": {
+    "44b6_0113de3b": {
+      "adjusted_edge_jaccard": 1.0778021355076683,
+      "division_jaccard": 1.0,
+      "score": 1.1778021355076684,
+      "edge_counts": {
+        "TP": 49,
+        "FP": 0,
+        "FN": 1
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 25755
+    },
+    "44b6_0b24845f": {
+      "adjusted_edge_jaccard": 1.099844488489099,
+      "division_jaccard": 1.0,
+      "score": 1.199844488489099,
+      "edge_counts": {
+        "TP": 49,
+        "FP": 0,
+        "FN": 0
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 32795
+    },
+    "44b6_0c582fdc": {
+      "adjusted_edge_jaccard": 1.0997460476428929,
+      "division_jaccard": 1.0,
+      "score": 1.199746047642893,
+      "edge_counts": {
+        "TP": 70,
+        "FP": 0,
+        "FN": 0
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 27958
+    },
+    "6bba_05b6850b": {
+      "adjusted_edge_jaccard": 1.0800377239861678,
+      "division_jaccard": 1.0,
+      "score": 1.180037723986168,
+      "edge_counts": {
+        "TP": 840,
+        "FP": 0,
+        "FN": 5
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 6362
+    },
+    "6bba_05db0fb1": {
+      "adjusted_edge_jaccard": 1.077815532604931,
+      "division_jaccard": 0.0,
+      "score": 1.077815532604931,
+      "edge_counts": {
+        "TP": 1161,
+        "FP": 0,
+        "FN": 22
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "T_true": 69800
+    },
+    "6bba_062c8d37": {
+      "adjusted_edge_jaccard": 1.0519673348181142,
+      "division_jaccard": 0.0,
+      "score": 1.0519673348181142,
+      "edge_counts": {
+        "TP": 871,
+        "FP": 0,
+        "FN": 27
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1
+      },
+      "T_true": 6030
+    }
+  },
+  "embryo_44b6_micro_edge": 1.0932823079665783,
+  "embryo_6bba_micro_edge": 1.0705243740624102,
+  "worst_fold_edge": 1.0705243740624102,
+  "division_counts_sum": {
+    "TP": 0,
+    "FP": 0,
+    "FN": 4
+  },
+  "decision": "keep-trying",
+  "decision_reason": "Oracle-linker floor on real subset (no training, no forks); baseline for H-002 linker ladder. NOT promoted (floor by definition)."
+}
