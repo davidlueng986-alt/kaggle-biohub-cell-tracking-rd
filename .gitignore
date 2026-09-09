@@ -32,3 +32,6 @@ mlruns/
 lightning_logs/
 outputs/
 checkpoints/
+
+# Local screenshots / captures (untracked by convention, not deleted)
+opencode-web.png

@@ -1,0 +1,272 @@
+{
+  "exp_id": "EXP-0002",
+  "title": "Full-scorer geometric validation",
+  "hypothesis_id": "H-001+H-004",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "dry_run": true,
+  "simplified_scorer": false,
+  "scores": {
+    "fold0_perfect": {
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 1.0,
+          "edge_jaccard_raw": 1.0,
+          "division_jaccard": 1.0,
+          "score": 1.1,
+          "edge_counts": {
+            "TP": 2,
+            "FP": 0,
+            "FN": 0
+          },
+          "division_counts": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 0
+          },
+          "simplified": false,
+          "T_pred": 3,
+          "T_true": 3,
+          "T_true_used": true,
+          "n_pred_matched": 3,
+          "n_gt_matched": 3,
+          "voxel_size_um": [
+            1.625,
+            0.40625,
+            0.40625
+          ],
+          "max_dist_um": 7.0,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 1.0,
+      "division_jaccard": 1.0,
+      "division_counts_sum": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "score": 1.1,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
+    },
+    "fold0_idswitch": {
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 0.3333333333333333,
+          "edge_jaccard_raw": 0.3333333333333333,
+          "division_jaccard": 0.0,
+          "score": 0.3333333333333333,
+          "edge_counts": {
+            "TP": 1,
+            "FP": 1,
+            "FN": 1
+          },
+          "division_counts": {
+            "TP": 0,
+            "FP": 1,
+            "FN": 0
+          },
+          "simplified": false,
+          "T_pred": 3,
+          "T_true": 3,
+          "T_true_used": true,
+          "n_pred_matched": 3,
+          "n_gt_matched": 3,
+          "voxel_size_um": [
+            1.625,
+            0.40625,
+            0.40625
+          ],
+          "max_dist_um": 7.0,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 0.3333333333333333,
+      "division_jaccard": 0.0,
+      "division_counts_sum": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 0
+      },
+      "score": 0.3333333333333333,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
+    },
+    "fold0_inflated": {
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 0.9,
+          "edge_jaccard_raw": 1.0,
+          "division_jaccard": 1.0,
+          "score": 1.0,
+          "edge_counts": {
+            "TP": 2,
+            "FP": 0,
+            "FN": 0
+          },
+          "division_counts": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 0
+          },
+          "simplified": false,
+          "T_pred": 6,
+          "T_true": 3,
+          "T_true_used": true,
+          "n_pred_matched": 3,
+          "n_gt_matched": 3,
+          "voxel_size_um": [
+            1.625,
+            0.40625,
+            0.40625
+          ],
+          "max_dist_um": 7.0,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 0.9,
+      "division_jaccard": 1.0,
+      "division_counts_sum": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "score": 1.0,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
+    },
+    "fold1_perfect": {
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 1.0,
+          "edge_jaccard_raw": 1.0,
+          "division_jaccard": 1.0,
+          "score": 1.1,
+          "edge_counts": {
+            "TP": 5,
+            "FP": 0,
+            "FN": 0
+          },
+          "division_counts": {
+            "TP": 1,
+            "FP": 0,
+            "FN": 0
+          },
+          "simplified": false,
+          "T_pred": 6,
+          "T_true": 6,
+          "T_true_used": true,
+          "n_pred_matched": 6,
+          "n_gt_matched": 6,
+          "voxel_size_um": [
+            1.625,
+            0.40625,
+            0.40625
+          ],
+          "max_dist_um": 7.0,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 1.0,
+      "division_jaccard": 1.0,
+      "division_counts_sum": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "score": 1.1,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
+    },
+    "fold1_nodiv": {
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 0.62,
+          "edge_jaccard_raw": 0.6,
+          "division_jaccard": 0.0,
+          "score": 0.62,
+          "edge_counts": {
+            "TP": 3,
+            "FP": 0,
+            "FN": 2
+          },
+          "division_counts": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 1
+          },
+          "simplified": false,
+          "T_pred": 4,
+          "T_true": 6,
+          "T_true_used": true,
+          "n_pred_matched": 4,
+          "n_gt_matched": 4,
+          "voxel_size_um": [
+            1.625,
+            0.40625,
+            0.40625
+          ],
+          "max_dist_um": 7.0,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 0.62,
+      "division_jaccard": 0.0,
+      "division_counts_sum": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1
+      },
+      "score": 0.62,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
+    }
+  },
+  "checks": {
+    "perfect_fold0_total_is_1.0": true,
+    "perfect_fold1_total_is_1.1": true,
+    "idswitch_has_fp": true,
+    "idswitch_worse_than_perfect": true,
+    "inflated_penalized": true,
+    "nodiv_division_miss": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "Geometric path validated (perfect/idswitch/inflation/division behave per spec) but no real data; not promotable. Next: EXP-0003 real embryo-CV baseline after Rules acceptance + download."
+}

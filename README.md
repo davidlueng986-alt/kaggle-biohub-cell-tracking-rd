@@ -8,17 +8,21 @@ Competition: Biohub – Cell Tracking During Development (`biohub-cell-tracking-
 
 ```bash
 python3 --version  # 3.13 expected; no GPU on current VM
-pip install -r requirements.txt  # when added by scaffolder-code
-cp kaggle.json ~/.kaggle/kaggle.json && chmod 600 ~/.kaggle/kaggle.json  # never commit
+pip install -r requirements.txt  # numpy>=2.0 only; no torch/scipy
+cp kaggle.json ~/.kaggle/kaggle.json && chmod 600 ~/.kaggle/kaggle.json  # never commit secrets
 ```
 
 See `docs/AUTH.md` (protocol-architect) for Kaggle + GitHub auth details.
 
-## Auth (current status: BLOCKED)
+## Auth (current status: PARTIAL — Kaggle WORKS, gh BLOCKED; verified 2026-09-09)
 
-- Kaggle CLI (`~/.local/bin/kaggle`): unauthenticated — no `~/.kaggle/kaggle.json`.
-- `gh`: unauthenticated — cannot create/push `davidlueng986-alt/kaggle-biohub-cell-tracking-rd` yet.
-- Do not embed secrets. Auth blockers also flagged in `knowledge/STATE.md`.
+- Kaggle CLI (`~/.local/bin/kaggle`): **WORKS** — `~/.kaggle/kaggle.json` present and
+  `kaggle competitions list --search "biohub"` returns the competition (verified 2026-09-09).
+  Verify: `export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"`.
+  Download still requires Rules acceptance on the competition page first.
+- `gh`: **BLOCKED** — unauthenticated (`gh auth status` → "not logged in", verified 2026-09-09);
+  cannot create/push `davidlueng986-alt/kaggle-biohub-cell-tracking-rd` yet. Unblock: `gh auth login`, verify with `gh auth status`.
+- Do not embed secrets. Never commit `kaggle.json`, `.env`, PATs, or `data/`. Auth details in `docs/AUTH.md` and `knowledge/STATE.md`.
 
 ## How to run the R&D loop
 
@@ -34,7 +38,11 @@ mkdir -p experiments/EXP-0001 && cp experiments/EXP-0000/*.md experiments/EXP-00
 # 3. Dry-run the shared loop runner (no data / no GPU needed)
 bash scripts/run_loop.sh --dry-run
 
-# 4. Real run (requires auth + data, GPU recommended)
+# 3b. Scorer smoke checks (no data needed)
+python3 scripts/score.py --dry-run
+test -f scripts/test_score.py && python3 scripts/test_score.py || echo "test_score.py not present yet — skipping"
+
+# 4. Real run (Kaggle auth OK; data download needs Rules acceptance, GPU recommended)
 bash scripts/run_loop.sh
 ```
 

@@ -13,15 +13,24 @@ jobs:
         with:
           python-version: "3.13"
       - name: python version
-        run: python3 --version
+        run: |
+          python3 --version
+          python3 -c "import numpy; print('numpy', numpy.__version__)" || echo "numpy not installed (ok — pip install -r requirements.txt for local runs)"
       - name: scorer dry-run
         run: python3 scripts/score.py --dry-run
+      - name: scorer tests (if present)
+        run: |
+          if test -f scripts/test_score.py; then python3 scripts/test_score.py; else echo "test_score.py not present yet (scorer upgrade in-flight) — skipping"; fi
       - name: run_loop dry-run
         run: bash scripts/run_loop.sh --dry-run
+      - name: validate experiment JSON
+        run: |
+          for f in experiments/EXP-*/metrics.json; do python3 -c "import json,sys; json.load(open(sys.argv[1])); print('OK', sys.argv[1])" "$f"; done
       - name: required files exist
         run: |
           test -f scripts/score.py
           test -f scripts/new_experiment.sh
           test -f scripts/run_loop.sh
+          test -f requirements.txt
           test -f .github/workflows/smoke.yml
           echo "required files OK"

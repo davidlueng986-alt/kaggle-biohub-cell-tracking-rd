@@ -2,23 +2,74 @@
   "exp_id": "EXP-0001",
   "title": "Embryo-CV baseline harness",
   "hypothesis_id": "H-001",
-  "protocol_version": "1.0",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
   "dry_run": true,
   "simplified_scorer": true,
   "scores": {
     "fold0_holdout_44b6_toy": {
-      "adjusted_edge_jaccard_simplified": 0.5,
-      "division_jaccard_simplified": 1.0,
-      "score_simplified": 0.6,
-      "simplified": true,
-      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md"
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 0.5,
+          "division_jaccard": 1.0,
+          "score": 0.6,
+          "edge_counts": null,
+          "division_counts": null,
+          "simplified": true,
+          "T_pred": null,
+          "T_true": null,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 0.5,
+      "division_jaccard": 1.0,
+      "division_counts_sum": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "score": 0.6,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
     },
     "fold1_holdout_6bba_toy": {
-      "adjusted_edge_jaccard_simplified": 0.3333333333333333,
-      "division_jaccard_simplified": 0.0,
-      "score_simplified": 0.3333333333333333,
-      "simplified": true,
-      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md"
+      "per_sample": [
+        {
+          "adjusted_edge_jaccard": 0.3333333333333333,
+          "division_jaccard": 0.0,
+          "score": 0.3333333333333333,
+          "edge_counts": null,
+          "division_counts": null,
+          "simplified": true,
+          "T_pred": null,
+          "T_true": null,
+          "sample": "sample0"
+        }
+      ],
+      "adjusted_edge_jaccard": 0.3333333333333333,
+      "division_jaccard": 0.0,
+      "division_counts_sum": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "score": 0.3333333333333333,
+      "protocol_version": "1.1",
+      "scorer_version": "1.1.0",
+      "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0
     }
   },
   "expected_hand_calc": {
@@ -28,5 +79,5 @@
   },
   "hand_calc_match_fold0": true,
   "decision": "keep-trying",
-  "decision_reason": "Dry-run harness only (no real data, SIMPLIFIED scorer). H-001 transfer claim untested; needs Kaggle auth + data + full geff scorer. Next: EXP-0002 real embryo-CV baseline once unblocked."
+  "decision_reason": "Dry-run harness only (no real data, legacy toy path of v1.1 scorer). H-001 transfer claim untested; needs data + full geometric scorer. Next: EXP-0002 full-scorer geometric validation (v1.1)."
 }

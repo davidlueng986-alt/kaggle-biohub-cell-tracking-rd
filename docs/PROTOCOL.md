@@ -1,15 +1,22 @@
-# R&D Protocol — FROZEN v1.0
+# R&D Protocol — FROZEN v1.1
 
-**Status: FROZEN v1.0** (frozen 2026-09-09 by protocol-architect stage).
-No change to the trusted scorer, CV folds, or promotion gates without a version bump (v1.1, v2.0…) recorded in the Changelog below and approved in the experiment ledger (`knowledge/RESULTS.md`).
+**Status: FROZEN v1.1** (frozen 2026-09-09; supersedes v1.0).
+No change to the trusted scorer, CV folds, or promotion gates without a version bump (v1.2, v2.0…) recorded in the Changelog below and approved in the experiment ledger (`knowledge/RESULTS.md`).
 
 Normative metric reference: https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md
 Competition facts: see `docs/COMPETITION.md`.
 
 ## 1. Trusted scorer definition
 
-- `scripts/score.py` is the **only** number that can promote a model. Public LB is diagnostic only (§4).
-- The scorer MUST mirror `metrics.md` exactly:
+- `scripts/score.py` v1.1.0 is the **only** number that can promote a model. Public LB is diagnostic only (§4).
+- The scorer mirrors `metrics.md` exactly, with competition-page pins (verified 2026-09-09):
+  - Node matching: **per-timepoint** optimal bipartite assignment (Hungarian, pure-python + numpy, no scipy) on **scaled centroid distance** with voxel scale **z=1.625, y=0.40625, x=0.40625 µm/voxel**, threshold **7 µm** inclusive, one-to-one.
+  - Edge TP/FP/FN with the sparse-aware FP rule (only the two listed cases count as FP; all other non-TP predicted edges ignored).
+  - Adjusted edge Jaccard with `a = 0.1`, `max(0, …)` floor (NO upper cap — scores can exceed 1.0), micro-averaging with weights `w_i = TP_i + FP_i + FN_i`. `T_true` = `estimated_number_of_nodes` from `.geff` `zarr.json`; missing `T_true` → unpenalized with `T_true_used:false` flag (non-promotable until pinned).
+  - Division Jaccard with the local-window (±1 timepoint) fork logic: parent anchor, two distinct daughter branches, directed local topology, branch-evidence validity, unmerged-branch requirement, maximum-cardinality fork↔GT pairing; summed TP/FP/FN. Conservative approximation documented in `score.py` header (global per-t match restricted to window; weakly-connected GT components for cross-component evidence — never inflates TPs).
+  - Final: `score = adjusted_edge_jaccard + 0.1 * division_jaccard`.
+  - I/O: JSON geff-like single-sample graphs + `submission.csv` multi-sample (grouped by `dataset`) micro-average; legacy ID-tuple toy JSON still scores via flagged `simplified:true` path so EXP-0001 hand-calc (0.5/1.0/0.6) keeps passing.
+  - Tests: `scripts/test_score.py` (13 tests, stdlib unittest) must pass before any promotion; `score.py --dry-run` runs legacy toy + geometric smoke (1-voxel y-offset must match).
   - Node matching: optimal bipartite assignment on centroid distance, threshold **7 µm**, one-to-one.
   - Edge TP/FP/FN with the sparse-aware FP rule (only the two listed cases count as FP; all other non-TP predicted edges ignored).
   - Adjusted edge Jaccard with `a = 0.1`, `max(0, …)` floor, micro-averaging with weights `w_i = TP_i + FP_i + FN_i`.
@@ -21,7 +28,7 @@ Competition facts: see `docs/COMPETITION.md`.
   - Score output is a JSON with per-sample counts AND aggregates (never a bare float), so failures are auditable.
   - Any deviation from `metrics.md` discovered later is a scorer bug → fix, bump protocol version, re-score all prior experiments.
 
-> TODO: verify voxel→µm scaling constants and `T_true` provenance against the official evaluation code / competition data release; link the source commit here when confirmed.
+> Source pins (verified 2026-09-09): voxel scale + T_true provenance + submission schema in `docs/COMPETITION.md` (Evaluation/Data tabs + sample_submission.csv). Scorer defaults match these pins; override via `--voxel` / `--T-true` only as an explicit hypothesis ablation.
 
 ## 2. Cross-validation folds (group-aware, embryo-level)
 
@@ -79,4 +86,5 @@ A candidate promotes (hypothesis → accepted → ensemble candidate) **iff all*
 
 ## Changelog
 
+- **v1.1 (2026-09-09):** Faithful scorer (`scripts/score.py` v1.1.0 + `scripts/test_score.py` 13 tests): per-timepoint 7 µm Hungarian matching with pinned voxel scale, sparse-aware edge FP, `T_true` penalty (`estimated_number_of_nodes`), division local-window with max-cardinality pairing, submission.csv micro-average, legacy-toy backward compat. EXP-0001 re-scored (hand-calc still 0.5/1.0/0.6, still keep-trying); EXP-0002 validates geometric path. Gates/folds unchanged.
 - **v1.0 (2026-09-09):** Initial frozen protocol. Trusted scorer = exact mirror of `metrics.md` (edge + adjusted + division + micro-average); embryo-level folds (fold0 holdout `44b6`, fold1 holdout `6bba`); causality rule; 5 promotion gates incl. division sub-gate; worst-fold ensemble selection; leakage checklist; compute budget. Open TODOs: µm scaling constants, `T_true` provenance, `submission.csv` schema (all link to competition data / metrics.md).

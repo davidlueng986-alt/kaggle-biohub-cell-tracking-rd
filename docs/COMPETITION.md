@@ -24,17 +24,36 @@
 - **Train (observed facts from Stage-1 research, re-verify after download):**
   - ~199 samples drawn from **only 2 embryos**: `6bba` (~128 samples), `44b6` (~71 samples).
   - Ground truth is **sparse**: ~2.8 annotated nodes per timepoint; only **~304 divisions** annotated in total.
+  - Image volumes: OME-Zarr v3, one array at `0/` with shape `(T,Z,Y,X)` typically `(100,64,256,256)` uint16; chunks `(1,64,256,256)` blosc/zstd at `0/c/{t}/0/0/0`; metadata in `0/zarr.json`.
+  - GT `.geff` (Zarr v3, zstd): `nodes/ids`, `nodes/props/{t,z,y,x}/values` (integer voxel centroids), `edges/ids` shape `(N,2)` cols `(source_id,target_id)`; `estimated_number_of_nodes` in `zarr.json` = `T_true`.
+  - Folder names `{embryo_id}_{field_of_view}` (e.g. `44b6_0049_0438_1330_1273`); first segment = embryo id.
 - **Test:** hidden, **embryo-disjoint** from train (~199 samples from unseen embryos).
 - **Consequence:** any split by sample leaks embryo identity. All validation **MUST split by `embryo_id`** (see `docs/PROTOCOL.md`).
 
 > TODO: confirm exact train file layout, `T_true` coarse-count source, and submission sample after `kaggle competitions download` + rules acceptance.
 
-## Submission format
+## Submission format (verified 2026-09-09 from Evaluation tab + sample_submission.csv)
 
-- One `submission.csv` containing **node rows + edge rows** for every test video.
-- Exact column schema is NOT reproduced here to avoid inventing it.
+Header (exact):
+```
+id,dataset,row_type,node_id,t,z,y,x,source_id,target_id
+```
 
-> TODO: copy the exact `submission.csv` schema (node/edge row format, parent/daughter encoding, coordinate units) from the competition Data page / sample submission after download, then paste it into this section with a date stamp.
+Example rows (sample_submission.csv, 20 data rows + header = 890 bytes):
+```
+0,44b6_0113de3b,node,1,0,32,128,128,-1,-1
+1,44b6_0113de3b,node,2,1,32,128,128,-1,-1
+3,44b6_0113de3b,edge,-1,-1,-1,-1,-1,1,2
+```
+
+- Node rows: `row_type=node` with `node_id`, `t`, `z`, `y`, `x` (**integer voxel centroids**). `source_id`/`target_id` = `-1`.
+- Edge rows: `row_type=edge` with `source_id`/`target_id` referencing node IDs. `node_id`, `t`, `z`, `y`, `x` = `-1`.
+- `id` is a required throwaway consecutive-integer index.
+- `dataset` must match test folder names **without** `.zarr` (e.g. `44b6_0113de3b`). Sample file contains 4 datasets: `44b6_0113de3b`, `44b6_0b24845f`, `6bba_05b6850b`, `6bba_05db0fb1` (toy 3-node chains; real hidden test is embryo-disjoint, ~199 samples).
+- Every test dataset must appear in the submission.
+- Physical voxel scale (Evaluation + Data tabs): **z=1.625, y=0.40625, x=0.40625 µm/voxel**. Node matching uses scaled centroid distance, max **7.0 µm**, per-timepoint optimal bipartite assignment.
+- `T_true` (node-count penalty reference) = `estimated_number_of_nodes` in each `.geff` metadata `zarr.json`.
+- Scores **can exceed 1.0** (under-prediction inflates the adjusted term + division bonus).
 
 ## Metric (summary — normative details live in metrics.md)
 

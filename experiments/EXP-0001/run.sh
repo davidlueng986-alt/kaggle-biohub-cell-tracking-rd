@@ -35,11 +35,23 @@ import json, sys
 exp_dir = sys.argv[1]
 fold0 = json.load(open(f"{exp_dir}/fold0_scores.json"))
 fold1 = json.load(open(f"{exp_dir}/fold1_scores.json"))
+
+def pick(agg):
+    # v1.1 aggregate schema; fallback to legacy flat schema
+    if "per_sample" in agg:
+        s = agg["per_sample"][0]
+        return s["adjusted_edge_jaccard"], s["division_jaccard"], s["score"]
+    return (agg["adjusted_edge_jaccard_simplified"],
+            agg["division_jaccard_simplified"], agg["score_simplified"])
+
+f0e, f0d, f0s = pick(fold0)
+f1e, f1d, f1s = pick(fold1)
 metrics = {
     "exp_id": "EXP-0001",
     "title": "Embryo-CV baseline harness",
     "hypothesis_id": "H-001",
-    "protocol_version": "1.0",
+    "protocol_version": fold0.get("protocol_version", "1.0"),
+    "scorer_version": fold0.get("scorer_version", "legacy"),
     "dry_run": True,
     "simplified_scorer": True,
     "scores": {
@@ -52,15 +64,15 @@ metrics = {
         "fold0_score": 0.6,
     },
     "hand_calc_match_fold0": (
-        abs(fold0["adjusted_edge_jaccard_simplified"] - 0.5) < 1e-9
-        and abs(fold0["division_jaccard_simplified"] - 1.0) < 1e-9
-        and abs(fold0["score_simplified"] - 0.6) < 1e-9
+        abs(f0e - 0.5) < 1e-9
+        and abs(f0d - 1.0) < 1e-9
+        and abs(f0s - 0.6) < 1e-9
     ),
     "decision": "keep-trying",
     "decision_reason": (
-        "Dry-run harness only (no real data, SIMPLIFIED scorer). "
-        "H-001 transfer claim untested; needs Kaggle auth + data + full geff scorer. "
-        "Next: EXP-0002 real embryo-CV baseline once unblocked."
+        "Dry-run harness only (no real data, legacy toy path of v1.1 scorer). "
+        "H-001 transfer claim untested; needs data + full geometric scorer. "
+        "Next: EXP-0002 full-scorer geometric validation (v1.1)."
     ),
 }
 assert metrics["hand_calc_match_fold0"], "fold0 scorer output disagrees with hand calc — scorer bug, see PROTOCOL §1"

@@ -1,0 +1,8 @@
+# Runtime deps (VM: Python 3.13, no GPU; Kaggle notebooks: T4, offline, <=12h)
+numpy>=2.0
+# --- Kaggle / data extras (install only where needed) ---
+# zarr>=3.0  # OME-Zarr volumes + .geff graphs (train probing, notebook infer)
+# numcodecs>=0.12  # blosc/zstd chunks
+# scipy>=1.12  # optional: cross-check Hungarian vs scripts/score.py pure-python
+# torch>=2.0  # tracking models (notebook only, never on this CPU VM)
+# --- test runner: stdlib unittest only (python3 scripts/test_score.py -v) ---
