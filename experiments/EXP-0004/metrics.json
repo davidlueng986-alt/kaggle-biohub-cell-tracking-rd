@@ -1,0 +1,147 @@
+{
+  "exp_id": "EXP-0004",
+  "title": "Fork-proposing linker variant (division sub-gate)",
+  "hypothesis_id": "H-002+H-003",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "variant": {
+    "propose_um": 15.0,
+    "match_gate_um": 7.0
+  },
+  "per_sample": {
+    "44b6_0113de3b": {
+      "edge": 1.0778021355076683,
+      "div": 1.0,
+      "score": 1.1778021355076684,
+      "ec": {
+        "TP": 49,
+        "FP": 0,
+        "FN": 1
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "floor_edge": 1.0778021355076683,
+      "floor_div": 1.0,
+      "floor_score": 1.1778021355076684
+    },
+    "44b6_0b24845f": {
+      "edge": 1.099844488489099,
+      "div": 1.0,
+      "score": 1.199844488489099,
+      "ec": {
+        "TP": 49,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "floor_edge": 1.099844488489099,
+      "floor_div": 1.0,
+      "floor_score": 1.199844488489099
+    },
+    "44b6_0c582fdc": {
+      "edge": 1.0997460476428929,
+      "div": 1.0,
+      "score": 1.199746047642893,
+      "ec": {
+        "TP": 70,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "floor_edge": 1.0997460476428929,
+      "floor_div": 1.0,
+      "floor_score": 1.199746047642893
+    },
+    "6bba_05b6850b": {
+      "edge": 1.0787610836504868,
+      "div": 0.0,
+      "score": 1.0787610836504868,
+      "ec": {
+        "TP": 840,
+        "FP": 1,
+        "FN": 5
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 0
+      },
+      "floor_edge": 1.0800377239861678,
+      "floor_div": 1.0,
+      "floor_score": 1.180037723986168
+    },
+    "6bba_05db0fb1": {
+      "edge": 1.0724200281961898,
+      "div": 0.18181818181818182,
+      "score": 1.0906018463780078,
+      "ec": {
+        "TP": 1163,
+        "FP": 8,
+        "FN": 20
+      },
+      "dc": {
+        "TP": 2,
+        "FP": 8,
+        "FN": 1
+      },
+      "floor_edge": 1.077815532604931,
+      "floor_div": 0.0,
+      "floor_score": 1.077815532604931
+    },
+    "6bba_062c8d37": {
+      "edge": 1.0520036082103388,
+      "div": 0.5,
+      "score": 1.1020036082103388,
+      "ec": {
+        "TP": 872,
+        "FP": 1,
+        "FN": 26
+      },
+      "dc": {
+        "TP": 1,
+        "FP": 1,
+        "FN": 0
+      },
+      "floor_edge": 1.0519673348181142,
+      "floor_div": 0.0,
+      "floor_score": 1.0519673348181142
+    }
+  },
+  "fold0_44b6_micro_edge": 1.0932823079665783,
+  "fold0_floor": 1.0932823079665783,
+  "fold0_d_edge": 0.0,
+  "fold1_6bba_micro_edge": 1.0679956996359226,
+  "fold1_floor": 1.0705243740624102,
+  "fold1_d_edge": -0.0025286744264876315,
+  "division_sum": {
+    "TP": 3,
+    "FP": 10,
+    "FN": 1
+  },
+  "division_floor_sum": {
+    "TP": 0,
+    "FP": 0,
+    "FN": 4
+  },
+  "sub_gate": {
+    "division_gain": true,
+    "no_edge_regression_44b6": true,
+    "no_edge_regression_6bba": false,
+    "pass": false
+  },
+  "decision": "keep-trying",
+  "decision_reason": "Sub-gate REJECT for promotion: division gain real (3/14 vs floor 0.0) but edge regresses (44b6 +0.0000, 6bba -0.0025); single-seed run caps at keep-trying regardless. Signal kept: radius-15 recovers 3/4 GT divisions \u2192 EXP-0005 tighter gating."
+}

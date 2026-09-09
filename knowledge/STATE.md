@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-09 (PM GOLD: subset DONE 738/738, EXP-0003 real floor green). Maintainer: gold-watch.
+Last updated: 2026-09-09 (PM GOLD: EXP-0004 sub-gate reject, signal kept). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -52,16 +52,18 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0001/`: DONE — legacy toy harness re-scored under v1.1 (fold0 0.5/1.0/0.6 hand-calc match, `dry_run:true`, keep-trying). Do not recreate.
 - `experiments/EXP-0002/`: DONE 2026-09-09 — full-scorer geometric validation (H-001+H-004): perfect 1.1 / idswitch 0.333 (FP≥1) / inflated adj 0.9 / division TP then FN; 6/6 checks pass; `dry_run:true`, keep-trying (no real data, NOT promotable).
 - `experiments/EXP-0003/`: DONE 2026-09-09 — FIRST REAL-DATA result (H-001+H-002): oracle GT nodes + causal Hungarian linker on subset 6 → 44b6-micro 1.0933 / 6bba-micro 1.0705 / worst 1.0705; div 0/0/4 (no forks); `real_data:true`, keep-trying (floor, not a model). Helpers: `scripts/geff_to_graph.py`, `scripts/baseline_link.py`.
-- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002 active, H-003/H-005 backlog) + RESULTS.md (EXP-0000…0003 rows).
+- `experiments/EXP-0004/`: DONE 2026-09-09 — fork-proposing variant (H-002+H-003, `scripts/fork_link.py --propose-um 15.0`): fold0 44b6 unchanged (+0.0000), fold1 6bba micro −0.0025, div sums 0/0/4→3/10/1. Sub-gate REJECT for promotion (edge regression on fold1; single-seed cap anyway). Signal kept: 3/4 GT divisions geometrically recoverable → EXP-0005 tighter gating.
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002/H-003 active, H-005 backlog) + RESULTS.md (EXP-0000…0004 rows).
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
-- Real-data subset IN PROGRESS (see Auth status): 6 train samples downloading; EXP-0003 baseline starts when all 6 complete. EDA needs `pip install zarr numcodecs` (not yet installed; CPU-only, fine on VM).
+- Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
 
 ## Current best
 
 Oracle-linker floor (real data, NOT promotable — beat this):
 - EXP-0003: worst-fold edge 1.0705 (44b6 1.0933 / 6bba 1.0705), division 0/0/4.
+- EXP-0004 fork variant: fold0 +0.0000, fold1 −0.0025, div 3/10/1 → sub-gate REJECT (signal: 3/4 divisions recoverable; noise must go).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: EXP-0004 (image-based DoG detection probe on 1–2 zarr timepoints, CPU) or fork-proposing linker variant (division sub-gate); then Kaggle notebook skeleton (GOLD §§4–5).
+- Next: EXP-0005 tighter fork gating (smaller radius / component veto / appearance); then Kaggle notebook skeleton (GOLD §§4–5).
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -73,10 +75,10 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001/0002 done — read them, don't recreate):
+# Loop (EXP-0001…0004 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# New experiment (EXP-0003 real-data baseline once subset completes):
-bash scripts/new_experiment.sh EXP-0003 "<title>"
+# New experiment (EXP-0005 tighter fork gating):
+bash scripts/new_experiment.sh EXP-0005 "<title>"
 ```
