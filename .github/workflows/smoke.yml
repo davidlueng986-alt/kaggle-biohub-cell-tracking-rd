@@ -1,0 +1,27 @@
+name: smoke
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: python version
+        run: python3 --version
+      - name: scorer dry-run
+        run: python3 scripts/score.py --dry-run
+      - name: run_loop dry-run
+        run: bash scripts/run_loop.sh --dry-run
+      - name: required files exist
+        run: |
+          test -f scripts/score.py
+          test -f scripts/new_experiment.sh
+          test -f scripts/run_loop.sh
+          test -f .github/workflows/smoke.yml
+          echo "required files OK"
