@@ -1,0 +1,107 @@
+{
+  "exp_id": "EXP-0008",
+  "title": "Full-frame DoG sweep + threshold curve",
+  "hypothesis_id": "H-002+H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "curve_t0_9": {
+    "44b6_0113de3b": {
+      "98.5": {
+        "recall_mean_all": 0.3,
+        "counts_mean": 166.5,
+        "s_per_frame": 2.0869999999999997
+      },
+      "99.0": {
+        "recall_mean_all": 0.3,
+        "counts_mean": 140.1,
+        "s_per_frame": 1.855
+      },
+      "99.5": {
+        "recall_mean_all": 0.0,
+        "counts_mean": 97.5,
+        "s_per_frame": 1.402
+      }
+    },
+    "6bba_05b6850b": {
+      "98.5": {
+        "recall_mean_all": 1.0,
+        "counts_mean": 52.3,
+        "s_per_frame": 0.909
+      },
+      "99.0": {
+        "recall_mean_all": 1.0,
+        "counts_mean": 48.4,
+        "s_per_frame": 0.8699999999999999
+      },
+      "99.5": {
+        "recall_mean_all": 0.5761904761904761,
+        "counts_mean": 36.7,
+        "s_per_frame": 0.748
+      }
+    }
+  },
+  "full_video_p99": {
+    "44b6_0113de3b": {
+      "recall_full": 1.0,
+      "n_det_total": 140.1,
+      "edge_raw": 0.9038461538461539,
+      "edge_adj": 0.938213715036662,
+      "div": 1.0,
+      "score": 1.038213715036662,
+      "ec": {
+        "TP": 47,
+        "FP": 2,
+        "FN": 3
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 25755,
+      "assign": "scipy"
+    },
+    "6bba_05b6850b": {
+      "recall_full": 0.8346915584415585,
+      "n_det_total": 48.4,
+      "edge_raw": 0.6922222222222222,
+      "edge_adj": 0.7120683921897376,
+      "div": 1.0,
+      "score": 0.8120683921897376,
+      "ec": {
+        "TP": 623,
+        "FP": 55,
+        "FN": 222
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 6362,
+      "assign": "pure"
+    }
+  },
+  "checks": {
+    "full_recall_ge_0.90_both": false,
+    "curve_monotone": true
+  },
+  "all_checks_pass": false,
+  "decision": "keep-trying",
+  "decision_reason": "Full-video image-based tracks scored; operating point generality tested. NOT promotable (single deterministic run). Timing debt quantified for H-005. Next: per-frame adaptive threshold if recall fails, else H-003 appearance + submit timing.",
+  "timing_detect_s": {
+    "44b6_0113de3b": {
+      "mean_s": 2.05,
+      "max_s": 2.6,
+      "video_100f_s": 204.9
+    },
+    "6bba_05b6850b": {
+      "mean_s": 0.84,
+      "max_s": 1.04,
+      "video_100f_s": 84.3
+    }
+  }
+}

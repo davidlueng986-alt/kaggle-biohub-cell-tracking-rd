@@ -17,6 +17,8 @@ MAXD = 7.0
 
 
 def _hungarian(cost):
+    # Pure-python O(n^3); exact behavior preserved for small N (oracle floor).
+    # For dense inputs (N>60) link() prefers the scipy C path (same optimum).
     n = len(cost)
     if n == 0:
         return []
@@ -65,6 +67,29 @@ def _hungarian(cost):
     return out
 
 
+def _assign(cost):
+    """Optimal assignment; scipy C path for N>60 (same optimum, deterministic),
+    pure-python below (bit-exact legacy behavior for oracle graphs)."""
+    n = len(cost)
+    if n > 60:
+        try:
+            import numpy as np
+            from scipy.optimize import linear_sum_assignment
+            ri, ci = linear_sum_assignment(np.asarray(cost, dtype=float))
+            out = [-1] * n
+            for r, c in zip(ri.tolist(), ci.tolist()):
+                out[r] = c
+            _assign.backend = "scipy"
+            return out
+        except ImportError:
+            pass
+    _assign.backend = "pure"
+    return _hungarian(cost)
+
+
+_assign.backend = "pure"
+
+
 def link(gt):
     by_t = {}
     for n in gt["nodes"]:
@@ -94,14 +119,14 @@ def link(gt):
                     C[i][j] = dummy
                 else:
                     C[i][j] = 0.0
-        A = _hungarian(C)
+        A = _assign(C)
         for i in range(n):
             j = A[i]
             if 0 <= j < m and C[i][j] <= MAXD:
                 edges.append([P[i]["id"], Q[j]["id"]])
     edges.sort()
     return {"nodes": gt["nodes"], "edges": edges, "T_true": gt.get("T_true"),
-            "voxel_size_um": list(VOXEL)}
+            "voxel_size_um": list(VOXEL), "assign": _assign.backend}
 
 
 def main(argv=None):
