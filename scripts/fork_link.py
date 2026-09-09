@@ -35,7 +35,9 @@ def _dist(a, b):
     return (dz * dz + dy * dy + dx * dx) ** 0.5
 
 
-def link(gt, propose_um=PROPOSE_UM):
+def link(gt, propose_um=PROPOSE_UM, isolation=False):
+    """isolation: propose u->w only if u is the strictly nearest node at
+    time t(u) to w (crowd veto; deployable, uses geometry only)."""
     base = BL.link(gt)
     nodes = {n["id"]: n for n in gt["nodes"]}
     out = {}
@@ -61,6 +63,20 @@ def link(gt, propose_um=PROPOSE_UM):
             if d <= propose_um and (best is None or d < best[0]):
                 best = (d, w["id"])
         if best is not None:
+            if isolation:
+                # u must be strictly nearest at its timepoint to w
+                uw = best[1]
+                tu = nodes[u]["t"]
+                du = _dist(nodes[u], nodes[uw])
+                veto = False
+                for cand in by_t.get(tu, []):
+                    if cand["id"] == u:
+                        continue
+                    if _dist(cand, nodes[uw]) < du - 1e-9:
+                        veto = True
+                        break
+                if veto:
+                    continue
             edges.append([u, best[1]])
             out[u].append(best[1])
             inn.setdefault(best[1], []).append(u)
@@ -76,9 +92,11 @@ def main(argv=None):
     ap.add_argument("gt")
     ap.add_argument("--out", required=True)
     ap.add_argument("--propose-um", type=float, default=PROPOSE_UM)
+    ap.add_argument("--isolation", action="store_true",
+                    help="nearest-source crowd veto (EXP-0005)")
     a = ap.parse_args(argv)
     gt = json.load(open(a.gt))
-    pred = link(gt, propose_um=a.propose_um)
+    pred = link(gt, propose_um=a.propose_um, isolation=a.isolation)
     json.dump(pred, open(a.out, "w"))
     print(f"wrote {a.out} nodes={len(pred['nodes'])} "
           f"edges={len(pred['edges'])} fork_extra={pred['n_fork_extra']}")

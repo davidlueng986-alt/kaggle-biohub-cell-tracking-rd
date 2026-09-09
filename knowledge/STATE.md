@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-09 (PM GOLD: EXP-0004 sub-gate reject, signal kept). Maintainer: gold-watch.
+Last updated: 2026-09-09 (PM GOLD: EXP-0005 selects r10, sub-gate numeric pass). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -53,7 +53,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0002/`: DONE 2026-09-09 — full-scorer geometric validation (H-001+H-004): perfect 1.1 / idswitch 0.333 (FP≥1) / inflated adj 0.9 / division TP then FN; 6/6 checks pass; `dry_run:true`, keep-trying (no real data, NOT promotable).
 - `experiments/EXP-0003/`: DONE 2026-09-09 — FIRST REAL-DATA result (H-001+H-002): oracle GT nodes + causal Hungarian linker on subset 6 → 44b6-micro 1.0933 / 6bba-micro 1.0705 / worst 1.0705; div 0/0/4 (no forks); `real_data:true`, keep-trying (floor, not a model). Helpers: `scripts/geff_to_graph.py`, `scripts/baseline_link.py`.
 - `experiments/EXP-0004/`: DONE 2026-09-09 — fork-proposing variant (H-002+H-003, `scripts/fork_link.py --propose-um 15.0`): fold0 44b6 unchanged (+0.0000), fold1 6bba micro −0.0025, div sums 0/0/4→3/10/1. Sub-gate REJECT for promotion (edge regression on fold1; single-seed cap anyway). Signal kept: 3/4 GT divisions geometrically recoverable → EXP-0005 tighter gating.
-- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002/H-003 active, H-005 backlog) + RESULTS.md (EXP-0000…0004 rows).
+- `experiments/EXP-0005/`: DONE 2026-09-09 — radius ablation {9,10,11,12}+isolation: r9 +0.0004 div 1/0/3; **r10 SELECTED** (+0.0011 fold1, div 3/0/1, FP=0, plateau r10==r11); r12 +0.0008 div 3/1/1; r15+iso −0.0011 div 4/7/0. fold0 identical grid-wide. Sub-gate numeric PASS; keep-trying (no fold0 win possible + single-run ceiling). r10 = ensemble-candidate.
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002/H-003 active, H-005 backlog) + RESULTS.md (EXP-0000…0005 rows).
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
 
@@ -61,9 +62,10 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 
 Oracle-linker floor (real data, NOT promotable — beat this):
 - EXP-0003: worst-fold edge 1.0705 (44b6 1.0933 / 6bba 1.0705), division 0/0/4.
-- EXP-0004 fork variant: fold0 +0.0000, fold1 −0.0025, div 3/10/1 → sub-gate REJECT (signal: 3/4 divisions recoverable; noise must go).
+- EXP-0004 fork variant: fold0 +0.0000, fold1 −0.0025, div 3/10/1 → sub-gate REJECT (signal kept).
+- EXP-0005 ablation: r10 SELECTED (fold1 +0.0011, div 3/0/1, FP=0; plateau r10==r11; fold0 grid-identical) → numeric pass, ensemble-candidate, keep-trying.
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: EXP-0005 tighter fork gating (smaller radius / component veto / appearance); then Kaggle notebook skeleton (GOLD §§4–5).
+- Next: EXP-0006 replication rung (perturbation seeds + leave-one-out) + Kaggle notebook skeleton (GOLD §5).
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -75,10 +77,10 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0004 done — read them, don't recreate):
+# Loop (EXP-0001…0005 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# New experiment (EXP-0005 tighter fork gating):
-bash scripts/new_experiment.sh EXP-0005 "<title>"
+# New experiment (EXP-0006 replication rung):
+bash scripts/new_experiment.sh EXP-0006 "<title>"
 ```

@@ -19,3 +19,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-09: H-004 activated (EXP-0002 mechanical validation); voxel + T_true pins verified from Evaluation/Data tabs + sample_submission.csv. H-001 stays active (real embryo-CV transfer untested → EXP-0003).
 - 2026-09-09 (GOLD): subset 6 downloaded (738/738); H-002 activated (EXP-0003 oracle floor); EDA confirms embryo grouping, sparse GT, voxel pins — COMPETITION.md unchanged.
 - 2026-09-09 (GOLD): EXP-0004 sub-gate reject (H-002+H-003); H-003 activated. GT daughter separation 8.5–12.5 µm measured → radius-7 proposes nothing, radius-15 recovers 3/4 with 10 FPs. EXP-0005 tighter gating next.
+- 2026-09-09 (GOLD): EXP-0005 selects r10 (plateau r10==r11, FP=0, div 3/0/1; r9 under-recovers, r≥12 degrades; isolation no-op ≤12). r10 = ensemble-candidate, keep-trying (no fold0 win possible + single-run ceiling → EXP-0006 replication).

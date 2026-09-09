@@ -1,0 +1,108 @@
+{
+  "exp_id": "EXP-0005",
+  "title": "Tighter fork gating: radius ablation x isolation",
+  "hypothesis_id": "H-002+H-003",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "floor": {
+    "fold0_44b6": 1.0932823079665783,
+    "fold1_6bba": 1.0705243740624102,
+    "div": [
+      0,
+      0,
+      4
+    ]
+  },
+  "ablation": {
+    "r9": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0708997121536656,
+      "worst": 1.0708997121536656,
+      "d44": 0.0,
+      "d6b": 0.0003753380912554505,
+      "div": [
+        1,
+        0,
+        3
+      ],
+      "div_j": 0.25,
+      "gate": true
+    },
+    "r10": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0716457191151978,
+      "worst": 1.0716457191151978,
+      "d44": 0.0,
+      "d6b": 0.0011213450527876034,
+      "div": [
+        3,
+        0,
+        1
+      ],
+      "div_j": 0.75,
+      "gate": true
+    },
+    "r11": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0716457191151978,
+      "worst": 1.0716457191151978,
+      "d44": 0.0,
+      "d6b": 0.0011213450527876034,
+      "div": [
+        3,
+        0,
+        1
+      ],
+      "div_j": 0.75,
+      "gate": true
+    },
+    "r12": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0712795948517484,
+      "worst": 1.0712795948517484,
+      "d44": 0.0,
+      "d6b": 0.0007552207893382068,
+      "div": [
+        3,
+        1,
+        1
+      ],
+      "div_j": 0.6,
+      "gate": true
+    },
+    "r10_iso": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0716457191151978,
+      "worst": 1.0716457191151978,
+      "d44": 0.0,
+      "d6b": 0.0011213450527876034,
+      "div": [
+        3,
+        0,
+        1
+      ],
+      "div_j": 0.75,
+      "gate": true
+    },
+    "r15_iso": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0694625343968915,
+      "worst": 1.0694625343968915,
+      "d44": 0.0,
+      "d6b": -0.001061839665518649,
+      "div": [
+        4,
+        7,
+        0
+      ],
+      "div_j": 0.36363636363636365,
+      "gate": false
+    }
+  },
+  "selected": "r10",
+  "selection_rule": "gate pass -> worst-fold micro -> smallest radius",
+  "decision": "keep-trying",
+  "decision_reason": "Select r=10 challenger (plateau r10==r11, FP=0, div 3/0/1); sub-gate numeric PASS but no fold0 win possible (44b6 has 0 GT divs) and single-run ceiling per \u00a74 gate 1 \u2192 keep-trying. r=10 becomes ensemble-candidate (diverse error profile, zero edge cost). Next: EXP-0006 replication rung + notebook skeleton (GOLD \u00a75)."
+}
