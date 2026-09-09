@@ -1,0 +1,7 @@
+{
+  "adjusted_edge_jaccard_simplified": 0.5,
+  "division_jaccard_simplified": 1.0,
+  "score_simplified": 0.6,
+  "simplified": true,
+  "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md"
+}

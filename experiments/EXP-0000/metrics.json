@@ -1,0 +1,11 @@
+{
+  "exp_id": "EXP-0000",
+  "title": "template, no run",
+  "hypothesis_id": "H-001",
+  "protocol_version": "1.0",
+  "dry_run": true,
+  "simplified_scorer": true,
+  "scores": null,
+  "decision": "keep-trying",
+  "decision_reason": "Template folder only (example ledger row in knowledge/RESULTS.md); not a real result. Placeholder so scripts/run_loop.sh --dry-run validates every EXP-*/metrics.json as JSON."
+}
