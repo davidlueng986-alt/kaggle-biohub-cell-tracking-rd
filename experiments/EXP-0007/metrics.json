@@ -1,0 +1,158 @@
+{
+  "exp_id": "EXP-0007",
+  "title": "DoG detection probe on real zarr",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "probe_frames": {
+    "44b6_0113de3b": [
+      0,
+      1,
+      2
+    ],
+    "6bba_05b6850b": [
+      0,
+      1,
+      2
+    ]
+  },
+  "per_sample": {
+    "44b6_0113de3b@p99.0": {
+      "n_det": 430,
+      "gt_nodes_sub": 3,
+      "gt_edges_sub": 2,
+      "T_true_scaled": 773,
+      "recall_mean": 1.0,
+      "recalls": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "matchrate_mean": 0.006978872218598245,
+      "edge_raw": 1.0,
+      "edge_adj": 1.044372574385511,
+      "div": 1.0,
+      "score": 1.144372574385511,
+      "ec": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "detect_s_per_frame": [
+        1.96,
+        1.99,
+        1.97
+      ]
+    },
+    "44b6_0113de3b@p99.5": {
+      "n_det": 295,
+      "gt_nodes_sub": 3,
+      "gt_edges_sub": 2,
+      "T_true_scaled": 773,
+      "recall_mean": 0.0,
+      "recalls": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "matchrate_mean": 0.0,
+      "edge_raw": 0.0,
+      "edge_adj": 0.0,
+      "div": 1.0,
+      "score": 0.1,
+      "ec": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "detect_s_per_frame": [
+        1.5,
+        1.36,
+        1.52
+      ]
+    },
+    "6bba_05b6850b@p99.0": {
+      "n_det": 144,
+      "gt_nodes_sub": 18,
+      "gt_edges_sub": 12,
+      "T_true_scaled": 191,
+      "recall_mean": 1.0,
+      "recalls": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "matchrate_mean": 0.12511091393078969,
+      "edge_raw": 0.8461538461538461,
+      "edge_adj": 0.8669754329440192,
+      "div": 1.0,
+      "score": 0.9669754329440192,
+      "ec": {
+        "TP": 11,
+        "FP": 1,
+        "FN": 1
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "detect_s_per_frame": [
+        0.9,
+        0.85,
+        0.91
+      ]
+    },
+    "6bba_05b6850b@p99.5": {
+      "n_det": 111,
+      "gt_nodes_sub": 18,
+      "gt_edges_sub": 12,
+      "T_true_scaled": 191,
+      "recall_mean": 0.4444444444444444,
+      "recalls": [
+        0.3333333333333333,
+        0.5,
+        0.5
+      ],
+      "matchrate_mean": 0.07234866445392761,
+      "edge_raw": 0.21428571428571427,
+      "edge_adj": 0.2232610321615557,
+      "div": 1.0,
+      "score": 0.3232610321615557,
+      "ec": {
+        "TP": 3,
+        "FP": 2,
+        "FN": 9
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "detect_s_per_frame": [
+        0.77,
+        0.76,
+        0.75
+      ]
+    }
+  },
+  "checks": {
+    "pct99_recall_1.00_both": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "First IMAGE-BASED end-to-end number (probe only): DoG pct99 recall 1.00 both samples, ~1s/frame CPU (over video budget unoptimized \u2014 H-005). Mini-graph edges trail oracle floor (extra-track pressure) as predicted. NOT promotable (3-frame probe). Next: full-frame detection sweep + threshold operating curve (EXP-0008) and/or H-003 appearance."
+}

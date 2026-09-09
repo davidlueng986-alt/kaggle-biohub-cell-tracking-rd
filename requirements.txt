@@ -2,6 +2,7 @@
 numpy>=2.0
 zarr>=3.0  # OME-Zarr volumes + .geff graphs (subset EDA, EXP-0003; CPU-only)
 numcodecs>=0.12  # blosc/zstd chunks
+scipy>=1.12  # DoG detection probe (EXP-0007+; CPU-only)
 # --- Kaggle / data extras (install only where needed) ---
 # zarr>=3.0  # OME-Zarr volumes + .geff graphs (train probing, notebook infer)
 # numcodecs>=0.12  # blosc/zstd chunks
