@@ -1,0 +1,67 @@
+{
+  "exp_id": "EXP-0009",
+  "title": "Full-video @98.5 + count/edge tradeoff",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "rows": {
+    "44b6_0113de3b": {
+      "recall_full": 1.0,
+      "det_per_frame": 188.42,
+      "n_det_total": 18842,
+      "edge_raw": 0.9038461538461539,
+      "edge_adj": 0.9281066409808402,
+      "div": 1.0,
+      "score": 1.0281066409808401,
+      "ec": {
+        "TP": 47,
+        "FP": 2,
+        "FN": 3
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 25755,
+      "T_ratio": 0.7315860997864493,
+      "s_per_frame": 2.3168,
+      "old_adj": 0.938213715036662
+    },
+    "6bba_05b6850b": {
+      "recall_full": 0.8930891053391053,
+      "det_per_frame": 47.23,
+      "n_det_total": 4723,
+      "edge_raw": 0.7988571428571428,
+      "edge_adj": 0.8194375712938429,
+      "div": 1.0,
+      "score": 0.9194375712938428,
+      "ec": {
+        "TP": 699,
+        "FP": 30,
+        "FN": 146
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_true": 6362,
+      "T_ratio": 0.7423766111285759,
+      "s_per_frame": 0.8499,
+      "old_adj": 0.7120683921897376
+    }
+  },
+  "checks": {
+    "44b6_0113de3b_recall_ge_0.95": true,
+    "6bba_05b6850b_recall_ge_0.95": false,
+    "44b6_0113de3b_adj_ge_99": false,
+    "6bba_05b6850b_adj_ge_99": true
+  },
+  "all_checks_pass": false,
+  "decision": "keep-trying",
+  "decision_reason": "Operating-point selection rung (not promotion: single deterministic run). @98.5 verdict per checks; T_ratio recorded for the bonus\u2192penalty watch. Next: per-sample levels if tradeoff splits, else H-003 appearance / H-005 timing."
+}
