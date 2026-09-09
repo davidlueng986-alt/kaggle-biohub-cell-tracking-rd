@@ -1,0 +1,34 @@
+# Data (never commit)
+data/
+*.zarr/
+*.tif/
+*.tiff/
+submission.csv
+submission*.csv
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Kaggle / secrets (never commit)
+.kaggle/
+kaggle.json
+.env
+*.pem
+*_token*.json
+
+# Large / local artifacts
+*.zip
+*.tar.gz
+wandb/
+mlruns/
+lightning_logs/
+outputs/
+checkpoints/
