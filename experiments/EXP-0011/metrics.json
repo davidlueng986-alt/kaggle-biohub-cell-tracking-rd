@@ -1,0 +1,43 @@
+{
+  "exp_id": "EXP-0011",
+  "title": "Full-video 6bba@98.0",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "row": {
+    "recall_full": 0.8798012265512266,
+    "det_per_frame": 49.1,
+    "n_det_total": 4910,
+    "T_ratio": 0.7717698836843759,
+    "edge_raw": 0.7882623705408516,
+    "edge_adj": 0.8062528917924284,
+    "div": 1.0,
+    "score": 0.9062528917924284,
+    "ec": {
+      "TP": 685,
+      "FP": 24,
+      "FN": 160
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 0
+    },
+    "T_true": 6362,
+    "s_per_frame": 0.863
+  },
+  "ref_985": {
+    "recall": 0.893,
+    "adj": 0.8194
+  },
+  "checks": {
+    "recall_ge_0.95": false,
+    "adj_ge_985": false
+  },
+  "all_checks_pass": false,
+  "decision": "keep-trying",
+  "decision_reason": "@98.0 verdict per checks; 44b6 untouched (locked @99.0). Single deterministic run ceiling holds regardless."
+}
