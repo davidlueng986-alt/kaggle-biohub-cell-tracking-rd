@@ -1,7 +1,7 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-09 (build: scorer v1.1 + EXP-0002 green). Maintainer: build orchestrator.
-Prior: repo-scaffolder-structure skeleton → protocol v1.0 → harness EXP-0001. `PROMPT-RD-SYSTEM.md` untouched.
+Last updated: 2026-09-09 (PM GOLD watch: gh unblocked, subset DL 450/738). Maintainer: gold-watch.
+Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
 
@@ -39,8 +39,9 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Kaggle CLI (`~/.local/bin/kaggle`): **WORKS (verified 2026-09-09 by repo-hardener: `kaggle competitions list --search "biohub"` exit 0, returned `biohub-cell-tracking-during-development`, userHasEntered=True)**:
   `export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"`
   then `kaggle competitions download -c biohub-cell-tracking-during-development -p data/` (requires Rules acceptance on competition page first).
-- `gh`: **UNAUTHENTICATED (verified 2026-09-09: `gh auth status` → "not logged in")** — cannot create/push `davidlueng986-alt/kaggle-biohub-cell-tracking-rd`. Unblock: `gh auth login` (device-code flow), verify with `gh auth status`.
-- Push attempt 2026-09-09: local `origin` set to `https://github.com/davidlueng986-alt/kaggle-biohub-cell-tracking-rd.git`; `git push -u origin main` fails `could not read Username` (no creds) and repo 404s (not yet created). After login: `gh repo create davidlueng986-alt/kaggle-biohub-cell-tracking-rd --private --source=. --push` (or `--public`), or create via web then `git push -u origin main`. 4 local commits ready (HEAD `fe4829d`).
+- `gh`: **WORKS (verified 2026-09-09: logged in as davidlueng986-alt, remote HEAD in sync)**. Repo: https://github.com/davidlueng986-alt/kaggle-biohub-cell-tracking-rd (exists). Push frequent small commits.
+- Subset download (PROMPT-GOLD §1, restarted after early-stop fix — `scripts/download_subset.py` no longer stops while ids missing): target ids in `data/SUBSET_IDS.txt` = `44b6_0113de3b, 44b6_0b24845f, 44b6_0c582fdc, 6bba_05b6850b, 6bba_05db0fb1, 6bba_062c8d37` (3×44b6 + 3×6bba, embryo-paired). 738 files (`data/SUBSET_FILES.txt`); progress ~450/738 ok, 0 fail (see `/tmp/biohub-subset-dl.log`). Full `.zarr` + `.geff` per sample into `data/` (gitignored). Do NOT download full ~88GB.
+- Never commit secrets. See `docs/AUTH.md`.
 - Never commit secrets. See `docs/AUTH.md`.
 
 ## What exists
@@ -52,7 +53,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0002/`: DONE 2026-09-09 — full-scorer geometric validation (H-001+H-004): perfect 1.1 / idswitch 0.333 (FP≥1) / inflated adj 0.9 / division TP then FN; 6/6 checks pass; `dry_run:true`, keep-trying (no real data, NOT promotable).
 - `knowledge/`: this file + HYPOTHESES.md (H-001 active, H-004 active, H-002/H-003/H-005 backlog) + RESULTS.md (EXP-0000/0001/0002 rows).
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
-- No real-data scores yet (blocked: competition Rules acceptance + zarr/.geff download).
+- Real-data subset IN PROGRESS (see Auth status): 6 train samples downloading; EXP-0003 baseline starts when all 6 complete. EDA needs `pip install zarr numcodecs` (not yet installed; CPU-only, fine on VM).
 
 ## Current best
 
@@ -64,15 +65,16 @@ None yet (real-data best). Harness results (NOT promotable):
 
 ```bash
 cat knowledge/STATE.md knowledge/HYPOTHESES.md knowledge/RESULTS.md
-cat docs/PROTOCOL.md docs/COMPETITION.md docs/AUTH.md
-ls experiments/
-# Auth checks (Kaggle WORKS 2026-09-09; gh still blocked):
+cat docs/PROTOCOL.md docs/COMPETITION.md docs/AUTH.md PROMPT-GOLD.md
+ls experiments/ data/train/
+# Auth checks (both WORKS 2026-09-09):
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
+# Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
 # Loop (EXP-0001/0002 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# New experiment (only for EXP-0003+):
+# New experiment (EXP-0003 real-data baseline once subset completes):
 bash scripts/new_experiment.sh EXP-0003 "<title>"
 ```
