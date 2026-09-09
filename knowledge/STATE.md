@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-09 (PM GOLD: EXP-0005 selects r10, sub-gate numeric pass). Maintainer: gold-watch.
+Last updated: 2026-09-09 (PM GOLD: EXP-0006 replication refined-pass, r10 holds). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -55,7 +55,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0004/`: DONE 2026-09-09 — fork-proposing variant (H-002+H-003, `scripts/fork_link.py --propose-um 15.0`): fold0 44b6 unchanged (+0.0000), fold1 6bba micro −0.0025, div sums 0/0/4→3/10/1. Sub-gate REJECT for promotion (edge regression on fold1; single-seed cap anyway). Signal kept: 3/4 GT divisions geometrically recoverable → EXP-0005 tighter gating.
 - `experiments/EXP-0005/`: DONE 2026-09-09 — radius ablation {9,10,11,12}+isolation: r9 +0.0004 div 1/0/3; **r10 SELECTED** (+0.0011 fold1, div 3/0/1, FP=0, plateau r10==r11); r12 +0.0008 div 3/1/1; r15+iso −0.0011 div 4/7/0. fold0 identical grid-wide. Sub-gate numeric PASS; keep-trying (no fold0 win possible + single-run ceiling). r10 = ensemble-candidate.
 - Submit path (GOLD §5, skeleton): `scripts/graphs_to_csv.py` (writer + `--check`; demo 4 subset preds → valid 4294-row CSV) + `notebooks/submission_skeleton.ipynb` (5 cells compile; demo wiring 15 nodes→12 edges OK) + `notebooks/README.md`. DRAFT — no submit yet; detector+weights TODO.
-- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002/H-003 active, H-005 backlog) + RESULTS.md (EXP-0000…0005 rows).
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-004/H-002/H-003 active, H-005 backlog) + RESULTS.md (EXP-0000…0006 rows).
+- `experiments/EXP-0006/`: DONE 2026-09-09 — r10 replication (H-002+H-003, `scripts/perturb_graph.py` σ=0.3vox × seeds {0,1,2} + noise-matched base arm + corrected same-set LOO): literal-identical FAIL (seed0 div 2/0/2; ±0.005 wobble is base-linker's, shared by both arms); refined PASS (variant≥base 18/18, FP=0 all seeds, LOO 6/6). r10 KEEPS ensemble-candidate; boundary-pair fragility → H-003 appearance case.
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
 
@@ -65,8 +66,9 @@ Oracle-linker floor (real data, NOT promotable — beat this):
 - EXP-0003: worst-fold edge 1.0705 (44b6 1.0933 / 6bba 1.0705), division 0/0/4.
 - EXP-0004 fork variant: fold0 +0.0000, fold1 −0.0025, div 3/10/1 → sub-gate REJECT (signal kept).
 - EXP-0005 ablation: r10 SELECTED (fold1 +0.0011, div 3/0/1, FP=0; plateau r10==r11; fold0 grid-identical) → numeric pass, ensemble-candidate, keep-trying.
+- EXP-0006 replication: literal-identical FAIL, refined PASS (variant≥noise-matched base 18/18, FP=0, LOO 6/6) → r10 HOLDS ensemble-candidate; 9.08µm boundary fragility → H-003 appearance case.
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: EXP-0006 replication rung (perturbation seeds + leave-one-out); first serious submit only after local gates + timing headroom.
+- Next: image-based DoG detection probe on real zarr timepoints (H-002, CPU); first serious submit only after local gates + timing headroom.
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -78,10 +80,10 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0005 done — read them, don't recreate):
+# Loop (EXP-0001…0006 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# New experiment (EXP-0006 replication rung):
-bash scripts/new_experiment.sh EXP-0006 "<title>"
+# New experiment (EXP-0007 DoG detection probe, H-002):
+bash scripts/new_experiment.sh EXP-0007 "<title>"
 ```

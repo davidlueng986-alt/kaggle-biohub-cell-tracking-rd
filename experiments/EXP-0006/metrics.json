@@ -1,0 +1,189 @@
+{
+  "exp_id": "EXP-0006",
+  "title": "Replication rung: perturbation seeds + leave-one-out for r10",
+  "hypothesis_id": "H-002+H-003",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "perturbation": {
+    "sigma_vox": 0.3,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "seeds": {
+    "0": {
+      "div_sums": [
+        2,
+        0,
+        2
+      ],
+      "worst_edge_move": 0.0048310784607030755
+    },
+    "1": {
+      "div_sums": [
+        3,
+        0,
+        1
+      ],
+      "worst_edge_move": 0.0037134040744355445
+    },
+    "2": {
+      "div_sums": [
+        3,
+        0,
+        1
+      ],
+      "worst_edge_move": 0.004641755093044653
+    }
+  },
+  "noise_matched_variant_minus_base": {
+    "0": {
+      "44b6_0113de3b": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "44b6_0b24845f": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "44b6_0c582fdc": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "6bba_05b6850b": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "6bba_05db0fb1": {
+        "d_edge": 0.0018567020372179943,
+        "d_div": 0.6666666666666666,
+        "v_fp": 0
+      },
+      "6bba_062c8d37": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      }
+    },
+    "1": {
+      "44b6_0113de3b": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "44b6_0b24845f": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "44b6_0c582fdc": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "6bba_05b6850b": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "6bba_05db0fb1": {
+        "d_edge": 0.0018567020372179943,
+        "d_div": 0.6666666666666666,
+        "v_fp": 0
+      },
+      "6bba_062c8d37": {
+        "d_edge": 0.0012077696151757689,
+        "d_div": 1.0,
+        "v_fp": 0
+      }
+    },
+    "2": {
+      "44b6_0113de3b": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "44b6_0b24845f": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "44b6_0c582fdc": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "6bba_05b6850b": {
+        "d_edge": 0.0,
+        "d_div": 0.0,
+        "v_fp": 0
+      },
+      "6bba_05db0fb1": {
+        "d_edge": 0.0018567020372177723,
+        "d_div": 0.6666666666666666,
+        "v_fp": 0
+      },
+      "6bba_062c8d37": {
+        "d_edge": 0.001207769615175991,
+        "d_div": 1.0,
+        "v_fp": 0
+      }
+    }
+  },
+  "loo_same_set": {
+    "44b6_0113de3b": {
+      "r10micro44": 1.0997865821089778,
+      "r10micro6b": 1.0716457191151978,
+      "floormicro44": 1.0997865821089778,
+      "floormicro6b": 1.0705243740624102,
+      "below_floor": false
+    },
+    "44b6_0b24845f": {
+      "r10micro44": 1.0906027509198826,
+      "r10micro6b": 1.0716457191151978,
+      "floormicro44": 1.0906027509198826,
+      "floormicro6b": 1.0705243740624102,
+      "below_floor": false
+    },
+    "44b6_0c582fdc": {
+      "r10micro44": 1.088711986983326,
+      "r10micro6b": 1.0716457191151978,
+      "floormicro44": 1.088711986983326,
+      "floormicro6b": 1.0705243740624102,
+      "below_floor": false
+    },
+    "6bba_05b6850b": {
+      "r10micro44": 1.0932823079665783,
+      "r10micro6b": 1.0682381054121846,
+      "floormicro44": 1.0932823079665783,
+      "floormicro6b": 1.066661432839164,
+      "below_floor": false
+    },
+    "6bba_05db0fb1": {
+      "r10micro44": 1.0932823079665783,
+      "r10micro6b": 1.066198003757548,
+      "floormicro44": 1.0932823079665783,
+      "floormicro6b": 1.0655757564170847,
+      "below_floor": false
+    },
+    "6bba_062c8d37": {
+      "r10micro44": 1.0932823079665783,
+      "r10micro6b": 1.0798245218688234,
+      "floormicro44": 1.0932823079665783,
+      "floormicro6b": 1.0787414456804465,
+      "below_floor": false
+    }
+  },
+  "literal_identical_replication": false,
+  "replicated": true,
+  "decision": "keep-trying",
+  "decision_reason": "r10: noise-matched variant>=base 18/18 (FP=0 all seeds; div gain 2-3 TPs) + LOO same-set pass \u2192 r10 KEEPS ensemble-candidate status (asymmetric bet: zero cost, probabilistic gain). Literal identical-replication FAILED (seed0 loses the 9.08um boundary pair; base linker itself wobbles \u00b10.005 under noise) \u2192 no promotion; boundary fragility motivates H-003 appearance evidence. Next: image-based detection (H-002) to beat floor on merit."
+}
