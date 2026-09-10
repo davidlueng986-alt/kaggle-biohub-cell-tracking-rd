@@ -23,10 +23,55 @@ SIG_SMALL = (1.0, 3.0, 3.0)
 SIG_LARGE = (1.6, 5.0, 5.0)
 
 
-def detect(vol, pct=99.5, min_size=50, max_size=50000,
-           sig_small=SIG_SMALL, sig_large=SIG_LARGE):
+def _split_component(idx, dog, min_size, peak_footprint):
+    """Peak-split one oversize component. Returns list of voxel arrays, or
+    None to keep the component whole (fewer than 2 footprint-separated peaks
+    or only-fragment splits). Small parts merge into the nearest big part."""
     import numpy as np
-    from scipy.ndimage import gaussian_filter, label
+    from scipy.ndimage import maximum_filter
+    from scipy.spatial import cKDTree
+    lo = idx.min(axis=0)
+    sl = tuple(slice(int(a), int(b)) for a, b in zip(lo, idx.max(axis=0) + 1))
+    crop = dog[sl]
+    mask = np.zeros_like(crop, dtype=bool)
+    mask[tuple((idx - lo).T)] = True
+    mx = (maximum_filter(crop, size=peak_footprint) == crop) & mask
+    cand = [tuple(p + lo) for p in np.argwhere(mx)]
+    cand.sort(key=lambda p: -dog[p])
+    fp = (np.array(peak_footprint, dtype=float) / 2.0) ** 2
+    peaks = []
+    for p in cand:
+        pa = np.array(p, dtype=float)
+        if all(float(sum(((pa - np.array(q)) ** 2) / fp)) >= 1.0 for q in peaks):
+            peaks.append(p)
+    if len(peaks) < 2:
+        return None
+    tree = cKDTree(np.array(peaks, dtype=float))
+    _, a = tree.query(idx.astype(float), k=1)
+    big, small = [], []
+    for k in range(len(peaks)):
+        (big if len(idx[a == k]) >= min_size else small).append(k)
+    if not big:
+        return None
+    out = [idx[a == k] for k in big]
+    if small:
+        rest = np.concatenate([idx[a == k] for k in small])
+        btree = cKDTree(np.array([g.mean(axis=0) for g in out]))
+        _, bi = btree.query(rest.astype(float), k=1)
+        out = [np.concatenate([g, rest[bi == j]]) if np.any(bi == j) else g
+               for j, g in enumerate(out)]
+    return out
+
+
+def detect(vol, pct=99.5, min_size=50, max_size=50000,
+           sig_small=SIG_SMALL, sig_large=SIG_LARGE,
+           split_size=None, peak_footprint=(5, 15, 15)):
+    """split_size: components larger than this are peak-split (None=off).
+    Peak-split: DoG local maxima (maximum_filter footprint) inside the
+    component become seeds; voxels go to the nearest seed (cKDTree);
+    parts < min_size merge into the nearest kept part (no voxel loss)."""
+    import numpy as np
+    from scipy.ndimage import gaussian_filter, label, maximum_filter
     t0 = time.time()
     v = np.asarray(vol, dtype=np.float32)
     dog = gaussian_filter(v, sig_small) - gaussian_filter(v, sig_large)
@@ -34,16 +79,30 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
     bw = dog >= thr
     lab, n = label(bw)
     sizes = np.bincount(lab.ravel())
-    nodes = []
+    parts = []  # list of voxel-index arrays
+    n_split = 0
     for i in range(1, n + 1):
         s = int(sizes[i])
         if not (min_size <= s <= max_size):
-            continue
-        z, y, x = np.argwhere(lab == i).mean(axis=0)
+            continue  # too small: noise; too big w/o split: dropped as before
+        idx = np.argwhere(lab == i)
+        done = False
+        if split_size is not None and s > split_size:
+            got = _split_component(idx, dog, min_size, peak_footprint)
+            if got is not None:
+                parts.extend(got)
+                n_split += 1
+                done = True
+        if not done:
+            parts.append(idx)
+    nodes = []
+    for idx in parts:
+        z, y, x = idx.mean(axis=0)
         nodes.append((int(round(z)), int(round(y)), int(round(x))))
     nodes.sort()
     return nodes, {"pct": pct, "min_size": min_size, "max_size": max_size,
-                   "thr": thr, "n_components": int(n),
+                   "thr": thr, "n_components": int(n), "n_split": n_split,
+                   "split_size": split_size,
                    "elapsed_s": round(time.time() - t0, 2)}
 
 
@@ -54,11 +113,14 @@ def main(argv=None):
     ap.add_argument("--t", type=int, default=0)
     ap.add_argument("--pct", type=float, default=99.5)
     ap.add_argument("--min-size", type=int, default=50)
+    ap.add_argument("--split-size", type=int, default=None,
+                    help="peak-split components larger than this (voxels)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     import zarr
     vol = zarr.open_group(a.zarr, mode="r")["0"][a.t]
-    nodes, params = detect(vol, pct=a.pct, min_size=a.min_size)
+    nodes, params = detect(vol, pct=a.pct, min_size=a.min_size,
+                           split_size=a.split_size)
     out = {"nodes": [{"id": i + 1, "t": a.t, "z": z, "y": y, "x": x}
                      for i, (z, y, x) in enumerate(nodes)]}
     out["params"] = params

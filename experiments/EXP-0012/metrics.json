@@ -1,0 +1,43 @@
+{
+  "exp_id": "EXP-0012",
+  "title": "Peak-splitter full-video 6bba@98.0+split",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "row": {
+    "recall_full": 0.9930909090909091,
+    "det_per_frame": 62.72,
+    "n_det_total": 6272,
+    "T_ratio": 0.9858535051870481,
+    "edge_raw": 0.7077986179664363,
+    "edge_adj": 0.708799904914204,
+    "div": 1.0,
+    "score": 0.808799904914204,
+    "ec": {
+      "TP": 717,
+      "FP": 168,
+      "FN": 128
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 0
+    },
+    "T_true": 6362,
+    "s_per_frame": 0.9347
+  },
+  "ref_985": {
+    "recall": 0.893,
+    "adj": 0.8194
+  },
+  "checks": {
+    "recall_ge_0.95": true,
+    "adj_ge_985": false
+  },
+  "all_checks_pass": false,
+  "decision": "keep-trying",
+  "decision_reason": "Splitter verdict per checks. Single deterministic run ceiling holds. 44b6 untouched (locked @99.0 base)."
+}
