@@ -23,10 +23,11 @@ SIG_SMALL = (1.0, 3.0, 3.0)
 SIG_LARGE = (1.6, 5.0, 5.0)
 
 
-def _split_component(idx, dog, min_size, peak_footprint):
+def _split_component(idx, dog, min_size, peak_footprint, prominence=0.0):
     """Peak-split one oversize component. Returns list of voxel arrays, or
-    None to keep the component whole (fewer than 2 footprint-separated peaks
-    or only-fragment splits). Small parts merge into the nearest big part."""
+    None to keep the component whole. prominence: secondary peaks must reach
+    >= prominence * primary peak value (EXP-0013; 0.0 = off, all separated
+    peaks split). Small parts merge into the nearest big part (no loss)."""
     import numpy as np
     from scipy.ndimage import maximum_filter
     from scipy.spatial import cKDTree
@@ -44,6 +45,9 @@ def _split_component(idx, dog, min_size, peak_footprint):
         pa = np.array(p, dtype=float)
         if all(float(sum(((pa - np.array(q)) ** 2) / fp)) >= 1.0 for q in peaks):
             peaks.append(p)
+    if prominence > 0.0 and peaks:
+        cut = float(dog[peaks[0]]) * prominence
+        peaks = [p for p in peaks if float(dog[p]) >= cut]
     if len(peaks) < 2:
         return None
     tree = cKDTree(np.array(peaks, dtype=float))
@@ -65,7 +69,7 @@ def _split_component(idx, dog, min_size, peak_footprint):
 
 def detect(vol, pct=99.5, min_size=50, max_size=50000,
            sig_small=SIG_SMALL, sig_large=SIG_LARGE,
-           split_size=None, peak_footprint=(5, 15, 15)):
+           split_size=None, peak_footprint=(5, 15, 15), prominence=0.0):
     """split_size: components larger than this are peak-split (None=off).
     Peak-split: DoG local maxima (maximum_filter footprint) inside the
     component become seeds; voxels go to the nearest seed (cKDTree);
@@ -79,7 +83,7 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
     bw = dog >= thr
     lab, n = label(bw)
     sizes = np.bincount(lab.ravel())
-    parts = []  # list of voxel-index arrays
+    parts = []  # list of (voxel-index array, split_flag, parent_comp)
     n_split = 0
     for i in range(1, n + 1):
         s = int(sizes[i])
@@ -88,21 +92,23 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
         idx = np.argwhere(lab == i)
         done = False
         if split_size is not None and s > split_size:
-            got = _split_component(idx, dog, min_size, peak_footprint)
+            got = _split_component(idx, dog, min_size, peak_footprint,
+                                   prominence)
             if got is not None:
-                parts.extend(got)
+                parts.extend([(g, True, i) for g in got])
                 n_split += 1
                 done = True
         if not done:
-            parts.append(idx)
+            parts.append((idx, False, i))
     nodes = []
-    for idx in parts:
+    for idx, is_split, parent in parts:
         z, y, x = idx.mean(axis=0)
-        nodes.append((int(round(z)), int(round(y)), int(round(x))))
+        nodes.append((int(round(z)), int(round(y)), int(round(x)),
+                      bool(is_split), int(parent)))
     nodes.sort()
     return nodes, {"pct": pct, "min_size": min_size, "max_size": max_size,
                    "thr": thr, "n_components": int(n), "n_split": n_split,
-                   "split_size": split_size,
+                   "split_size": split_size, "prominence": prominence,
                    "elapsed_s": round(time.time() - t0, 2)}
 
 
@@ -115,14 +121,17 @@ def main(argv=None):
     ap.add_argument("--min-size", type=int, default=50)
     ap.add_argument("--split-size", type=int, default=None,
                     help="peak-split components larger than this (voxels)")
+    ap.add_argument("--prominence", type=float, default=0.0,
+                    help="secondary peaks need >= prominence * primary (EXP-0013)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     import zarr
     vol = zarr.open_group(a.zarr, mode="r")["0"][a.t]
     nodes, params = detect(vol, pct=a.pct, min_size=a.min_size,
-                           split_size=a.split_size)
-    out = {"nodes": [{"id": i + 1, "t": a.t, "z": z, "y": y, "x": x}
-                     for i, (z, y, x) in enumerate(nodes)]}
+                           split_size=a.split_size, prominence=a.prominence)
+    out = {"nodes": [{"id": i + 1, "t": a.t, "z": z, "y": y, "x": x,
+                      "split": sp, "parent": pa}
+                     for i, (z, y, x, sp, pa) in enumerate(nodes)]}
     out["params"] = params
     json.dump(out, open(a.out, "w"))
     print(f"wrote {a.out}: {len(nodes)} detections "

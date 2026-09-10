@@ -90,43 +90,59 @@ def _assign(cost):
 _assign.backend = "pure"
 
 
+def _pair(P, Q):
+    """Optimal gated assignment for one adjacent frame pair. Returns edges."""
+    n, m = len(P), len(Q)
+    if not n or not m:
+        return []
+    N = max(n, m)
+    dummy = MAXD + 1e-9
+    C = [[0.0] * N for _ in range(N)]
+    for i in range(N):
+        for j in range(N):
+            if i < n and j < m:
+                dz = (P[i]["z"] - Q[j]["z"]) * VOXEL[0]
+                dy = (P[i]["y"] - Q[j]["y"]) * VOXEL[1]
+                dx = (P[i]["x"] - Q[j]["x"]) * VOXEL[2]
+                d = (dz * dz + dy * dy + dx * dx) ** 0.5
+                C[i][j] = d if d <= MAXD else 1e9
+            elif i < n:
+                C[i][j] = dummy
+            else:
+                C[i][j] = 0.0
+    A = _assign(C)
+    return [[P[i]["id"], Q[j]["id"]] for i in range(n)
+            if 0 <= (j := A[i]) < m and C[i][j] <= MAXD]
+
+
 def link(gt):
     by_t = {}
     for n in gt["nodes"]:
         by_t.setdefault(n["t"], []).append(n)
     ts = sorted(by_t)
+    phased = any(n.get("split") for ns in by_t.values() for n in ns)
     edges = []
     for a, b in zip(ts, ts[1:]):
         if b != a + 1:
             continue  # only adjacent frames (causal chain links)
         P = sorted(by_t[a], key=lambda d: d["id"])
         Q = sorted(by_t[b], key=lambda d: d["id"])
-        n, m = len(P), len(Q)
-        if not n or not m:
+        if not phased:
+            edges.extend(_pair(P, Q))  # legacy single-Hungarian path
             continue
-        N = max(n, m)
-        dummy = MAXD + 1e-9
-        C = [[0.0] * N for _ in range(N)]
-        for i in range(N):
-            for j in range(N):
-                if i < n and j < m:
-                    dz = (P[i]["z"] - Q[j]["z"]) * VOXEL[0]
-                    dy = (P[i]["y"] - Q[j]["y"]) * VOXEL[1]
-                    dx = (P[i]["x"] - Q[j]["x"]) * VOXEL[2]
-                    d = (dz * dz + dy * dy + dx * dx) ** 0.5
-                    C[i][j] = d if d <= MAXD else 1e9
-                elif i < n:
-                    C[i][j] = dummy
-                else:
-                    C[i][j] = 0.0
-        A = _assign(C)
-        for i in range(n):
-            j = A[i]
-            if 0 <= j < m and C[i][j] <= MAXD:
-                edges.append([P[i]["id"], Q[j]["id"]])
+        # two-phase: primaries claim first (all targets visible, base intact),
+        # split parts link only to leftovers (conservative, EXP-0013).
+        prim = [n for n in P if not n.get("split")]
+        frag = [n for n in P if n.get("split")]
+        e1 = _pair(prim, Q)
+        used = {v for _, v in e1}
+        Qleft = [n for n in Q if n["id"] not in used]
+        edges.extend(e1)
+        edges.extend(_pair(frag, Qleft))
     edges.sort()
     return {"nodes": gt["nodes"], "edges": edges, "T_true": gt.get("T_true"),
-            "voxel_size_um": list(VOXEL), "assign": _assign.backend}
+            "voxel_size_um": list(VOXEL), "assign": _assign.backend,
+            "phased": phased}
 
 
 def main(argv=None):
