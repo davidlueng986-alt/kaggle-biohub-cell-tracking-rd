@@ -40,7 +40,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Stack: per-embryo DoG (44b6→99.0, 6bba→98.5, unknown→98.5) + gate-10 links, NO forks (safety; r10 unpromoted). Offline: numpy/scipy (preinstalled) + zarr/numcodecs via `biohub-zarr-wheels` dataset (`vendor/wheels/README.md` recipe; `*.whl` git-ignored).
 - Visible output: 112,599 rows / 4 datasets, kernel-side validation passed (consecutive ids, refs resolve, full coverage); local re-check sane. Total 0.29h (~261 s/video on Kaggle CPU).
 - Debug trail: v1 zarr-missing (fail-fast worked) → wheels dataset; v3 wrong mount path → discovery prefers `test/`; v4 green.
-- ⏳ PENDING (no CLI path — needs 1 website click): open kernel → **Submit to Competition** (hidden rerun) → publicScore recorded here as DIAGNOSTIC only. Slots: 5 remaining today.
+- ✅ SUBMITTED 2026-09-10 via CLI (PM gold-watch): kernel v5 CPU (`enable_gpu=false`; v4 P100 blocked by competition). ref `56143782`, status PENDING hidden rerun. publicScore DIAGNOSTIC only when scored. Kernel: https://www.kaggle.com/code/liangwanyiudavid/biohub-gold-v1-dog-per-embryo-gate-10
 - ⚠️ RISKS for hidden rerun: (a) timing — 261 s/video projects ~14.4 h over ~199 videos vs 12 h cap (H-005 must pay down if the run times out); (b) transfer — EXP-0021 found per-embryo levels fail on 3/4 new samples (fallback @98.5 on unseen embryos is suspect; LB diagnostic arbitrates); (c) gate-10 on image graphs was −0.006 on one dense sample (EXP-0017 arm2).
 - publicScore: _pending website submit_ (old account best 0.618 from prior work, not ours).
 

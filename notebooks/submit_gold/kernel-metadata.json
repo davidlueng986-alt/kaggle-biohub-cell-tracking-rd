@@ -5,11 +5,15 @@
  "language": "python",
  "kernel_type": "notebook",
  "is_private": true,
- "enable_gpu": true,
+ "enable_gpu": false,
  "enable_tpu": false,
  "enable_internet": false,
- "dataset_sources": ["liangwanyiudavid/biohub-zarr-wheels"],
- "competition_sources": ["biohub-cell-tracking-during-development"],
+ "dataset_sources": [
+  "liangwanyiudavid/biohub-zarr-wheels"
+ ],
+ "competition_sources": [
+  "biohub-cell-tracking-during-development"
+ ],
  "kernel_sources": [],
  "model_sources": []
 }
