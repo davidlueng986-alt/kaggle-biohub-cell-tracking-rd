@@ -1,0 +1,199 @@
+{
+  "exp_id": "EXP-0040",
+  "title": "Replicate @96 dark-sample recall gain on 0b24845f + 0c582fdc full-video",
+  "hypothesis_id": "H-002-followup-replication",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "samples": [
+    "44b6_0b24845f",
+    "44b6_0c582fdc"
+  ],
+  "frames": 100,
+  "pct_test": 96.0,
+  "pct_bar": 99.0,
+  "linker": "baseline_link defaults (gate 7um, one-to-one, causal)",
+  "scorer_solver": {
+    "protocol": "1.1",
+    "scorer_version": "1.1.0",
+    "solver": "scipy linear_sum_assignment (runtime-only, equivalence-gated vs pure-python Hungarian)",
+    "scripts_unmodified": true
+  },
+  "per_sample": {
+    "44b6_0b24845f": {
+      "@96.0": {
+        "recall": 0.4,
+        "det_f": 230.09,
+        "gid": 23009,
+        "s_f": 0.6652,
+        "T_ratio": 0.7016008537886873,
+        "edge": 0.18724362084020568,
+        "raw": 0.18181818181818182,
+        "div": 1.0,
+        "score": 0.2872436208402057,
+        "ec": {
+          "TP": 10,
+          "FP": 6,
+          "FN": 39
+        },
+        "dc": {
+          "TP": 0,
+          "FP": 0,
+          "FN": 0
+        },
+        "T_true": 32795,
+        "assign": "scipy"
+      },
+      "@99.0_bar_rescored": {
+        "recall": null,
+        "det_f": 129.92,
+        "raw": 0.09803921568627451,
+        "edge_adj": 0.10395923577542009,
+        "div": 1.0,
+        "score": 0.20395923577542008,
+        "ec": {
+          "TP": 5,
+          "FP": 2,
+          "FN": 44
+        },
+        "dc": {
+          "TP": 0,
+          "FP": 0,
+          "FN": 0
+        },
+        "T_true": 32795,
+        "T_ratio": 0.3961579509071505,
+        "T_pred": 12992,
+        "rescore_match_ledger": true,
+        "ledger": {
+          "recall": 0.325,
+          "det_f": 129.92,
+          "raw": 0.09803921568627451,
+          "edge": 0.10395923577542009,
+          "div": 1.0,
+          "score": 0.20395923577542008,
+          "ec": {
+            "TP": 5,
+            "FP": 2,
+            "FN": 44
+          },
+          "dc": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 0
+          },
+          "T_true": 32795,
+          "T_ratio": 0.3961579509071505,
+          "s_f": 1.7328000000000001,
+          "assign": "scipy"
+        }
+      },
+      "delta_recall_vs_ledger": 0.07500000000000001,
+      "delta_raw": 0.08377896613190731,
+      "delta_adj": 0.0832843850647856,
+      "criterion": {
+        "recall_gain_ge_0.10": false,
+        "adj_ge_bar": true
+      },
+      "verdict": "DIVERGES",
+      "verdict_reason": "recall 0.4000 vs bar 0.3250 (d=+0.0750, need +0.10) AND adj 0.1872 vs bar 0.1040 (d=+0.0833, need >=0)",
+      "mechanism": {
+        "T_ratio_96": 0.7016008537886873,
+        "T_ratio_99": 0.3961579509071505,
+        "det_f_96": 230.09,
+        "det_f_99": 129.92
+      }
+    },
+    "44b6_0c582fdc": {
+      "@96.0": {
+        "recall": 0.4084507042253521,
+        "det_f": 156.42,
+        "gid": 15642,
+        "s_f": 0.6572,
+        "T_ratio": 0.559482080263252,
+        "edge": 0.18739391137989034,
+        "raw": 0.1794871794871795,
+        "div": 1.0,
+        "score": 0.28739391137989034,
+        "ec": {
+          "TP": 14,
+          "FP": 8,
+          "FN": 56
+        },
+        "dc": {
+          "TP": 0,
+          "FP": 0,
+          "FN": 0
+        },
+        "T_true": 27958,
+        "assign": "scipy"
+      },
+      "@99.0_bar_rescored": {
+        "recall": null,
+        "det_f": 127.79,
+        "raw": 0.09090909090909091,
+        "edge_adj": 0.09584474113768054,
+        "div": 1.0,
+        "score": 0.19584474113768055,
+        "ec": {
+          "TP": 7,
+          "FP": 7,
+          "FN": 63
+        },
+        "dc": {
+          "TP": 0,
+          "FP": 0,
+          "FN": 0
+        },
+        "T_true": 27958,
+        "T_ratio": 0.45707847485513986,
+        "T_pred": 12779,
+        "rescore_match_ledger": true,
+        "ledger": {
+          "recall": 0.19718309859154928,
+          "det_f": 127.79,
+          "raw": 0.09090909090909091,
+          "edge": 0.09584474113768054,
+          "div": 1.0,
+          "score": 0.19584474113768055,
+          "ec": {
+            "TP": 7,
+            "FP": 7,
+            "FN": 63
+          },
+          "dc": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 0
+          },
+          "T_true": 27958,
+          "T_ratio": 0.45707847485513986,
+          "s_f": 1.7013,
+          "assign": "scipy"
+        }
+      },
+      "delta_recall_vs_ledger": 0.21126760563380284,
+      "delta_raw": 0.08857808857808858,
+      "delta_adj": 0.09154917024220979,
+      "criterion": {
+        "recall_gain_ge_0.10": true,
+        "adj_ge_bar": true
+      },
+      "verdict": "REPLICATES",
+      "verdict_reason": "recall 0.4085 vs bar 0.1972 (d=+0.2113, need +0.10) AND adj 0.1874 vs bar 0.0958 (d=+0.0915, need >=0)",
+      "mechanism": {
+        "T_ratio_96": 0.559482080263252,
+        "T_ratio_99": 0.45707847485513986,
+        "det_f_96": 156.42,
+        "det_f_99": 127.79
+      }
+    }
+  },
+  "overall": "MIXED",
+  "overall_reason": "1/2 REPLICATES: 44b6_0b24845f=DIVERGES, 44b6_0c582fdc=REPLICATES",
+  "policy_note": "GO -> recommend @96 as dark-sample policy rung EXP-0041 (do not run); MIXED -> sample-specific, note which; STOP -> @96 does not generalize beyond 05db0fb1",
+  "status": "done"
+}
