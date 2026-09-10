@@ -1,0 +1,134 @@
+{
+  "exp_id": "EXP-0019",
+  "title": "Gate-10 + r10-fork combination",
+  "hypothesis_id": "H-002+H-003",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "combo": {
+    "propose_um": 10.0,
+    "base_maxd": 10.0
+  },
+  "per_sample": {
+    "44b6_0113de3b": {
+      "edge": 1.0997980974568045,
+      "div": 1.0,
+      "score": 1.1997980974568045,
+      "ec": {
+        "TP": 50,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "extra": 0
+    },
+    "44b6_0b24845f": {
+      "edge": 1.099844488489099,
+      "div": 1.0,
+      "score": 1.199844488489099,
+      "ec": {
+        "TP": 49,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "extra": 0
+    },
+    "44b6_0c582fdc": {
+      "edge": 1.0997460476428929,
+      "div": 1.0,
+      "score": 1.199746047642893,
+      "ec": {
+        "TP": 70,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "extra": 0
+    },
+    "6bba_05b6850b": {
+      "edge": 1.086466519962276,
+      "div": 1.0,
+      "score": 1.1864665199622761,
+      "ec": {
+        "TP": 845,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "extra": 0
+    },
+    "6bba_05db0fb1": {
+      "edge": 1.0954565541992567,
+      "div": 0.6666666666666666,
+      "score": 1.1621232208659233,
+      "ec": {
+        "TP": 1181,
+        "FP": 1,
+        "FN": 2
+      },
+      "dc": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 1
+      },
+      "extra": 2
+    },
+    "6bba_062c8d37": {
+      "edge": 1.0845771144278606,
+      "div": 1.0,
+      "score": 1.1845771144278607,
+      "ec": {
+        "TP": 898,
+        "FP": 0,
+        "FN": 0
+      },
+      "dc": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "extra": 1
+    }
+  },
+  "micros": {
+    "44b6": 1.0997899890166187,
+    "6bba": 1.0895234090523616,
+    "worst": 1.0895234090523616
+  },
+  "best": {
+    "44b6": 1.0997899890166187,
+    "6bba": 1.0884024471034524
+  },
+  "div_sums": {
+    "TP": 3,
+    "FP": 0,
+    "FN": 1
+  },
+  "checks": {
+    "div_gain": true,
+    "no_regress_44b6": true,
+    "no_regress_6bba": true,
+    "no_44b6_forks": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "Combo verdict per checks. Pass -> promotion CANDIDATE pending EXP-0020 replication (same bar as gate-10). Fail -> park combo, r10 stays standalone ensemble-candidate. Ceiling keep-trying (single deterministic pass)."
+}

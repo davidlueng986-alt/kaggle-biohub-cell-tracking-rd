@@ -35,10 +35,12 @@ def _dist(a, b):
     return (dz * dz + dy * dy + dx * dx) ** 0.5
 
 
-def link(gt, propose_um=PROPOSE_UM, isolation=False):
+def link(gt, propose_um=PROPOSE_UM, isolation=False, base_maxd=None):
     """isolation: propose u->w only if u is the strictly nearest node at
-    time t(u) to w (crowd veto; deployable, uses geometry only)."""
-    base = BL.link(gt)
+    time t(u) to w (crowd veto; deployable, uses geometry only).
+    base_maxd: linking gate for the base Hungarian pass (EXP-0019 combo:
+    gate-10 base + r10 proposals; default = legacy gate-7 behavior)."""
+    base = BL.link(gt, maxd=base_maxd if base_maxd is not None else MAXD)
     nodes = {n["id"]: n for n in gt["nodes"]}
     out = {}
     inn = {}
@@ -83,7 +85,8 @@ def link(gt, propose_um=PROPOSE_UM, isolation=False):
             extra += 1
     edges.sort()
     return {"nodes": gt["nodes"], "edges": edges, "T_true": gt.get("T_true"),
-            "voxel_size_um": list(VOXEL), "n_fork_extra": extra}
+            "voxel_size_um": list(VOXEL), "n_fork_extra": extra,
+            "base_maxd": base_maxd if base_maxd is not None else MAXD}
 
 
 def main(argv=None):
@@ -94,9 +97,12 @@ def main(argv=None):
     ap.add_argument("--propose-um", type=float, default=PROPOSE_UM)
     ap.add_argument("--isolation", action="store_true",
                     help="nearest-source crowd veto (EXP-0005)")
+    ap.add_argument("--base-maxd", type=float, default=None,
+                    help="base linking gate um (EXP-0019 combo; default legacy 7)")
     a = ap.parse_args(argv)
     gt = json.load(open(a.gt))
-    pred = link(gt, propose_um=a.propose_um, isolation=a.isolation)
+    pred = link(gt, propose_um=a.propose_um, isolation=a.isolation,
+                base_maxd=a.base_maxd)
     json.dump(pred, open(a.out, "w"))
     print(f"wrote {a.out} nodes={len(pred['nodes'])} "
           f"edges={len(pred['edges'])} fork_extra={pred['n_fork_extra']}")
