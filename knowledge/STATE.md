@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 05:30 HKT (all gold DoG LB 0.650 COMPLETE; Lineage Forge same-account 0.946; gate-7 v7 ready; slots reset ~00:00 UTC; UNet still RUNNING). Maintainer: gold-watch.
+Last updated: 2026-09-11 (STAGE B: UNet ep3 + audit green; gap = detection recall; dark-probe GO; v7 submit-ready). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -55,6 +55,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Kernel: https://www.kaggle.com/code/liangwanyiudavid/biohub-unet-train-v1 — v1/v3 mount-path fail (fixed with layout-robust search) → v4/v5/v6 diagnosed the pool: **Tesla P100 sm_60 ×3 tickets; torch 2.10+cu128 ships no sm_60 kernels** (fail-fast added, then retired).
 - v7 RUNNING: CPU FULL training (measured 1.68 s/iter VM-class → ~3.5 h/20ep; Kaggle CPU similar; inside 12 h cap; per-improvement ckpts retrievable even on timeout). Decision: lottery retired (P100-heavy pool), CPU is the primary path.
 - Audit (Stage A parallel, read-only) caught 3 REAL flags pre-completion: (1) HNM slice-overrun crash at ep-1 refresh (verified by reading; FATAL); (2) recall-only ckpt selection ignoring count discipline; (3) MSE-only loss vs design Dice term; plus determinism gaps (cuda seed, sampler offset) and a position/index confusion in HNM boost (second bug, same function). All fixed + locally validated (dice range, HNM unit past old crash class, full --smoke PASS) → pushed v8, RUNNING past old crash point.
+- v8 status: ep 3/20, loss 0.5318→0.5018 then flat, val_recall 0.000 (zero-positive start, count-gate withholding best as designed); HNM fired ep1+ep3 (slice fix HOLDS live); ETA ~2.8–3 h. Early warning: recall/cnt still 0 past ep8–10 → threshold/loss review. Logs stream only via `logs -f` while RUNNING.
+- Eval ready: `notebooks/train_unet/infer.py` built + unit-tested (5/5 synthetic peaks, 0 decoy FPs) + random-weight dry run green; EXP-0035 run.sh skeleton waits on WEIGHTS_PATH.
 - Next: fetch `unet_best.pt` on COMPLETE → EXP-0035 learned-detector evaluation (recall vs GT + edge with trusted scorer v1.1).
 
 ## Auth status (verification commands — re-run, do not assume)
@@ -108,7 +110,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43; 10-node window vs 51-node truth), others hold. Window selection invalid on small windows; no EXP-0035 policy.
-- Submit watch: v6 `56147475` + v1 `56143782`/`803`/`804` all COMPLETE publicScore **0.650**; same-account Lineage Forge `56144839` COMPLETE **0.946**. Slots 0 until ~2026-09-11 00:00 UTC. Gold kernel COMPLETE with gate-7 `submission.csv` (v7 ready). UNet train kernel still RUNNING.
+- Submit watch: v6 `56147475` + v1 `56143782`/`803`/`804` all COMPLETE publicScore **0.650** (identical ×4 → end-to-end determinism); same-account Lineage Forge `56144839` COMPLETE **0.946**. Slots 0 until ~2026-09-11 00:00 UTC. Submit stack v7 gate-7 ready (`SUBMIT_CHECKLIST.md` written, remote-verified). Gap thesis: detection recall (edge level); divisions ≤0.10 secondary; T-penalty amplifier.
+- Dark probe (Stage A parallel, /tmp only): 05db0fb1 curve still rises below 97.5 (96.0: rec 0.615 vs 0.41; monotone; T_ratio 0.65; timing flat) but 87% of @96 misses are threshold-blind (median DoG rank 94) — GO for full-video @96.0 test, diminishing returns past ~94. Proposed: EXP-B T-discipline filter (min-track-6 + prune-isolated + frac caps; bar worst-fold +0.02) as next cheap CPU rung.
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
 
@@ -121,7 +124,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: submit v7 gate-7 stack after slot reset (top priority — largest measured delta, +0.28 on 44b6-like tissue); read v1-refs LB if they score (transfer verdict); EXP-0035 on unet_best.pt; no new CPU rung without PM direction. Slots 0 — no submits today.
+- Next: STAGE C — EXP-B T-discipline filter + 05db0fb1 @96.0 full-video (dispatched); submit v7 gate-7 stack after slot reset; EXP-0035 on unet_best.pt. Slots 0 — no submits today.
 
 ## Next loop steps (cold agent — copy/paste)
 

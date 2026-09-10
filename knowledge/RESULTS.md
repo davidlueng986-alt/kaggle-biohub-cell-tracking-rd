@@ -8,7 +8,9 @@
 > Old account best 0.618 (prior work). Timing projects ~18 h vs 12 h cap — timeout risk primary.
 > UPDATE 15:41 UTC: v6 (vectorized) COMPLETE 0.11 h (3.3×, same 112599 rows) → submitted ref 56147475
 > (rule held: materially faster + slots ≥1). Slots now 0. Hidden projection ~5.5 h.
-> UPDATE: ref 56147475 COMPLETE publicScore **0.650** (diagnostic; +0.032 vs old-account 0.618). v1 refs still PENDING. Not gold-zone.
+> UPDATE: ALL FOUR ours COMPLETE publicScore **0.650** (v5 gate-10 ×3 + v6 vectorized ×1 identical —
+> end-to-end determinism confirmed; +0.032 vs old 0.618). Forge 0.946 confirmed (gap = detection recall;
+> divisions secondary ≤0.10, T-penalty amplifier). Not gold-zone.
 > UPDATE ~19:50 UTC: probe `biohub-probe-gate7-image` v3 COMPLETE — gate-7 beats gate-10 on ALL FOUR visible
 > samples (0113de3b 0.6606→0.9382; +0.002/+0.006/+0.017 elsewhere; 109761 rows valid). submit_gold flipped to
 > UPDATE 2026-09-11 05:30 HKT: all gold DoG refs COMPLETE publicScore **0.650**. Same-account Lineage Forge ref 56144839 COMPLETE **0.946** (correct prior "not ours" mislabel). Next: gate-7 submit after slot reset (~00:00 UTC).
