@@ -9,6 +9,9 @@
 > UPDATE 15:41 UTC: v6 (vectorized) COMPLETE 0.11 h (3.3×, same 112599 rows) → submitted ref 56147475
 > (rule held: materially faster + slots ≥1). Slots now 0. Hidden projection ~5.5 h.
 > UPDATE: ref 56147475 COMPLETE publicScore **0.650** (diagnostic; +0.032 vs old-account 0.618). v1 refs still PENDING. Not gold-zone.
+> UPDATE ~19:50 UTC: probe `biohub-probe-gate7-image` v3 COMPLETE — gate-7 beats gate-10 on ALL FOUR visible
+> samples (0113de3b 0.6606→0.9382; +0.002/+0.006/+0.017 elsewhere; 109761 rows valid). submit_gold flipped to
+> gate-7 (v7 COMPLETE 0.12 h) — recommended next submit post-reset. Hidden v6 rerun COMPLETED → 12 h fits (timeout fear falsified).
 
 Newest rows append at the bottom. `decision` ∈ {promote, keep-trying, reject}.
 Schema: `exp_id | hypothesis | config / seed | embryo-CV (edge / div / score) | LB (diag) | decision | notes`.

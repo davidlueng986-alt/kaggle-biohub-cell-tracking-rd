@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 04:39 HKT (gold-watch). LB diagnostic 0.650 on v6; UNet train still RUNNING; EXP-0035 planned awaiting unet_best.pt. Maintainer: gold-watch.
+Last updated: 2026-09-11 (LB 0.650 diagnostic IN; gate-7 probe wins visible, v7 ready for next submit). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -45,6 +45,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - CPU kernel v5 log: visible 4 videos, valid 112,599-row CSV, **0.36 h total (~324 s/video)** — worse than v4's 0.29 h; hidden projection ~18 h vs 12 h cap → TIMEOUT RISK now primary (H-005 paydown urgent regardless of score).
 - ⚠️ RISKS for hidden rerun: (a) timing — 261 s/video projects ~14.4 h over ~199 videos vs 12 h cap (H-005 must pay down if the run times out); (b) transfer — EXP-0021 found per-embryo levels fail on 3/4 new samples (fallback @98.5 on unseen embryos is suspect; LB diagnostic arbitrates); (c) gate-10 on image graphs was −0.006 on one dense sample (EXP-0017 arm2).
 - publicScore: **0.650** COMPLETE on ref `56147475` (Gold v2 vectorized, diagnostic LB; 2026-09-10). Old account prior best 0.618. v1 refs `56143782`/`803`/`804` still PENDING. Not gold-zone yet.
+- GATE VERDICT (visible, 2026-09-10): probe kernel `biohub-probe-gate7-image` v3 COMPLETE — gate-7 beats gate-10 on ALL FOUR visible samples (0113de3b adj 0.6606→**0.9382**; others +0.002/+0.006/+0.017; 109,761 rows). submit_gold flipped to gate-7, v7 COMPLETE 0.12 h valid — RECOMMENDED next leaderboard submit after slot reset. Oracle gate-10 best (1.0884) stands separately (sparse-graph regime). Debug lesson: verify notebook edits on disk before push (one no-op patch cost a wasted version).
+- TIMEOUT STORY REVISED: v6 hidden rerun COMPLETED + scored → hidden fits in 12 h (18 h fear falsified; v6 output covered hidden test). Timing still worth improving (denser hidden mixes unknown) but no longer primary.
 
 ## GPU training watch (Stage A parallel output, 2026-09-10)
 
@@ -119,7 +121,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: EXP-0035 when unet_best.pt lands (H-002/GPU eval); LB diagnostic on arrival may reorder; CPU ladder converged — no new CPU rung without PM direction. Slots 0 — no submits.
+- Next: submit v7 gate-7 stack after slot reset (top priority — largest measured delta, +0.28 on 44b6-like tissue); read v1-refs LB if they score (transfer verdict); EXP-0035 on unet_best.pt; no new CPU rung without PM direction. Slots 0 — no submits today.
 
 ## Next loop steps (cold agent — copy/paste)
 
