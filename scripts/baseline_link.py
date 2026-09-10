@@ -90,13 +90,13 @@ def _assign(cost):
 _assign.backend = "pure"
 
 
-def _pair(P, Q):
+def _pair(P, Q, maxd=MAXD):
     """Optimal gated assignment for one adjacent frame pair. Returns edges."""
     n, m = len(P), len(Q)
     if not n or not m:
         return []
     N = max(n, m)
-    dummy = MAXD + 1e-9
+    dummy = maxd + 1e-9
     C = [[0.0] * N for _ in range(N)]
     for i in range(N):
         for j in range(N):
@@ -105,17 +105,19 @@ def _pair(P, Q):
                 dy = (P[i]["y"] - Q[j]["y"]) * VOXEL[1]
                 dx = (P[i]["x"] - Q[j]["x"]) * VOXEL[2]
                 d = (dz * dz + dy * dy + dx * dx) ** 0.5
-                C[i][j] = d if d <= MAXD else 1e9
+                C[i][j] = d if d <= maxd else 1e9
             elif i < n:
                 C[i][j] = dummy
             else:
                 C[i][j] = 0.0
     A = _assign(C)
     return [[P[i]["id"], Q[j]["id"]] for i in range(n)
-            if 0 <= (j := A[i]) < m and C[i][j] <= MAXD]
+            if 0 <= (j := A[i]) < m and C[i][j] <= maxd]
 
 
-def link(gt):
+def link(gt, maxd=MAXD):
+    """maxd: linking gate um (method hyperparameter; scorer gate stays 7um
+    per PROTOCOL v1.1. Default reproduces the frozen floor bit-exactly)."""
     by_t = {}
     for n in gt["nodes"]:
         by_t.setdefault(n["t"], []).append(n)
@@ -128,17 +130,17 @@ def link(gt):
         P = sorted(by_t[a], key=lambda d: d["id"])
         Q = sorted(by_t[b], key=lambda d: d["id"])
         if not phased:
-            edges.extend(_pair(P, Q))  # legacy single-Hungarian path
+            edges.extend(_pair(P, Q, maxd))  # legacy single-Hungarian path
             continue
         # two-phase: primaries claim first (all targets visible, base intact),
         # split parts link only to leftovers (conservative, EXP-0013).
         prim = [n for n in P if not n.get("split")]
         frag = [n for n in P if n.get("split")]
-        e1 = _pair(prim, Q)
+        e1 = _pair(prim, Q, maxd)
         used = {v for _, v in e1}
         Qleft = [n for n in Q if n["id"] not in used]
         edges.extend(e1)
-        edges.extend(_pair(frag, Qleft))
+        edges.extend(_pair(frag, Qleft, maxd))
     edges.sort()
     return {"nodes": gt["nodes"], "edges": edges, "T_true": gt.get("T_true"),
             "voxel_size_um": list(VOXEL), "assign": _assign.backend,

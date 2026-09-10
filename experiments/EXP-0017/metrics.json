@@ -1,0 +1,132 @@
+{
+  "exp_id": "EXP-0017",
+  "title": "Link-gate ablation + gap-closing",
+  "hypothesis_id": "H-002+H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": "mixed-oracle",
+  "simplified_scorer": false,
+  "arm1_oracle_gates": {
+    "7.0": {
+      "fold0_44b6": 1.0932823079665783,
+      "fold1_6bba": 1.0705243740624102,
+      "worst": 1.0705243740624102,
+      "d44": 0.0,
+      "d6b": 0.0,
+      "div": [
+        0,
+        0,
+        4
+      ]
+    },
+    "10.0": {
+      "fold0_44b6": 1.0997899890166187,
+      "fold1_6bba": 1.0884024471034524,
+      "worst": 1.0884024471034524,
+      "d44": 0.006507681050040404,
+      "d6b": 0.017878073041042164,
+      "div": [
+        0,
+        0,
+        4
+      ]
+    },
+    "14.0": {
+      "fold0_44b6": 1.0997899890166187,
+      "fold1_6bba": 1.0884024471034524,
+      "worst": 1.0884024471034524,
+      "d44": 0.006507681050040404,
+      "d6b": 0.017878073041042164,
+      "div": [
+        0,
+        0,
+        4
+      ]
+    }
+  },
+  "floor_micros": {
+    "44b6": 1.0932823079665783,
+    "6bba": 1.0705243740624102
+  },
+  "arm2_image": {
+    "g7.0_off": {
+      "edge": 0.8194375712938429,
+      "raw": 0.7988571428571428,
+      "div": 1.0,
+      "score": 0.9194375712938428,
+      "ec": {
+        "TP": 699,
+        "FP": 30,
+        "FN": 146
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_edges": 4229
+    },
+    "g7.0_on": {
+      "edge": 0.8194375712938429,
+      "raw": 0.7988571428571428,
+      "div": 1.0,
+      "score": 0.9194375712938428,
+      "ec": {
+        "TP": 699,
+        "FP": 30,
+        "FN": 146
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_edges": 4229
+    },
+    "g10.0_off": {
+      "edge": 0.8134156103618629,
+      "raw": 0.7929864253393665,
+      "div": 1.0,
+      "score": 0.9134156103618629,
+      "ec": {
+        "TP": 701,
+        "FP": 39,
+        "FN": 144
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_edges": 4341
+    },
+    "g10.0_on": {
+      "edge": 0.8134156103618629,
+      "raw": 0.7929864253393665,
+      "div": 1.0,
+      "score": 0.9134156103618629,
+      "ec": {
+        "TP": 701,
+        "FP": 39,
+        "FN": 144
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_edges": 4341
+    }
+  },
+  "arm2_base": 0.8194,
+  "arm2_best": "g7.0_off",
+  "checks": {
+    "arm1_gate10_no_regression": true,
+    "arm1_gate10_div_neutral_or_better": true,
+    "arm2_best_ge_base": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "Gate-10 verdict per checks. Strong oracle result -> promotion CANDIDATE pending EXP-0018 jitter replication (r10 bar). Image gap verdict per arm2. Ceiling keep-trying (single deterministic pass)."
+}
