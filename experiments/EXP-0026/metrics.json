@@ -1,0 +1,107 @@
+{
+  "exp_id": "EXP-0026",
+  "title": "ROI-masked DoG acceleration",
+  "hypothesis_id": "H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "blocks": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "detector": "scripts/dog_detect.py UNMODIFIED via roi_detect.py wrapper",
+  "configs": {
+    "FULL": {
+      "recall": 0.9820359281437125,
+      "rec_n": 164,
+      "rec_d": 167,
+      "n_det": 911,
+      "raw": 0.9533333333333334,
+      "adj": 0.9803894129979035,
+      "ec": {
+        "TP": 143,
+        "FP": 2,
+        "FN": 5
+      },
+      "s_per_frame": 1.26
+    },
+    "ROI_q98": {
+      "recall": 0.7724550898203593,
+      "rec_n": 129,
+      "rec_d": 167,
+      "n_det": 1987,
+      "raw": 0.4105263157894737,
+      "adj": 0.3874503475670308,
+      "ec": {
+        "TP": 78,
+        "FP": 42,
+        "FN": 70
+      },
+      "s_per_frame": 0.64
+    },
+    "ROI_q95": {
+      "recall": 0.8862275449101796,
+      "rec_n": 148,
+      "rec_d": 167,
+      "n_det": 2532,
+      "raw": 0.391304347826087,
+      "adj": 0.3525430680885972,
+      "ec": {
+        "TP": 81,
+        "FP": 59,
+        "FN": 67
+      },
+      "s_per_frame": 0.964
+    }
+  },
+  "speedup_roi_q98_vs_full": 1.968,
+  "speedup_roi_q95_vs_full": 1.307,
+  "timing_breakdown": {
+    "full_t20": {
+      "gauss_pair_s": 0.288,
+      "pct_label_s": 0.067,
+      "percomp_argwhere_s": 0.452,
+      "n_components": 48,
+      "n_kept": 43,
+      "argwhere_share": 0.56
+    },
+    "roi_q98_t20": {
+      "mask_s": 0.01,
+      "det_loop_s": 0.164,
+      "det_inner_s": 0.1,
+      "nbox": 45,
+      "vox_frac": 0.5086,
+      "mask_share": 0.057
+    }
+  },
+  "gate": {
+    "recall_tol": 0.01,
+    "raw_tol": 0.005,
+    "speedup_min": 2.0,
+    "d_recall": -0.2096,
+    "d_raw": -0.5428,
+    "pass": false
+  },
+  "decision": "STOP",
+  "decision_reason": "FAIL: ROI does not meet parity+speed gate -> no full-video commit; EXP-0028 stays a recommendation only."
+}

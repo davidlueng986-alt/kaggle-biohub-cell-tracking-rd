@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-10 (STAGE B aggregate: DS parked, percentiles dead on dark, linking negligible). Maintainer: gold-watch.
+Last updated: 2026-09-10 (STAGE C: ROI stopped, argwhere loop is THE cost → EXP-0028 vectorize). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -88,6 +88,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0023/`: DONE (Stage A parallel) — full-video DS STOP: 44b6 raw −0.33, 6bba −0.035 (rescore-verified); window parity does NOT generalize. DS parked for quality; NO kernel upgrade.
 - `experiments/EXP-0024/`: DONE (Stage A parallel) — pct sweep on 3 dark samples: best rec 0.80/0.50/0.41; fixed percentiles DEAD (bright clutter owns tail; blind cells, not marginal). No wider grids.
 - `experiments/EXP-0025/`: DONE (Stage A parallel, read-only) — linking 0.2–0.5% of pipeline everywhere, scaling ~N^1.5 (build-dominated). Bottleneck = DETECTION, not linking.
+- `experiments/EXP-0026/`: DONE (Stage C parallel) — ROI-masked DoG STOP: rec 0.77/raw 0.41 vs 0.98/0.95, speedup 1.97× (bar 2×); union ROI covers 99% of dense frames; per-box percentiles diverge both ways. ROI pointless here.
+- `experiments/EXP-0027/`: DONE (Stage C parallel, read-only) — internals profile REJECTS gauss-dominance: per-component argwhere loop 58% dense / 85% sparse; label+bincount+pct ~7%/3%. Recommends vectorized centroids (−43%/−79% projected, quality-neutral).
 - Submit watch: refs 56143782/803/804 PENDING; plus team submission 56144839 (Lineage Forge, not ours — do not touch). Slots 2 left today; no resubmits.
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
@@ -101,7 +103,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next (STAGE C dispatched): EXP-0026 ROI-masked DoG + EXP-0027 detection-internals profile (H-005 paydown aimed at detection); first serious submit only after local gates + timing headroom.
+- Next (STAGE C done): EXP-0028 implement vectorized centroids (fidelity gate: identical nodes + window parity) — the recommended paydown with numbers; first serious submit only after local gates + timing headroom.
 
 ## Next loop steps (cold agent — copy/paste)
 
