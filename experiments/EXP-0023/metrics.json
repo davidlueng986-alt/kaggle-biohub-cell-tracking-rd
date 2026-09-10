@@ -1,0 +1,118 @@
+{
+  "exp_id": "EXP-0023",
+  "title": "Full-video DS both samples",
+  "hypothesis_id": "H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "rows": {
+    "44b6_0113de3b": {
+      "pct": 99.0,
+      "downsample": 2,
+      "recall_micro": 1.0,
+      "recall_macro": 1.0,
+      "det_per_frame": 122.87,
+      "n_det_total": 12287,
+      "edge_raw": 0.578125,
+      "edge_adj": 0.6083567511162881,
+      "div": 1.0,
+      "score": 0.708356751116288,
+      "ec": {
+        "TP": 37,
+        "FP": 14,
+        "FN": 13
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_pred": 12287,
+      "T_true": 25755,
+      "T_ratio": 0.47707241312366533,
+      "n_pred_edges": 10736,
+      "s_per_frame": 0.45,
+      "det_s_total_100f": 45.0,
+      "assign": "scipy"
+    },
+    "6bba_05b6850b": {
+      "pct": 98.5,
+      "downsample": 2,
+      "recall_micro": 0.8408826945412311,
+      "recall_macro": 0.8537705627705628,
+      "det_per_frame": 37.27,
+      "n_det_total": 3727,
+      "edge_raw": 0.7634902411021814,
+      "edge_adj": 0.795112321977759,
+      "div": 1.0,
+      "score": 0.895112321977759,
+      "ec": {
+        "TP": 665,
+        "FP": 26,
+        "FN": 180
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "T_pred": 3727,
+      "T_true": 6362,
+      "T_ratio": 0.5858220685319082,
+      "n_pred_edges": 3374,
+      "s_per_frame": 0.2253,
+      "det_s_total_100f": 22.5,
+      "assign": "pure"
+    }
+  },
+  "reference_recomputed": {
+    "44b6_0113de3b": {
+      "recall_micro": 1.0,
+      "recall_macro": 1.0,
+      "edge_raw": 0.9038461538461539,
+      "edge_adj": 0.938213715036662,
+      "div": 1.0,
+      "ec": {
+        "TP": 47,
+        "FP": 2,
+        "FN": 3
+      },
+      "T_pred": 15962,
+      "source": "EXP-0008/full_44b6_0113de3b_pred.json (re-scored)"
+    },
+    "6bba_05b6850b": {
+      "recall_micro": 0.8792102206736353,
+      "recall_macro": 0.8930891053391053,
+      "edge_raw": 0.7988571428571428,
+      "edge_adj": 0.8194375712938429,
+      "div": 1.0,
+      "ec": {
+        "TP": 699,
+        "FP": 30,
+        "FN": 146
+      },
+      "T_pred": 4723,
+      "source": "EXP-0009/full_6bba_05b6850b_pred.json (re-scored)"
+    }
+  },
+  "checks": {
+    "44b6_0113de3b_recall_within_0.01": true,
+    "44b6_0113de3b_raw_within_0.005": false,
+    "44b6_0113de3b_adj_ge_ref": false,
+    "6bba_05b6850b_recall_within_0.01": false,
+    "6bba_05b6850b_raw_within_0.005": false,
+    "6bba_05b6850b_adj_ge_ref": false
+  },
+  "verdict": "STOP",
+  "timing": {
+    "mean_s_per_frame": 0.33765,
+    "projected_s_per_video_100f": {
+      "44b6_0113de3b": 45.0,
+      "6bba_05b6850b": 22.5
+    }
+  },
+  "decision": "keep-trying",
+  "decision_reason": "STOP: DS fails a gate vs recomputed full-res refs; no kernel upgrade."
+}
