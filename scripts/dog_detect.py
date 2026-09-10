@@ -69,7 +69,14 @@ def _split_component(idx, dog, min_size, peak_footprint, prominence=0.0):
 
 def detect(vol, pct=99.5, min_size=50, max_size=50000,
            sig_small=SIG_SMALL, sig_large=SIG_LARGE,
-           split_size=None, peak_footprint=(5, 15, 15), prominence=0.0):
+           split_size=None, peak_footprint=(5, 15, 15), prominence=0.0,
+           thr_mode="percentile", k=12.0, downsample=1):
+    """thr_mode: 'percentile' (thr = pct-th percentile of DoG, per-frame) or
+    'mad' (thr = median + k*MAD — adapts to background spread, not tail mass;
+    EXP-0022: heavy bright tails push percentiles up and delete dim cells).
+    downsample: 2 = detect on 2x-downsampled y/x, map centroids back x2
+    (H-005 timing path; min_size scaled by area; EXP-0022 measures recall
+    parity + speedup)."""
     """split_size: components larger than this are peak-split (None=off).
     Peak-split: DoG local maxima (maximum_filter footprint) inside the
     component become seeds; voxels go to the nearest seed (cKDTree);
@@ -78,8 +85,20 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
     from scipy.ndimage import gaussian_filter, label, maximum_filter
     t0 = time.time()
     v = np.asarray(vol, dtype=np.float32)
+    ds_note = None
+    if downsample == 2:
+        from scipy.ndimage import zoom
+        v = zoom(v, (1.0, 0.5, 0.5), order=1)
+        min_size = max(8, min_size // 4)
+        max_size = max_size // 4
+        ds_note = "y/x half-res, sizes /4"
     dog = gaussian_filter(v, sig_small) - gaussian_filter(v, sig_large)
-    thr = float(np.percentile(dog, pct))
+    if thr_mode == "mad":
+        med = float(np.median(dog))
+        mad = float(np.median(np.abs(dog - med))) + 1e-9
+        thr = med + k * mad
+    else:
+        thr = float(np.percentile(dog, pct))
     bw = dog >= thr
     lab, n = label(bw)
     sizes = np.bincount(lab.ravel())
@@ -103,11 +122,15 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
     nodes = []
     for idx, is_split, parent in parts:
         z, y, x = idx.mean(axis=0)
+        if downsample == 2:
+            y, x = y * 2.0, x * 2.0  # map back to full-res coords (no refine v1)
         nodes.append((int(round(z)), int(round(y)), int(round(x)),
                       bool(is_split), int(parent)))
     nodes.sort()
     return nodes, {"pct": pct, "min_size": min_size, "max_size": max_size,
-                   "thr": thr, "n_components": int(n), "n_split": n_split,
+                   "thr": thr, "thr_mode": thr_mode, "k": k,
+                   "downsample": downsample,
+                   "n_components": int(n), "n_split": n_split,
                    "split_size": split_size, "prominence": prominence,
                    "elapsed_s": round(time.time() - t0, 2)}
 
@@ -119,6 +142,12 @@ def main(argv=None):
     ap.add_argument("--t", type=int, default=0)
     ap.add_argument("--pct", type=float, default=99.5)
     ap.add_argument("--min-size", type=int, default=50)
+    ap.add_argument("--thr-mode", default="percentile", choices=["percentile", "mad"],
+                    help="threshold rule (EXP-0022 MAD self-calibration)")
+    ap.add_argument("--k", type=float, default=12.0,
+                    help="MAD multiplier (thr_mode=mad)")
+    ap.add_argument("--downsample", type=int, default=1, choices=[1, 2],
+                    help="2 = half-res y/x detect, map back (H-005 timing)")
     ap.add_argument("--sigma-small", default="1.0,3.0,3.0",
                     help="DoG small sigma dz,dy,dx (EXP-0014 dim-cell scale)")
     ap.add_argument("--sigma-large", default="1.6,5.0,5.0",
@@ -136,7 +165,9 @@ def main(argv=None):
     assert len(ss) == len(sl) == 3, "--sigma-* must be dz,dy,dx"
     nodes, params = detect(vol, pct=a.pct, min_size=a.min_size,
                            sig_small=ss, sig_large=sl,
-                           split_size=a.split_size, prominence=a.prominence)
+                           split_size=a.split_size, prominence=a.prominence,
+                           thr_mode=a.thr_mode, k=a.k,
+                           downsample=a.downsample)
     out = {"nodes": [{"id": i + 1, "t": a.t, "z": z, "y": y, "x": x,
                       "split": sp, "parent": pa}
                      for i, (z, y, x, sp, pa) in enumerate(nodes)]}
