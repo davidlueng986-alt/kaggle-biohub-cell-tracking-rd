@@ -11,6 +11,7 @@
 > UPDATE: ref 56147475 COMPLETE publicScore **0.650** (diagnostic; +0.032 vs old-account 0.618). v1 refs still PENDING. Not gold-zone.
 > UPDATE ~19:50 UTC: probe `biohub-probe-gate7-image` v3 COMPLETE — gate-7 beats gate-10 on ALL FOUR visible
 > samples (0113de3b 0.6606→0.9382; +0.002/+0.006/+0.017 elsewhere; 109761 rows valid). submit_gold flipped to
+> UPDATE 2026-09-11 05:30 HKT: all gold DoG refs COMPLETE publicScore **0.650**. Same-account Lineage Forge ref 56144839 COMPLETE **0.946** (correct prior "not ours" mislabel). Next: gate-7 submit after slot reset (~00:00 UTC).
 > gate-7 (v7 COMPLETE 0.12 h) — recommended next submit post-reset. Hidden v6 rerun COMPLETED → 12 h fits (timeout fear falsified).
 
 Newest rows append at the bottom. `decision` ∈ {promote, keep-trying, reject}.
