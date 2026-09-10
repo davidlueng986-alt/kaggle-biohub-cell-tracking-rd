@@ -1,0 +1,95 @@
+{
+  "exp_id": "EXP-0018",
+  "title": "Gate-10 jitter replication",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "perturbation": {
+    "sigma_vox": 0.3,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "floor_micros": {
+    "44b6": 1.0932823079665783,
+    "6bba": 1.0705243740624102
+  },
+  "unperturbed_gate10": {
+    "fold0": 1.0997899890166187,
+    "fold1": 1.0884024471034524
+  },
+  "seeds": {
+    "0": {
+      "fold0": 1.0997899890166187,
+      "fold1": 1.0872814851545436,
+      "worst": 1.0872814851545436,
+      "base44": 1.0932823079665783,
+      "base6b": 1.0682863531778144,
+      "div": [
+        0,
+        0,
+        4
+      ],
+      "edge_fp": 1,
+      "ge_floor": true,
+      "ge_base": true
+    },
+    "1": {
+      "fold0": 1.0997899890166187,
+      "fold1": 1.0876560495035288,
+      "worst": 1.0876560495035288,
+      "base44": 1.0932823079665783,
+      "base6b": 1.067539054756587,
+      "div": [
+        0,
+        0,
+        4
+      ],
+      "edge_fp": 1,
+      "ge_floor": true,
+      "ge_base": true
+    },
+    "2": {
+      "fold0": 1.0997899890166187,
+      "fold1": 1.087656695012765,
+      "worst": 1.087656695012765,
+      "base44": 1.0932823079665783,
+      "base6b": 1.0686470378762836,
+      "div": [
+        0,
+        0,
+        4
+      ],
+      "edge_fp": 1,
+      "ge_floor": true,
+      "ge_base": true
+    }
+  },
+  "loo_same_set": {
+    "44b6_0113de3b": {
+      "below_floor": false
+    },
+    "44b6_0b24845f": {
+      "below_floor": false
+    },
+    "44b6_0c582fdc": {
+      "below_floor": false
+    },
+    "6bba_05b6850b": {
+      "below_floor": false
+    },
+    "6bba_05db0fb1": {
+      "below_floor": false
+    },
+    "6bba_062c8d37": {
+      "below_floor": false
+    }
+  },
+  "promote": true,
+  "decision": "promote",
+  "decision_reason": "Gate-10 PROMOTED to new best (worst-fold 1.0884): replication passed all seeds + LOO; r10 stays ensemble-candidate; standing image policy unchanged. Gate-1 bar applied as pre-registered."
+}
