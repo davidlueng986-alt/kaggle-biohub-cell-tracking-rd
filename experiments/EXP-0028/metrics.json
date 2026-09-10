@@ -1,0 +1,32 @@
+{
+  "exp_id": "EXP-0028",
+  "title": "Vectorized centroids",
+  "hypothesis_id": "H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "mismatched_frames": 0,
+  "window_edge": {
+    "raw": 0.9533333333333334,
+    "ec": {
+      "TP": 143,
+      "FP": 2,
+      "FN": 5
+    }
+  },
+  "timing": {
+    "old_s": 36.6,
+    "new_s": 19.0,
+    "speedup": 1.93
+  },
+  "checks": {
+    "fidelity_30frames": true,
+    "edge_parity": true
+  },
+  "all_checks_pass": true,
+  "adopted": true,
+  "decision": "keep-trying",
+  "decision_reason": "Vectorized centroids ADOPTED (fidelity exact, 1.9x). Infra rung: no metric movement by design."
+}

@@ -76,11 +76,13 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
     EXP-0022: heavy bright tails push percentiles up and delete dim cells).
     downsample: 2 = detect on 2x-downsampled y/x, map centroids back x2
     (H-005 timing path; min_size scaled by area; EXP-0022 measures recall
-    parity + speedup)."""
-    """split_size: components larger than this are peak-split (None=off).
+    parity + speedup).
+    split_size: components larger than this are peak-split (None=off).
     Peak-split: DoG local maxima (maximum_filter footprint) inside the
     component become seeds; voxels go to the nearest seed (cKDTree);
-    parts < min_size merge into the nearest kept part (no voxel loss)."""
+    parts < min_size merge into the nearest kept part (no voxel loss).
+    Centroids use a vectorized single pass (EXP-0028) unless splitting is on.
+    """
     import numpy as np
     from scipy.ndimage import gaussian_filter, label, maximum_filter
     t0 = time.time()
@@ -104,24 +106,40 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
     sizes = np.bincount(lab.ravel())
     parts = []  # list of (voxel-index array, split_flag, parent_comp)
     n_split = 0
-    for i in range(1, n + 1):
-        s = int(sizes[i])
-        if not (min_size <= s <= max_size):
-            continue  # too small: noise; too big w/o split: dropped as before
-        idx = np.argwhere(lab == i)
-        done = False
-        if split_size is not None and s > split_size:
-            got = _split_component(idx, dog, min_size, peak_footprint,
-                                   prominence)
-            if got is not None:
-                parts.extend([(g, True, i) for g in got])
-                n_split += 1
-                done = True
-        if not done:
-            parts.append((idx, False, i))
+    if split_size is None:
+        # vectorized centroids (EXP-0028): one C pass over kept components.
+        # Identical math to per-component argwhere means (uniform weights).
+        from scipy.ndimage import center_of_mass
+        keep = [i for i in range(1, n + 1)
+                if min_size <= int(sizes[i]) <= max_size]
+        if keep:
+            cents = center_of_mass(bw, lab, keep)
+            if len(keep) == 1:
+                cents = [cents]
+            for i, (z, y, x) in zip(keep, cents):
+                parts.append((None, False, i, (float(z), float(y), float(x))))
+    else:
+        for i in range(1, n + 1):
+            s = int(sizes[i])
+            if not (min_size <= s <= max_size):
+                continue  # too small: noise; too big w/o split: dropped as before
+            idx = np.argwhere(lab == i)
+            done = False
+            if s > split_size:
+                got = _split_component(idx, dog, min_size, peak_footprint,
+                                       prominence)
+                if got is not None:
+                    parts.extend([(g, True, i, None) for g in got])
+                    n_split += 1
+                    done = True
+            if not done:
+                parts.append((idx, False, i, None))
     nodes = []
-    for idx, is_split, parent in parts:
-        z, y, x = idx.mean(axis=0)
+    for idx, is_split, parent, pre in parts:
+        if pre is not None:
+            z, y, x = pre
+        else:
+            z, y, x = idx.mean(axis=0)
         if downsample == 2:
             y, x = y * 2.0, x * 2.0  # map back to full-res coords (no refine v1)
         nodes.append((int(round(z)), int(round(y)), int(round(x)),
