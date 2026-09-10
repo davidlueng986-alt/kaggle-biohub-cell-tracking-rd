@@ -70,7 +70,9 @@ def _split_component(idx, dog, min_size, peak_footprint, prominence=0.0):
 def detect(vol, pct=99.5, min_size=50, max_size=50000,
            sig_small=SIG_SMALL, sig_large=SIG_LARGE,
            split_size=None, peak_footprint=(5, 15, 15), prominence=0.0,
-           thr_mode="percentile", k=12.0, downsample=1):
+           thr_mode="percentile", k=12.0, downsample=1, truncate=4.0):
+    """truncate: gaussian_filter kernel radius in sigmas (EXP-0029; 4.0 =
+    scipy default; 2.0 ~1.5x faster filtering, fidelity-gated)."""
     """thr_mode: 'percentile' (thr = pct-th percentile of DoG, per-frame) or
     'mad' (thr = median + k*MAD — adapts to background spread, not tail mass;
     EXP-0022: heavy bright tails push percentiles up and delete dim cells).
@@ -94,7 +96,8 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
         min_size = max(8, min_size // 4)
         max_size = max_size // 4
         ds_note = "y/x half-res, sizes /4"
-    dog = gaussian_filter(v, sig_small) - gaussian_filter(v, sig_large)
+    dog = (gaussian_filter(v, sig_small, truncate=truncate)
+           - gaussian_filter(v, sig_large, truncate=truncate))
     if thr_mode == "mad":
         med = float(np.median(dog))
         mad = float(np.median(np.abs(dog - med))) + 1e-9
@@ -166,6 +169,8 @@ def main(argv=None):
                     help="MAD multiplier (thr_mode=mad)")
     ap.add_argument("--downsample", type=int, default=1, choices=[1, 2],
                     help="2 = half-res y/x detect, map back (H-005 timing)")
+    ap.add_argument("--truncate", type=float, default=4.0,
+                    help="gaussian kernel radius in sigmas (EXP-0029)")
     ap.add_argument("--sigma-small", default="1.0,3.0,3.0",
                     help="DoG small sigma dz,dy,dx (EXP-0014 dim-cell scale)")
     ap.add_argument("--sigma-large", default="1.6,5.0,5.0",
@@ -185,7 +190,7 @@ def main(argv=None):
                            sig_small=ss, sig_large=sl,
                            split_size=a.split_size, prominence=a.prominence,
                            thr_mode=a.thr_mode, k=a.k,
-                           downsample=a.downsample)
+                           downsample=a.downsample, truncate=a.truncate)
     out = {"nodes": [{"id": i + 1, "t": a.t, "z": z, "y": y, "x": x,
                       "split": sp, "parent": pa}
                      for i, (z, y, x, sp, pa) in enumerate(nodes)]}

@@ -1,0 +1,28 @@
+{
+  "exp_id": "EXP-0029",
+  "title": "Truncated gaussians + kernel upgrade prep",
+  "hypothesis_id": "H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "mismatched_frames": 20,
+  "edge": {
+    "raw": 0.9144736842105263,
+    "ec": {
+      "TP": 139,
+      "FP": 4,
+      "FN": 9
+    }
+  },
+  "timing": {
+    "old_s": 16.9,
+    "new_s": 11.1,
+    "speedup": 1.53
+  },
+  "truncate_adopted_as_option": false,
+  "decision": "keep-trying",
+  "decision_reason": "Truncate-2.0 REJECTED (artifacts matter) \u2014 stay at 4.0. Kernel upgrade next with adopted opts.",
+  "recall": 0.9701
+}

@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-10 (GOLD: EXP-0028 adopts vectorized centroids; LB still pending). Maintainer: gold-watch.
+Last updated: 2026-09-10 (GOLD: EXP-0029 kernel v6 3.3× submitted, slots 0). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -67,7 +67,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0004/`: DONE 2026-09-09 — fork-proposing variant (H-002+H-003, `scripts/fork_link.py --propose-um 15.0`): fold0 44b6 unchanged (+0.0000), fold1 6bba micro −0.0025, div sums 0/0/4→3/10/1. Sub-gate REJECT for promotion (edge regression on fold1; single-seed cap anyway). Signal kept: 3/4 GT divisions geometrically recoverable → EXP-0005 tighter gating.
 - `experiments/EXP-0005/`: DONE 2026-09-09 — radius ablation {9,10,11,12}+isolation: r9 +0.0004 div 1/0/3; **r10 SELECTED** (+0.0011 fold1, div 3/0/1, FP=0, plateau r10==r11); r12 +0.0008 div 3/1/1; r15+iso −0.0011 div 4/7/0. fold0 identical grid-wide. Sub-gate numeric PASS; keep-trying (no fold0 win possible + single-run ceiling). r10 = ensemble-candidate.
 - Submit path (GOLD §5, skeleton): `scripts/graphs_to_csv.py` (writer + `--check`; demo 4 subset preds → valid 4294-row CSV) + `notebooks/submission_skeleton.ipynb` (5 cells compile; demo wiring 15 nodes→12 edges OK) + `notebooks/README.md`. DRAFT — no submit yet; detector+weights TODO.
-- `knowledge/`: this file + HYPOTHESES.md (H-001/H-002/H-004/H-005 active; H-003 classical parked, learned-features residual) + RESULTS.md (EXP-0000…0028 rows).
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-002/H-004/H-005 active; H-003 classical parked, learned-features residual) + RESULTS.md (EXP-0000…0029 rows).
 - `experiments/EXP-0006/`: DONE 2026-09-09 — r10 replication (H-002+H-003, `scripts/perturb_graph.py` σ=0.3vox × seeds {0,1,2} + noise-matched base arm + corrected same-set LOO): literal-identical FAIL (seed0 div 2/0/2; ±0.005 wobble is base-linker's, shared by both arms); refined PASS (variant≥base 18/18, FP=0 all seeds, LOO 6/6). r10 KEEPS ensemble-candidate; boundary-pair fragility → H-003 appearance case.
 - `experiments/EXP-0007/`: DONE 2026-09-09 — DoG detection probe (H-002, `scripts/dog_detect.py`, CPU ~1s/frame): pct99 recall 1.00 both samples; 6bba mini-graph edge_raw 0.8462 (first meaningful image-based number); over video budget unoptimized (H-005 flag).
 - `experiments/EXP-0008/`: DONE 2026-09-09 — full-frame sweep (H-002+H-005): 44b6 recall 1.000 edge_raw 0.9038 (strong); 6bba recall 0.835 (FALSIFIED <0.90 → pct99 dead for dense tissue; fix = level @98.5, threshold already per-frame). Curve monotone. Timing 2.05/0.84 s/frame (H-005 debt quantified). Infra: scipy fast path (floor bit-identical).
@@ -91,6 +91,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0026/`: DONE (Stage C parallel) — ROI-masked DoG STOP: rec 0.77/raw 0.41 vs 0.98/0.95, speedup 1.97× (bar 2×); union ROI covers 99% of dense frames; per-box percentiles diverge both ways. ROI pointless here.
 - `experiments/EXP-0027/`: DONE (Stage C parallel, read-only) — internals profile REJECTS gauss-dominance: per-component argwhere loop 58% dense / 85% sparse; label+bincount+pct ~7%/3%. Recommends vectorized centroids (−43%/−79% projected, quality-neutral).
 - `experiments/EXP-0028/`: DONE — vectorized centroids ADOPTED (H-005): 0/30 fidelity mismatches, edge parity exact, 1.93× overall (below projections, honestly recorded; split path keeps legacy loop, verified). Detection ~64 s + ~70 s/video; hidden projection improved but tight.
+- `experiments/EXP-0029/`: DONE — truncate gate + kernel v6 (H-005): truncate=2.0 REJECTED (20/20 frames differ, rec 0.970, raw 0.9145 — single-frame probes don't transfer; default stays 4.0). Notebook vectorized port verified identical locally; v6 COMPLETE 0.11 h vs 0.36 h (3.3×, same rows) → submitted v6 ref 56147475 (rule held; slots now 0). Hidden projection ~5.5 h.
 - Submit watch: refs 56143782/803/804 PENDING; plus team submission 56144839 (Lineage Forge, not ours — do not touch). Slots 2 left today; no resubmits.
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
@@ -104,7 +105,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: EXP-0029 kernel upgrade (vectorized detector) and/or truncated gaussians (H-005); LB diagnostic on arrival may reorder priorities; 2 submit slots left.
+- Next: read LB diagnostic on arrival (transfer verdict is top unknown); else EXP-0030 learned-detector scoping (GPU). Slots 0 today — no submits.
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -116,10 +117,10 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0028 done — read them, don't recreate):
+# Loop (EXP-0001…0029 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# Next experiment (EXP-0029 kernel upgrade, H-005):
-bash scripts/new_experiment.sh EXP-0029 "<title>"
+# New experiment (EXP-0030 learned-detector scoping, H-002/GPU):
+bash scripts/new_experiment.sh EXP-0030 "<title>"
 ```

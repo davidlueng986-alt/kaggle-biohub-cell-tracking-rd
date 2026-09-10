@@ -6,6 +6,8 @@
 > Stack: per-embryo DoG + gate-10, no forks. Submitted: refs 56143782 (PM, primary) + 56143803/56143804
 > (agent duplicates — slot incident, 2 left today). publicScore: _pending_ (hidden rerun queued).
 > Old account best 0.618 (prior work). Timing projects ~18 h vs 12 h cap — timeout risk primary.
+> UPDATE 15:41 UTC: v6 (vectorized) COMPLETE 0.11 h (3.3×, same 112599 rows) → submitted ref 56147475
+> (rule held: materially faster + slots ≥1). Slots now 0. Hidden projection ~5.5 h. Awaiting first publicScore.
 
 Newest rows append at the bottom. `decision` ∈ {promote, keep-trying, reject}.
 Schema: `exp_id | hypothesis | config / seed | embryo-CV (edge / div / score) | LB (diag) | decision | notes`.
@@ -42,3 +44,4 @@ Every row must link hypothesis → result → decision (no bare scores).
 | EXP-0026 | H-005 | ROI-masked DoG vs full, window (Stage C parallel) | ROI rec 0.77 vs 0.98, raw 0.41 vs 0.95; speedup 1.97× (misses 2× bar); union ROI covers 99% frame; per-box pct diverges both ways | — | keep-trying | STOP: ROI pointless on dense tissue; per-box thresholds diverge. Independent confirm: argwhere 56% is the cost. |
 | EXP-0027 | H-005 | detection-internals profile, 10 frames (Stage C parallel, read-only) | moments/argwhere loop 58% dense / 85% sparse; gauss combined 33%/12%; label+bincount+pct ~7%/3% | — | keep-trying | Hypothesis (gauss dominates) REJECTED. Recommends vectorized centroids (−43%/−79%, quality-neutral). Next: EXP-0028 implement. |
 | EXP-0028 | H-005 | vectorized centroids (center_of_mass), 30-frame fidelity gate | 0/30 mismatches; edge parity 143/2/5 exact; 1.93× overall (6bba ~1.3×, 44b6 ~3×; below projections, honestly recorded) | — | keep-trying | ADOPTED (strictly better, zero quality change). LB still PENDING all refs. Next: EXP-0029 kernel upgrade / truncated gaussians. |
+| EXP-0029 | H-005 | truncate gate (20f) + kernel v6 vectorized | T2: 20/20 frames differ, rec 0.970, raw 0.9145 → REJECT; kernel v6 COMPLETE 0.11 h vs 0.36 h (3.3×), same 112599 rows; submitted v6 ref 56147475 (slots 0) | — | keep-trying | Truncate dead; vectorized everywhere. Hidden projection ~5.5 h (inside 12 h). Next: LB diagnostic / learned-detector scoping. |
