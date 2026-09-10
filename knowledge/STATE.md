@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-10 (GPU path: P100 pool diagnosed, CPU-full training RUNNING v7). Maintainer: gold-watch.
+Last updated: 2026-09-11 04:39 HKT (gold-watch). LB diagnostic 0.650 on v6; UNet train still RUNNING; EXP-0035 planned awaiting unet_best.pt. Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -44,7 +44,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - ➕ Agent duplicate submits 12:06 UTC: refs `56143803` + `56143804` (same v5; CLI success output showed only remaining-count, so a verify re-run double-submitted — SLOT INCIDENT, agent error: 5→2 remaining today. Rule: check `submissions` list BEFORE any resubmit; remaining-count output = success, stop). All three PENDING; PM's 56143782 is the primary watch ref.
 - CPU kernel v5 log: visible 4 videos, valid 112,599-row CSV, **0.36 h total (~324 s/video)** — worse than v4's 0.29 h; hidden projection ~18 h vs 12 h cap → TIMEOUT RISK now primary (H-005 paydown urgent regardless of score).
 - ⚠️ RISKS for hidden rerun: (a) timing — 261 s/video projects ~14.4 h over ~199 videos vs 12 h cap (H-005 must pay down if the run times out); (b) transfer — EXP-0021 found per-embryo levels fail on 3/4 new samples (fallback @98.5 on unseen embryos is suspect; LB diagnostic arbitrates); (c) gate-10 on image graphs was −0.006 on one dense sample (EXP-0017 arm2).
-- publicScore: _pending website submit_ (old account best 0.618 from prior work, not ours).
+- publicScore: **0.650** COMPLETE on ref `56147475` (Gold v2 vectorized, diagnostic LB; 2026-09-10). Old account prior best 0.618. v1 refs `56143782`/`803`/`804` still PENDING. Not gold-zone yet.
 
 ## GPU training watch (Stage A parallel output, 2026-09-10)
 
@@ -106,7 +106,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43; 10-node window vs 51-node truth), others hold. Window selection invalid on small windows; no EXP-0035 policy.
-- Submit watch: refs 56143782/803/804 + v6 56147475 PENDING; team 56144839 (not ours). Slots 0 today — no submits.
+- Submit watch: v6 ref `56147475` COMPLETE publicScore **0.650**; v1 refs 56143782/803/804 still PENDING; team 56144839 PENDING (not ours). Slots 0 on 2026-09-10 UTC — no further submits that day.
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
 

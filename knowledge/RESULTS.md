@@ -7,7 +7,8 @@
 > (agent duplicates — slot incident, 2 left today). publicScore: _pending_ (hidden rerun queued).
 > Old account best 0.618 (prior work). Timing projects ~18 h vs 12 h cap — timeout risk primary.
 > UPDATE 15:41 UTC: v6 (vectorized) COMPLETE 0.11 h (3.3×, same 112599 rows) → submitted ref 56147475
-> (rule held: materially faster + slots ≥1). Slots now 0. Hidden projection ~5.5 h. Awaiting first publicScore.
+> (rule held: materially faster + slots ≥1). Slots now 0. Hidden projection ~5.5 h.
+> UPDATE: ref 56147475 COMPLETE publicScore **0.650** (diagnostic; +0.032 vs old-account 0.618). v1 refs still PENDING. Not gold-zone.
 
 Newest rows append at the bottom. `decision` ∈ {promote, keep-trying, reject}.
 Schema: `exp_id | hypothesis | config / seed | embryo-CV (edge / div / score) | LB (diag) | decision | notes`.
@@ -50,3 +51,6 @@ Every row must link hypothesis → result → decision (no bare scores).
 | EXP-0032 | H-002/GPU | training patch export, all 6 (Stage A parallel, enabling) | 6388 patches 50/50, 471 MB, Welch t=11.9 p=2.4e-32, determinism md5-match; 44b6-neg 94% easy-bg, 6bba dominates 17:1 | — | keep-trying | GPU path data-ready; train_design.md written (embryo-CV, T discipline, forks OFF). Caveats logged. |
 | EXP-0033 | H-002 | calibration-statistic mapping, 6 samples (Stage C parallel, analysis) | best stat rho +0.68 < 0.8 bar (p=0.14); LOO 5/6 within-notch; 98.5 spans both regimes → non-monotone | — | keep-trying | STOP: no GT-free scalar predicts level. Per-video calibration needs GT or learned estimator. |
 | EXP-0034 | H-002 | per-sample-best full-video transfer, 3 dark samples (Stage C parallel) | 0b24845f BREAKS (win 0.80→full 0.43, edge −0.32); 0c582fdc/05db0fb1 HOLD; overall STOP 2/3 | — | keep-trying | Window selection invalid on small windows (10-node win vs 51-node truth). No EXP-0035 policy. |
+| EXP-0036 | H-005 | notebook-repo drift audit | detect_equal 6/6, link_equal 2/2 | — | keep-trying | IN-SYNC; accepted deltas: gate-10 override, no max_size, no-forks opts, validator int-coord gap. |
+| EXP-0037 | H-005 | submit-output rescore (frozen graphs) | 44b6_0113 0.661 / 0b24845f 0.102 / 6bba_05b6850b 0.813 / 05db0fb1 0.192 (adj) | — | keep-trying | Table reproduced; gate-10-vs-7 churn sole deviation; dark samples still weak. |
+| EXP-0035 | H-002/GPU | learned-detector eval (planned) | — (awaits unet_best.pt) | — | keep-trying | Blocked on biohub-unet-train-v1 COMPLETE. |
