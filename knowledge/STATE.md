@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-09 (PM GOLD: EXP-0020 denies combo promotion, best holds). Maintainer: gold-watch.
+Last updated: 2026-09-10 (PM OVERRIDE: first kernel pushed, output valid, website submit click pending). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -33,6 +33,16 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `requirements.txt`: `numpy>=2.0` only (no torch/scipy; GPU/Kaggle-notebook extras commented). No installs run by repo-hardener.
 - `scripts/` contains: `score.py`, `run_loop.sh`, `new_experiment.sh` (no `run_loop.py` — correct any such reference to `.sh`).
 - CI: `.github/workflows/smoke.yml` runs scorer dry-run + `run_loop.sh --dry-run` + guarded `test_score.py` (skips if absent) + JSON validation.
+
+## Submit log (PM override 2026-09-10: LB as diagnostic, first serious attempt)
+
+- Kernel: https://www.kaggle.com/code/liangwanyiudavid/biohub-gold-v1-dog-per-embryo-gate-10 (v4 COMPLETE on visible data).
+- Stack: per-embryo DoG (44b6→99.0, 6bba→98.5, unknown→98.5) + gate-10 links, NO forks (safety; r10 unpromoted). Offline: numpy/scipy (preinstalled) + zarr/numcodecs via `biohub-zarr-wheels` dataset (`vendor/wheels/README.md` recipe; `*.whl` git-ignored).
+- Visible output: 112,599 rows / 4 datasets, kernel-side validation passed (consecutive ids, refs resolve, full coverage); local re-check sane. Total 0.29h (~261 s/video on Kaggle CPU).
+- Debug trail: v1 zarr-missing (fail-fast worked) → wheels dataset; v3 wrong mount path → discovery prefers `test/`; v4 green.
+- ⏳ PENDING (no CLI path — needs 1 website click): open kernel → **Submit to Competition** (hidden rerun) → publicScore recorded here as DIAGNOSTIC only. Slots: 5 remaining today.
+- ⚠️ RISKS for hidden rerun: (a) timing — 261 s/video projects ~14.4 h over ~199 videos vs 12 h cap (H-005 must pay down if the run times out); (b) transfer — EXP-0021 found per-embryo levels fail on 3/4 new samples (fallback @98.5 on unseen embryos is suspect; LB diagnostic arbitrates); (c) gate-10 on image graphs was −0.006 on one dense sample (EXP-0017 arm2).
+- publicScore: _pending website submit_ (old account best 0.618 from prior work, not ours).
 
 ## Auth status (verification commands — re-run, do not assume)
 

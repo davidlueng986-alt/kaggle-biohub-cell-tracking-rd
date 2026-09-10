@@ -1,5 +1,12 @@
 # RESULTS ledger
 
+> SUBMIT LOG (PM override 2026-09-10, LB diagnostic only): kernel
+> [biohub-gold-v1-dog-per-embryo-gate-10](https://www.kaggle.com/code/liangwanyiudavid/biohub-gold-v1-dog-per-embryo-gate-10)
+> v4 COMPLETE on visible data → valid 112,599-row submission.csv (4 datasets, refs resolve; 0.29 h total).
+> Stack: per-embryo DoG + gate-10, no forks. publicScore: _pending_ (needs 1 website click:
+> kernel page → Submit to Competition → hidden rerun; 5 slots left today). Old account best 0.618 (prior work).
+> Risks: hidden timing projects ~14.4 h vs 12 h cap; EXP-0021 transfer failure on fallback levels; gate-10 image caveat.
+
 Newest rows append at the bottom. `decision` ∈ {promote, keep-trying, reject}.
 Schema: `exp_id | hypothesis | config / seed | embryo-CV (edge / div / score) | LB (diag) | decision | notes`.
 Every row must link hypothesis → result → decision (no bare scores).

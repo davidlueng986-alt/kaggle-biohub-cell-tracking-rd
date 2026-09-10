@@ -1,0 +1,15 @@
+{
+ "id": "liangwanyiudavid/biohub-gold-v1-dog-per-embryo-gate-10",
+ "title": "Biohub Gold v1 (DoG per-embryo + gate-10)",
+ "code_file": "submit_gold.ipynb",
+ "language": "python",
+ "kernel_type": "notebook",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": false,
+ "dataset_sources": ["liangwanyiudavid/biohub-zarr-wheels"],
+ "competition_sources": ["biohub-cell-tracking-during-development"],
+ "kernel_sources": [],
+ "model_sources": []
+}

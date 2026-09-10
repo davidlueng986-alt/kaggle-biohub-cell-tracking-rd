@@ -27,6 +27,7 @@ kaggle.json
 # Large / local artifacts
 *.zip
 *.tar.gz
+*.whl
 wandb/
 mlruns/
 lightning_logs/
