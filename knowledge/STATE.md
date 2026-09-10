@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-10 (STAGE C: calibration unmappable, window selection invalid; LB pending). Maintainer: gold-watch.
+Last updated: 2026-09-10 (GPU path: P100 pool diagnosed, CPU-full training RUNNING v7). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -45,6 +45,14 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - CPU kernel v5 log: visible 4 videos, valid 112,599-row CSV, **0.36 h total (~324 s/video)** — worse than v4's 0.29 h; hidden projection ~18 h vs 12 h cap → TIMEOUT RISK now primary (H-005 paydown urgent regardless of score).
 - ⚠️ RISKS for hidden rerun: (a) timing — 261 s/video projects ~14.4 h over ~199 videos vs 12 h cap (H-005 must pay down if the run times out); (b) transfer — EXP-0021 found per-embryo levels fail on 3/4 new samples (fallback @98.5 on unseen embryos is suspect; LB diagnostic arbitrates); (c) gate-10 on image graphs was −0.006 on one dense sample (EXP-0017 arm2).
 - publicScore: _pending website submit_ (old account best 0.618 from prior work, not ours).
+
+## GPU training watch (Stage A parallel output, 2026-09-10)
+
+- Dataset: `liangwanyiudavid/biohub-train-patches` READY (450 MB: 44b6/6040-row 6bba patches.npy + MANIFEST.csv; md5-verified). Recipe: EXP-0032.
+- Script: `notebooks/train_unet/train.py` (1.36M-param 3D-UNet heatmap, torch/numpy/stdlib only, CPU-smoked locally, embryo-balanced batches + HNM, ckpts per improvement) + kernel-metadata (GPU on, internet off).
+- Kernel: https://www.kaggle.com/code/liangwanyiudavid/biohub-unet-train-v1 — v1/v3 mount-path fail (fixed with layout-robust search) → v4/v5/v6 diagnosed the pool: **Tesla P100 sm_60 ×3 tickets; torch 2.10+cu128 ships no sm_60 kernels** (fail-fast added, then retired).
+- v7 RUNNING: CPU FULL training (measured 1.68 s/iter VM-class → ~3.5 h/20ep; Kaggle CPU similar; inside 12 h cap; per-improvement ckpts retrievable even on timeout). Decision: lottery retired (P100-heavy pool), CPU is the primary path.
+- Next: fetch `unet_best.pt` on COMPLETE → EXP-0035 learned-detector evaluation (recall vs GT + edge with trusted scorer v1.1).
 
 ## Auth status (verification commands — re-run, do not assume)
 
@@ -110,7 +118,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: CPU ladder converged (all classical branches parked with verdicts) — await LB diagnostic to reorder, else GPU learned path (data-ready per EXP-0032) or PM redirect. Slots 0 — no submits.
+- Next: EXP-0035 when unet_best.pt lands (H-002/GPU eval); LB diagnostic on arrival may reorder; CPU ladder converged — no new CPU rung without PM direction. Slots 0 — no submits.
 
 ## Next loop steps (cold agent — copy/paste)
 

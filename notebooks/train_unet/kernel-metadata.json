@@ -1,0 +1,1 @@
+{"code_file": "train.py", "competition_sources": ["biohub-cell-tracking-during-development"], "dataset_sources": ["liangwanyiudavid/biohub-train-patches"], "enable_gpu": true, "enable_internet": false, "id": "liangwanyiudavid/biohub-unet-train-v1", "is_private": true, "kernel_type": "script", "language": "python", "title": "biohub-unet-train-v1"}
