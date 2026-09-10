@@ -58,8 +58,18 @@ def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)  # audit FLAG#5 fix
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+
+
+def dice_loss(prob, tgt_bin, eps=1e-6):
+    """Soft Dice on binarised target (audit FLAG#6: design Opt-A term)."""
+    prob = prob.contiguous().view(prob.shape[0], -1)
+    tgt_bin = tgt_bin.contiguous().view(tgt_bin.shape[0], -1)
+    inter = (prob * tgt_bin).sum(1)
+    return (1.0 - (2.0 * inter + eps) / (prob.sum(1) + tgt_bin.sum(1) + eps)).mean()
 
 
 def find_data_dir():
@@ -255,21 +265,26 @@ def validate(model, loader, device):
 
 
 def refresh_hard_negatives(model, ds, sampler, device):
-    """Score train negatives, boost top-k peak responses (online HNM hook)."""
+    """Score train negatives, boost top-k peak responses (online HNM hook).
+
+    Fixed (audit FLAG#1): scores sized to the FULL dataset and indexed by
+    neg_id — the old neg-sized buffer overran past batch ~47. Fatal crash.
+    """
     model.eval()
-    scores = np.zeros(len(ds.neg_id), dtype=np.float32)
+    scores = np.zeros(len(ds), dtype=np.float32)
     dl = DataLoader(ds, batch_size=64, shuffle=False, num_workers=0)
     with torch.no_grad():
         for k, (img, _, _) in enumerate(dl):
             prob = torch.sigmoid(model(img.to(device))).flatten(1).amax(1)
-            scores[k * 64:(k + 1) * 64] = prob.cpu().numpy()[:len(prob)]
-    neg_scores = np.array([scores[np.where(ds.neg_id == j)[0][0]]
-                           if j in set(ds.neg_id) else 0.0 for j in range(len(ds))])
-    hard = set(np.argsort(neg_scores)[-CONFIG["mine_topk"]:])
+            v = prob.cpu().numpy()
+            scores[k * 64:k * 64 + len(v)] = v
+    neg_scores = scores[np.asarray(ds.neg_id)]
+    hard = set(np.argsort(neg_scores)[-CONFIG["mine_topk"]:].tolist())
     w = np.where(ds.is_bright[ds.neg_id], CONFIG["bright_upsample"], 1.0)
-    w[[i for i, j in enumerate(ds.neg_id) if j in hard]] *= CONFIG["mine_boost"]
+    # hard holds POSITIONS within the neg array (not dataset ids)
+    w[[i for i in range(len(ds.neg_id)) if i in hard]] *= CONFIG["mine_boost"]
     sampler.set_neg_weights(w)
-    return int((w > CONFIG["bright_upsample"]).sum())
+    return len(hard)  # all top-k got boosted (bright 4x->16x, plain 1x->4x)
 
 
 def train(args):
@@ -308,7 +323,7 @@ def train(args):
     print(f"val {CONFIG['val_split']}: N={len(va)} pos={len(va.pos_id)}", flush=True)
     bs = args.batch_size or CONFIG["batch_size"]
     sampler = BalancedBatches(tr, bs, CONFIG["pos_frac"], CONFIG["bright_upsample"],
-                              CONFIG["seed"], len(tr) // bs)
+                              CONFIG["seed"] + args.seed_offset, len(tr) // bs)
     tloader = DataLoader(tr, batch_sampler=sampler, num_workers=0)
     vloader = DataLoader(va, batch_size=64, shuffle=False, num_workers=0)
     model = UNet(CONFIG["base_ch"]).to(device)
@@ -323,8 +338,11 @@ def train(args):
         tot, nb = 0.0, 0
         for img, tgt, _ in tloader:
             opt.zero_grad()
-            loss = nn.functional.mse_loss(torch.sigmoid(model(img.to(device))),
-                                          tgt.to(device))
+            out = torch.sigmoid(model(img.to(device)))
+            tgt_d = tgt.to(device)
+            # audit FLAG#6: design Opt-A loss = MSE + Dice-on-binarised-mask
+            loss = (nn.functional.mse_loss(out, tgt_d)
+                    + dice_loss(out, (tgt_d > 0.5).float()))
             loss.backward()
             opt.step()
             tot += loss.item()
@@ -335,10 +353,18 @@ def train(args):
               f"cnt={m['count_ratio']:.2f}", flush=True)
         torch.save({"model": model.state_dict(), "cfg": CONFIG, "ep": ep},
                    odir / "unet_last.pt")
-        if m["recall"] > best:
+        # audit FLAG#3: select on recall SUBJECT to count discipline
+        # (0.7<=cnt<=1.0 + documented FPR watch) — dense-output winners risk
+        # the a=0.1 T_pred penalty (COMPETITION.md pitfall 3).
+        gated = (0.7 <= m["count_ratio"] <= 1.0)
+        if m["recall"] > best and gated:
             best, best_ep = m["recall"], ep
             torch.save({"model": model.state_dict(), "cfg": CONFIG, "ep": ep},
                        odir / "unet_best.pt")
+        elif m["recall"] > best:
+            print(f"  [gate] recall {m['recall']:.3f} best-so-far but cnt "
+                  f"{m['count_ratio']:.2f} outside [0.7,1.0] — not saved as best",
+                  flush=True)
         if CONFIG["mine_every"] and (ep + 1) % CONFIG["mine_every"] == 0 and not args.no_mine:
             nh = refresh_hard_negatives(model, tr, sampler, device)
             print(f"  [hnm] boosted {nh} hard negatives", flush=True)

@@ -52,6 +52,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Script: `notebooks/train_unet/train.py` (1.36M-param 3D-UNet heatmap, torch/numpy/stdlib only, CPU-smoked locally, embryo-balanced batches + HNM, ckpts per improvement) + kernel-metadata (GPU on, internet off).
 - Kernel: https://www.kaggle.com/code/liangwanyiudavid/biohub-unet-train-v1 — v1/v3 mount-path fail (fixed with layout-robust search) → v4/v5/v6 diagnosed the pool: **Tesla P100 sm_60 ×3 tickets; torch 2.10+cu128 ships no sm_60 kernels** (fail-fast added, then retired).
 - v7 RUNNING: CPU FULL training (measured 1.68 s/iter VM-class → ~3.5 h/20ep; Kaggle CPU similar; inside 12 h cap; per-improvement ckpts retrievable even on timeout). Decision: lottery retired (P100-heavy pool), CPU is the primary path.
+- Audit (Stage A parallel, read-only) caught 3 REAL flags pre-completion: (1) HNM slice-overrun crash at ep-1 refresh (verified by reading; FATAL); (2) recall-only ckpt selection ignoring count discipline; (3) MSE-only loss vs design Dice term; plus determinism gaps (cuda seed, sampler offset) and a position/index confusion in HNM boost (second bug, same function). All fixed + locally validated (dice range, HNM unit past old crash class, full --smoke PASS) → pushed v8, RUNNING past old crash point.
 - Next: fetch `unet_best.pt` on COMPLETE → EXP-0035 learned-detector evaluation (recall vs GT + edge with trusted scorer v1.1).
 
 ## Auth status (verification commands — re-run, do not assume)
