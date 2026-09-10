@@ -1,0 +1,93 @@
+{
+  "exp_id": "EXP-0020",
+  "title": "Combo replication",
+  "hypothesis_id": "H-002+H-003",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "simplified_scorer": false,
+  "perturbation": {
+    "sigma_vox": 0.3,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "bars_recomputed": {
+    "best44": 1.0997899890166187,
+    "best6b": 1.0884024471034524,
+    "combo44": 1.0997899890166187,
+    "combo6b": 1.0895234090523616
+  },
+  "seeds": {
+    "0": {
+      "fold0": 1.0997899890166187,
+      "fold1": 1.0880319048709866,
+      "worst": 1.0880319048709866,
+      "base44": 1.0997899890166187,
+      "base6b": 1.0872814851545436,
+      "div": [
+        2,
+        0,
+        2
+      ],
+      "edge_fp": 1,
+      "ge_best": false,
+      "ge_base": true
+    },
+    "1": {
+      "fold0": 1.0997899890166187,
+      "fold1": 1.0887770114524378,
+      "worst": 1.0887770114524378,
+      "base44": 1.0997899890166187,
+      "base6b": 1.0876560495035288,
+      "div": [
+        3,
+        0,
+        1
+      ],
+      "edge_fp": 1,
+      "ge_best": true,
+      "ge_base": true
+    },
+    "2": {
+      "fold0": 1.0997899890166187,
+      "fold1": 1.0887776569616738,
+      "worst": 1.0887776569616738,
+      "base44": 1.0997899890166187,
+      "base6b": 1.087656695012765,
+      "div": [
+        3,
+        0,
+        1
+      ],
+      "edge_fp": 1,
+      "ge_best": true,
+      "ge_base": true
+    }
+  },
+  "loo_same_set": {
+    "44b6_0113de3b": {
+      "below_best": false
+    },
+    "44b6_0b24845f": {
+      "below_best": false
+    },
+    "44b6_0c582fdc": {
+      "below_best": false
+    },
+    "6bba_05b6850b": {
+      "below_best": false
+    },
+    "6bba_05db0fb1": {
+      "below_best": false
+    },
+    "6bba_062c8d37": {
+      "below_best": false
+    }
+  },
+  "promote": false,
+  "decision": "keep-trying",
+  "decision_reason": "Combo NOT promoted: ['seed0: regresses vs best']. Candidacy verdict per evidence. Gate-1 bar applied as pre-registered."
+}
