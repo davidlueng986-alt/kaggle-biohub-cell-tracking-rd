@@ -1,0 +1,7 @@
+{
+  "exp_id": "EXP-0035",
+  "title": "Learned-detector evaluation",
+  "status": "planned",
+  "score_simplified": null,
+  "notes": "placeholder written by new_experiment.sh; overwrite with real scorer output"
+}

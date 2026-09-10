@@ -1,0 +1,78 @@
+{
+  "exp_id": "EXP-0037",
+  "title": "Submit-output rescore",
+  "hypothesis_id": "H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "per_sample": {
+    "44b6_0113de3b": {
+      "raw": 0.6363636363636364,
+      "adj": 0.6605605266408994,
+      "div": 1.0,
+      "ec": {
+        "TP": 42,
+        "FP": 16,
+        "FN": 8
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      }
+    },
+    "44b6_0b24845f": {
+      "raw": 0.09615384615384616,
+      "adj": 0.10196001970281586,
+      "div": 1.0,
+      "ec": {
+        "TP": 5,
+        "FP": 3,
+        "FN": 44
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      }
+    },
+    "6bba_05b6850b": {
+      "raw": 0.7929864253393665,
+      "adj": 0.8134156103618629,
+      "div": 1.0,
+      "ec": {
+        "TP": 701,
+        "FP": 39,
+        "FN": 144
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      }
+    },
+    "6bba_05db0fb1": {
+      "raw": 0.18079519879969994,
+      "adj": 0.19209671185704738,
+      "div": 0.0,
+      "ec": {
+        "TP": 241,
+        "FP": 150,
+        "FN": 942
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      }
+    }
+  },
+  "checks": {
+    "table_reproduced": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "Submit-truth scores reproduced from frozen graphs. Gate-10-vs-7 churn confirmed as the sole deviation source; gate is a tunable."
+}

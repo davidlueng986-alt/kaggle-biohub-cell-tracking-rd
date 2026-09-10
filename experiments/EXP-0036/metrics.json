@@ -1,0 +1,37 @@
+{
+  "exp_id": "EXP-0036",
+  "title": "Notebook-repo drift audit",
+  "hypothesis_id": "H-005",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "probes": {
+    "detect_equal": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "link_equal": [
+      true,
+      true
+    ]
+  },
+  "accepted_deltas": [
+    "gate-10 override (EXP-0018, explicit)",
+    "no max_size cap (giant-component only)",
+    "no split/phased/mad/downsample opts (no-forks policy)",
+    "validator int-coord gap (writer emits ints)"
+  ],
+  "checks": {
+    "detect_all_equal": true,
+    "link_all_equal": true
+  },
+  "all_checks_pass": true,
+  "decision": "keep-trying",
+  "decision_reason": "IN-SYNC: no patches needed. Deltas accepted with refs."
+}

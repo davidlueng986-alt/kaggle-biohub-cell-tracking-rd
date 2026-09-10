@@ -1,0 +1,18 @@
+{
+  "min_len": 6,
+  "rescue_frac": 0.05,
+  "n_nodes_in": 4723,
+  "n_edges_in": 4229,
+  "n_components": 494,
+  "n_dangling_edges_ignored": 0,
+  "n_kept_components": 222,
+  "n_dropped_components": 272,
+  "n_isolated_nodes": 115,
+  "n_isolated_in_dropped": 115,
+  "n_kept_nodes": 4117,
+  "n_rescued_tracks": 46,
+  "n_rescued_nodes": 205,
+  "rescue_budget_nodes": 205,
+  "n_nodes_out": 4322,
+  "n_edges_out": 4054
+}

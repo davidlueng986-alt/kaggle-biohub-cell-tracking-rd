@@ -107,6 +107,14 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0029/`: DONE — truncate gate + kernel v6 (H-005): truncate=2.0 REJECTED (20/20 frames differ, rec 0.970, raw 0.9145 — single-frame probes don't transfer; default stays 4.0). Notebook vectorized port verified identical locally; v6 COMPLETE 0.11 h vs 0.36 h (3.3×, same rows) → submitted v6 ref 56147475 (rule held; slots now 0). Hidden projection ~5.5 h.
 - `experiments/EXP-0030/`: DONE (Stage A parallel) — min-size {25,50,100} window: raw/ec IDENTICAL 143/2/5; ms25 adj −0.0031 (count cost), ms100 rec −0.006. STOP, min-size stays 50.
 - `experiments/EXP-0031/`: DONE (Stage A parallel) — r10 on DETECTED graphs: raw −0.025, div-FP 3 on 0-division window (6 extra edges, 0 possible TP). STOP, image forks parked; oracle r10 standalone stands.
+- `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready (dataset published, UNet training RUNNING v8).
+- `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8). Per-video calibration needs GT or learned estimator.
+- `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43); others hold. Window selection invalid on small windows.
+- `experiments/EXP-0035/`: skeleton (eval-builder): infer.py built+unit-tested, run.sh waits on WEIGHTS_PATH. Awaiting unet_best.pt.
+- `experiments/EXP-0036/`: DONE — notebook↔repo drift audit: detect/link/assign/CSV all EQUAL; deltas accepted (gate override, no max-size, no split opts, validator gap). IN-SYNC.
+- `experiments/EXP-0037/`: DONE — submit-output rescore (frozen graphs): gate-10-vs-7 churn sole deviation (0113de3b −0.28 adj). Gate is a tunable.
+- `experiments/EXP-0038/`: DONE (Stage C parallel) — T-discipline filter STOP: adj −0.0035/−0.0341, TP loss dwarfs FP savings; short tracks carry truth. Park filtering.
+- `experiments/EXP-0039/`: DONE (Stage C parallel) — full-video 05db0fb1 @96.0 GO: recall 0.29→0.68, adj 0.209→0.482, T_ratio 0.60; @96 new operating point for this sample (replicate before policy).
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43; 10-node window vs 51-node truth), others hold. Window selection invalid on small windows; no EXP-0035 policy.
@@ -124,7 +132,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: STAGE C — EXP-B T-discipline filter + 05db0fb1 @96.0 full-video (dispatched); submit v7 gate-7 stack after slot reset; EXP-0035 on unet_best.pt. Slots 0 — no submits today.
+- Next: UNet weights → EXP-0035 eval; @96 replication rung for 05db0fb1 (single-sample policy needs replication); submit v7 gate-7 post-reset; LB reaction on arrival. Slots 0 — no submits.
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -136,9 +144,9 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0034 done — read them, don't recreate):
+# Loop (EXP-0001…0039 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# Next: LB watch / GPU learned path (see Next above; no new CPU rung without PM direction)
+# Next: UNet weights → EXP-0035; @96 replication rung; submit v7 post-reset (see Next above)
 ```
