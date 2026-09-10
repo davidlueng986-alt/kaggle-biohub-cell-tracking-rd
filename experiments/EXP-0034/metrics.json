@@ -1,0 +1,182 @@
+{
+  "exp_id": "EXP-0034",
+  "title": "Per-sample-best transfer test",
+  "status": "done",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "window": {
+    "t0": 20,
+    "t1": 29
+  },
+  "levels": {
+    "44b6_0b24845f": 98.5,
+    "44b6_0c582fdc": 97.5,
+    "6bba_05db0fb1": 97.5
+  },
+  "window_ref": {
+    "44b6_0b24845f": 0.8,
+    "44b6_0c582fdc": 0.5,
+    "6bba_05db0fb1": 0.4056
+  },
+  "criteria": {
+    "recall_tol": 0.1,
+    "edge_tol": 0.1,
+    "rule": "HOLDS iff |d_recall|<=0.10 AND |d_edge|<=0.10; GO iff 3/3 HOLDS else STOP"
+  },
+  "per_sample": {
+    "44b6_0b24845f": {
+      "pct": 98.5,
+      "window_recall_ref": 0.8,
+      "window_recall_recomputed": 0.8,
+      "full_recall": 0.4314,
+      "d_recall_full_minus_window": -0.3686,
+      "recall_within_0.10": false,
+      "window_slice_edge_adj": 0.5476,
+      "window_slice_edge_raw": 0.5,
+      "full_edge_adj": 0.2249,
+      "full_edge_raw": 0.2143,
+      "d_edge_full_minus_window": -0.3227,
+      "edge_within_0.10": false,
+      "full_minus_window_recall_gap_for_transparency": -0.5751,
+      "full_division_jaccard": 1.0,
+      "full_score": 0.3249375993727267,
+      "full_edge_counts": {
+        "TP": 12,
+        "FP": 7,
+        "FN": 37
+      },
+      "full_division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "full_T_pred": 16493,
+      "full_T_true": 32795,
+      "window_edge_counts": {
+        "TP": 5,
+        "FP": 1,
+        "FN": 4
+      },
+      "n_gt_full": 51,
+      "n_gt_window": 10,
+      "det_per_frame": 164.9,
+      "total_det": 16493,
+      "s_per_frame": 0.67,
+      "verdict": "BREAKS",
+      "direction": [
+        "recall_down",
+        "edge_down"
+      ],
+      "link_assign": "scipy"
+    },
+    "44b6_0c582fdc": {
+      "pct": 97.5,
+      "window_recall_ref": 0.5,
+      "window_recall_recomputed": 0.5,
+      "full_recall": 0.493,
+      "d_recall_full_minus_window": -0.007,
+      "recall_within_0.10": true,
+      "window_slice_edge_adj": 0.328,
+      "window_slice_edge_raw": 0.3,
+      "full_edge_adj": 0.2767,
+      "full_edge_raw": 0.2658,
+      "d_edge_full_minus_window": -0.0513,
+      "edge_within_0.10": true,
+      "full_minus_window_recall_gap_for_transparency": -0.2233,
+      "full_division_jaccard": 1.0,
+      "full_score": 0.3766874996038362,
+      "full_edge_counts": {
+        "TP": 21,
+        "FP": 9,
+        "FN": 49
+      },
+      "full_division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "full_T_pred": 16531,
+      "full_T_true": 27958,
+      "window_edge_counts": {
+        "TP": 3,
+        "FP": 1,
+        "FN": 6
+      },
+      "n_gt_full": 71,
+      "n_gt_window": 10,
+      "det_per_frame": 165.3,
+      "total_det": 16531,
+      "s_per_frame": 0.67,
+      "verdict": "TRANSFER-HOLDS",
+      "direction": [
+        "none"
+      ],
+      "link_assign": "scipy"
+    },
+    "6bba_05db0fb1": {
+      "pct": 97.5,
+      "window_recall_ref": 0.4056,
+      "window_recall_recomputed": 0.4056,
+      "full_recall": 0.4784,
+      "d_recall_full_minus_window": 0.0728,
+      "recall_within_0.10": true,
+      "window_slice_edge_adj": 0.2798,
+      "window_slice_edge_raw": 0.2556,
+      "full_edge_adj": 0.3367,
+      "full_edge_raw": 0.3205,
+      "d_edge_full_minus_window": 0.0568,
+      "edge_within_0.10": true,
+      "full_minus_window_recall_gap_for_transparency": -0.0689,
+      "full_division_jaccard": 0.0,
+      "full_score": 0.3366907933311945,
+      "full_edge_counts": {
+        "TP": 415,
+        "FP": 112,
+        "FN": 768
+      },
+      "full_division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "full_T_pred": 34455,
+      "full_T_true": 69800,
+      "window_edge_counts": {
+        "TP": 34,
+        "FP": 9,
+        "FN": 90
+      },
+      "n_gt_full": 1229,
+      "n_gt_window": 143,
+      "det_per_frame": 344.6,
+      "total_det": 34455,
+      "s_per_frame": 0.68,
+      "verdict": "TRANSFER-HOLDS",
+      "direction": [
+        "none"
+      ],
+      "link_assign": "scipy"
+    }
+  },
+  "n_holds": 2,
+  "overall": "STOP",
+  "overall_reason": "window selection does not transfer; per-video calibration must be full-video or learned",
+  "detector": {
+    "sig_small": [
+      1.0,
+      3.0,
+      3.0
+    ],
+    "sig_large": [
+      1.6,
+      5.0,
+      5.0
+    ],
+    "min_size": 50,
+    "thr_mode": "percentile"
+  },
+  "wall_s": 780.8
+}
