@@ -1,0 +1,98 @@
+{
+  "exp_id": "EXP-0014",
+  "title": "Dim-cell small-sigma fused detection",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "blocks": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "configs": {
+    "A": {
+      "recall": 0.9820359281437125,
+      "n_det": 911,
+      "raw": 0.9533333333333334,
+      "adj": 0.9803894129979035,
+      "ec": {
+        "TP": 143,
+        "FP": 2,
+        "FN": 5
+      }
+    },
+    "B": {
+      "recall": 0.9700598802395209,
+      "n_det": 1103,
+      "raw": 0.8838709677419355,
+      "adj": 0.8956142219517144,
+      "ec": {
+        "TP": 137,
+        "FP": 7,
+        "FN": 11
+      }
+    },
+    "C": {
+      "recall": 0.9401197604790419,
+      "n_det": 1095,
+      "raw": 0.869281045751634,
+      "adj": 0.8813771735109138,
+      "ec": {
+        "TP": 133,
+        "FP": 5,
+        "FN": 15
+      }
+    },
+    "D": {
+      "recall": 0.9880239520958084,
+      "n_det": 1142,
+      "raw": 0.9276315789473685,
+      "adj": 0.9371120903674282,
+      "ec": {
+        "TP": 141,
+        "FP": 4,
+        "FN": 7
+      }
+    },
+    "E": {
+      "recall": 0.9880239520958084,
+      "n_det": 1248,
+      "raw": 0.9342105263157895,
+      "adj": 0.9359731876861968,
+      "ec": {
+        "TP": 142,
+        "FP": 4,
+        "FN": 6
+      }
+    }
+  },
+  "determinism_A_reproduced": true,
+  "go_full_video": {
+    "B": false,
+    "C": false,
+    "D": false,
+    "E": false
+  },
+  "decision": "keep-trying",
+  "decision_reason": "Window verdict per config; GO configs -> EXP-0015 full-video. Ceiling keep-trying (window rung)."
+}

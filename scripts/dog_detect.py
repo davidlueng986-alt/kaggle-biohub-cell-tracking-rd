@@ -119,6 +119,10 @@ def main(argv=None):
     ap.add_argument("--t", type=int, default=0)
     ap.add_argument("--pct", type=float, default=99.5)
     ap.add_argument("--min-size", type=int, default=50)
+    ap.add_argument("--sigma-small", default="1.0,3.0,3.0",
+                    help="DoG small sigma dz,dy,dx (EXP-0014 dim-cell scale)")
+    ap.add_argument("--sigma-large", default="1.6,5.0,5.0",
+                    help="DoG large sigma dz,dy,dx")
     ap.add_argument("--split-size", type=int, default=None,
                     help="peak-split components larger than this (voxels)")
     ap.add_argument("--prominence", type=float, default=0.0,
@@ -127,7 +131,11 @@ def main(argv=None):
     a = ap.parse_args(argv)
     import zarr
     vol = zarr.open_group(a.zarr, mode="r")["0"][a.t]
+    ss = tuple(map(float, a.sigma_small.split(",")))
+    sl = tuple(map(float, a.sigma_large.split(",")))
+    assert len(ss) == len(sl) == 3, "--sigma-* must be dz,dy,dx"
     nodes, params = detect(vol, pct=a.pct, min_size=a.min_size,
+                           sig_small=ss, sig_large=sl,
                            split_size=a.split_size, prominence=a.prominence)
     out = {"nodes": [{"id": i + 1, "t": a.t, "z": z, "y": y, "x": x,
                       "split": sp, "parent": pa}
