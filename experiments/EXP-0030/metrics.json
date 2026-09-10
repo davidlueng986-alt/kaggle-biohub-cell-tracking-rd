@@ -1,0 +1,448 @@
+{
+  "exp_id": "EXP-0030",
+  "title": "Min-size ablation",
+  "hypothesis_id": "H-minsize",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "blocks": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "pct": 98.5,
+  "configs": {
+    "ms25": {
+      "min_size": 25,
+      "pct": 98.5,
+      "recall": 0.9820359281437125,
+      "n_det": 952,
+      "per_frame": {
+        "20": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "21": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "22": {
+          "n_det": 42,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "23": {
+          "n_det": 45,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "24": {
+          "n_det": 46,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "25": {
+          "n_det": 48,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "26": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "27": {
+          "n_det": 48,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "28": {
+          "n_det": 48,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "29": {
+          "n_det": 48,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "40": {
+          "n_det": 46,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        },
+        "41": {
+          "n_det": 49,
+          "n_gt": 9,
+          "n_matched": 8,
+          "recall": 0.8888888888888888
+        },
+        "42": {
+          "n_det": 52,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "43": {
+          "n_det": 52,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "44": {
+          "n_det": 51,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "45": {
+          "n_det": 50,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "46": {
+          "n_det": 48,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "47": {
+          "n_det": 47,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "48": {
+          "n_det": 49,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        },
+        "49": {
+          "n_det": 51,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        }
+      },
+      "raw": 0.9533333333333334,
+      "adj": 0.9773165618448637,
+      "ec": {
+        "TP": 143,
+        "FP": 2,
+        "FN": 5
+      },
+      "phased": false
+    },
+    "ms50": {
+      "min_size": 50,
+      "pct": 98.5,
+      "recall": 0.9820359281437125,
+      "n_det": 911,
+      "per_frame": {
+        "20": {
+          "n_det": 43,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "21": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "22": {
+          "n_det": 41,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "23": {
+          "n_det": 43,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "24": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "25": {
+          "n_det": 45,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "26": {
+          "n_det": 43,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "27": {
+          "n_det": 47,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "28": {
+          "n_det": 47,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "29": {
+          "n_det": 47,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "40": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        },
+        "41": {
+          "n_det": 45,
+          "n_gt": 9,
+          "n_matched": 8,
+          "recall": 0.8888888888888888
+        },
+        "42": {
+          "n_det": 48,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "43": {
+          "n_det": 48,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "44": {
+          "n_det": 48,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "45": {
+          "n_det": 47,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "46": {
+          "n_det": 46,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "47": {
+          "n_det": 46,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "48": {
+          "n_det": 46,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        },
+        "49": {
+          "n_det": 49,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        }
+      },
+      "raw": 0.9533333333333334,
+      "adj": 0.9803894129979035,
+      "ec": {
+        "TP": 143,
+        "FP": 2,
+        "FN": 5
+      },
+      "phased": false
+    },
+    "ms100": {
+      "min_size": 100,
+      "pct": 98.5,
+      "recall": 0.9760479041916168,
+      "n_det": 872,
+      "per_frame": {
+        "20": {
+          "n_det": 43,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "21": {
+          "n_det": 42,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "22": {
+          "n_det": 40,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "23": {
+          "n_det": 42,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "24": {
+          "n_det": 43,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "25": {
+          "n_det": 42,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "26": {
+          "n_det": 41,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "27": {
+          "n_det": 46,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "28": {
+          "n_det": 46,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "29": {
+          "n_det": 45,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "40": {
+          "n_det": 42,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        },
+        "41": {
+          "n_det": 42,
+          "n_gt": 9,
+          "n_matched": 8,
+          "recall": 0.8888888888888888
+        },
+        "42": {
+          "n_det": 47,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "43": {
+          "n_det": 47,
+          "n_gt": 9,
+          "n_matched": 9,
+          "recall": 1.0
+        },
+        "44": {
+          "n_det": 45,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "45": {
+          "n_det": 43,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "46": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "47": {
+          "n_det": 43,
+          "n_gt": 8,
+          "n_matched": 8,
+          "recall": 1.0
+        },
+        "48": {
+          "n_det": 45,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        },
+        "49": {
+          "n_det": 44,
+          "n_gt": 8,
+          "n_matched": 7,
+          "recall": 0.875
+        }
+      },
+      "raw": 0.9533333333333334,
+      "adj": 0.9833123689727463,
+      "ec": {
+        "TP": 143,
+        "FP": 2,
+        "FN": 5
+      },
+      "phased": false
+    }
+  },
+  "reference": "ms50",
+  "gate_any_ge_A": false,
+  "winners": [],
+  "decision": "stop",
+  "decision_reason": "Window gate FAIL: neither ms25 nor ms100 matches-or-beats ms50(A) on all of recall/raw/adj -> min-size stays 50; STOP, no full-video commit."
+}

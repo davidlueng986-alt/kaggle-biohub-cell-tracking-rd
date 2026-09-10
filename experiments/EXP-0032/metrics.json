@@ -1,0 +1,196 @@
+{
+  "exp_id": "EXP-0032",
+  "title": "Training patch export",
+  "status": "done",
+  "n_patches_total": 6388,
+  "n_pos": 3194,
+  "n_neg": 3194,
+  "balance_pos_frac": 0.5,
+  "per_split": {
+    "44b6": {
+      "n": 348,
+      "pos": 174,
+      "neg": 174,
+      "neg_bright_max": 11,
+      "neg_random_bg": 163
+    },
+    "6bba": {
+      "n": 6040,
+      "pos": 3020,
+      "neg": 3020,
+      "neg_bright_max": 1432,
+      "neg_random_bg": 1588
+    }
+  },
+  "patch_shape_zyx": [
+    16,
+    48,
+    48
+  ],
+  "dtype": "uint16",
+  "disk_bytes": 471336194,
+  "disk_mb": 471.3,
+  "spotcheck_20pos_center_gt_full": "40/40",
+  "pos_center_mean": 825.7,
+  "pos_center_std": 445.8,
+  "neg_center_mean": 665.7,
+  "neg_center_std": 614.5,
+  "welch_t": 11.91,
+  "welch_p": 2.4310065483503165e-32,
+  "verify_s": 0.4,
+  "seed_export": 0,
+  "seed_verify": 7,
+  "check20_sample": [
+    {
+      "split": "44b6",
+      "idx": 114,
+      "center_mean": 1378.1,
+      "full_mean": 919.0,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 165,
+      "center_mean": 1433.0,
+      "full_mean": 1278.1,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 264,
+      "center_mean": 1146.1,
+      "full_mean": 926.9,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 274,
+      "center_mean": 1271.9,
+      "full_mean": 942.2,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 86,
+      "center_mean": 853.7,
+      "full_mean": 503.4,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 92,
+      "center_mean": 844.7,
+      "full_mean": 404.0,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 158,
+      "center_mean": 1336.8,
+      "full_mean": 1197.3,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 88,
+      "center_mean": 833.2,
+      "full_mean": 464.7,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 0,
+      "center_mean": 416.6,
+      "full_mean": 144.0,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 94,
+      "center_mean": 852.8,
+      "full_mean": 357.5,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 288,
+      "center_mean": 1213.2,
+      "full_mean": 986.9,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 42,
+      "center_mean": 1003.5,
+      "full_mean": 550.4,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 340,
+      "center_mean": 1439.9,
+      "full_mean": 968.8,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 152,
+      "center_mean": 1203.1,
+      "full_mean": 1115.5,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 100,
+      "center_mean": 593.3,
+      "full_mean": 253.7,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 244,
+      "center_mean": 1096.5,
+      "full_mean": 833.8,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 258,
+      "center_mean": 1205.2,
+      "full_mean": 942.3,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 38,
+      "center_mean": 950.2,
+      "full_mean": 575.1,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 270,
+      "center_mean": 1275.5,
+      "full_mean": 909.2,
+      "pass": true
+    },
+    {
+      "split": "44b6",
+      "idx": 154,
+      "center_mean": 1262.4,
+      "full_mean": 1169.7,
+      "pass": true
+    }
+  ],
+  "protocol": "v1.1 (enabling rung; no trusted-scorer promotion claim)",
+  "export_elapsed_s": 86.0,
+  "export_frames_read": 462,
+  "export_striding": "none (all 462 GT frames; measured 0.03s read + 0.13s maxfilter per frame, total 86s << 25min cap)",
+  "determinism": "re-run seed 0 -> identical MANIFEST md5 5e8c5912e27fc2a5026c2f2dae7557d1 + identical array checksums",
+  "neg_mining": {
+    "method": "scipy maximum_filter (3,9,9) + per-frame p98 floor + Chebyshev exclusion (4,12,12) around GT; 1:1 negs per frame (half bright-max, half random-bg, shortfall topped up with random-bg)",
+    "bright_max_frac_44b6": 0.063,
+    "bright_max_frac_6bba": 0.474,
+    "caveat": "44b6 negatives mostly easy random-bg (sparse tissue: few non-GT bright maxima); GT sparsity means unannotated cells can leak into negatives"
+  }
+}

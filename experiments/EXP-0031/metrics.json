@@ -1,0 +1,86 @@
+{
+  "exp_id": "EXP-0031",
+  "title": "Image-side fork proposals",
+  "protocol_version": "1.1",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "sample": "6bba_05b6850b",
+  "frames": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "propose_um": 10.0,
+  "base_maxd": 7.0,
+  "gt_window": {
+    "nodes": 167,
+    "edges": 148,
+    "T_true": 1272,
+    "n_divisions": 0
+  },
+  "reference_A_recompute": {
+    "recall": 0.9820359281437125,
+    "n_det": 911,
+    "raw": 0.9533333333333334,
+    "adj": 0.9803894129979035,
+    "ec": {
+      "TP": 143,
+      "FP": 2,
+      "FN": 5
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 0
+    },
+    "div_j": 1.0
+  },
+  "fork_r10": {
+    "raw": 0.9285714285714286,
+    "adj": 0.9549247529200359,
+    "ec": {
+      "TP": 143,
+      "FP": 6,
+      "FN": 5
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 3,
+      "FN": 0
+    },
+    "div_j": 0.0,
+    "n_fork_extra": 6
+  },
+  "delta": {
+    "d_raw": -0.024761904761904763,
+    "d_adj": -0.02546466007786763,
+    "d_edge_FP": 4,
+    "d_div_FP": 3
+  },
+  "gate": {
+    "edge_ge_A": false,
+    "div_FP_zero": false,
+    "recall_ge_A_minus_005": true
+  },
+  "decision": "STOP",
+  "decision_reason": "FAIL: r10 on detected graphs adds edge FPs + division FPs with zero possible TP (0 GT divs in window) -> STOP: image forks parked alongside oracle r10 standalone."
+}
