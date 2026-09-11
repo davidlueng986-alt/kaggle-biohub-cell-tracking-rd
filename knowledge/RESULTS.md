@@ -11,6 +11,7 @@
 > UPDATE: ALL FOUR ours COMPLETE publicScore **0.650** (v5 gate-10 ×3 + v6 vectorized ×1 identical —
 > end-to-end determinism confirmed; +0.032 vs old 0.618). Forge 0.946 confirmed (gap = detection recall;
 > divisions secondary ≤0.10, T-penalty amplifier). Not gold-zone.
+> UPDATE 00:02 UTC 2026-09-11: submitted v7 gate-7 ref **56153940** PENDING (post-reset, 4 slots left; checklist followed: status COMPLETE verified pre-submit, remaining-count STOP rule holds for next). Gate-7 proven +0.002–0.28 on visible; hidden verdict pending.
 > UPDATE ~19:50 UTC: probe `biohub-probe-gate7-image` v3 COMPLETE — gate-7 beats gate-10 on ALL FOUR visible
 > samples (0113de3b 0.6606→0.9382; +0.002/+0.006/+0.017 elsewhere; 109761 rows valid). submit_gold flipped to
 > UPDATE 2026-09-11 05:30 HKT: all gold DoG refs COMPLETE publicScore **0.650**. Same-account Lineage Forge ref 56144839 COMPLETE **0.946** (correct prior "not ours" mislabel). Next: gate-7 submit after slot reset (~00:00 UTC).

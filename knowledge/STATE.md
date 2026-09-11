@@ -120,7 +120,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43; 10-node window vs 51-node truth), others hold. Window selection invalid on small windows; no EXP-0035 policy.
-- Submit watch: v6 `56147475` + v1 `56143782`/`803`/`804` all COMPLETE publicScore **0.650** (identical ×4 → end-to-end determinism); same-account Lineage Forge `56144839` COMPLETE **0.946**. Slots 0 until ~2026-09-11 00:00 UTC. Submit stack v7 gate-7 ready (`SUBMIT_CHECKLIST.md` written, remote-verified). Gap thesis: detection recall (edge level); divisions ≤0.10 secondary; T-penalty amplifier.
+- Submit watch: v6 `56147475` + v1 `56143782`/`803`/`804` all COMPLETE publicScore **0.650** (identical ×4 → end-to-end determinism); v7 gate-7 ref `56153940` SUBMITTED 00:02 UTC PENDING (4 slots left); same-account Forge `56144839` COMPLETE **0.946**. Gap thesis: detection recall (edge level); divisions ≤0.10 secondary; T-penalty amplifier.
 - Dark probe (Stage A parallel, /tmp only): 05db0fb1 curve still rises below 97.5 (96.0: rec 0.615 vs 0.41; monotone; T_ratio 0.65; timing flat) but 87% of @96 misses are threshold-blind (median DoG rank 94) — GO for full-video @96.0 test, diminishing returns past ~94. Proposed: EXP-B T-discipline filter (min-track-6 + prune-isolated + frac caps; bar worst-fold +0.02) as next cheap CPU rung.
 - `opencode-web.png`: local screenshot, git-ignored (not deleted).
 - Subset download DONE 2026-09-09 (738/738, 2.6 GB in `data/`, gitignored). EDA deps installed (zarr 3.3.0 + numcodecs, CPU-only).
@@ -134,7 +134,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: UNet weights/timeout → EXP-0035 eval or harvest-or-replan; submit v7 gate-7 post-reset (~00:00 UTC); LB reaction on arrival. Slots 0 — no submits.
+- Next: v7 LB reaction on arrival; UNet weights/timeout → EXP-0035 eval or harvest-or-replan. 4 slots left — spend only on gated winners.
 
 ## Next loop steps (cold agent — copy/paste)
 
