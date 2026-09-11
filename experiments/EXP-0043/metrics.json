@@ -1,0 +1,81 @@
+{
+  "exp_id": "EXP-0043",
+  "title": "062c8d37 full-video @96.0 replication of EXP-0039",
+  "hypothesis_id": "H-002-followup",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "sample": "6bba_062c8d37",
+  "frames": 100,
+  "pct96": 96.0,
+  "pct98": 98.5,
+  "linker": "baseline_link defaults (gate 7um, one-to-one, causal)",
+  "comparison": {
+    "@96.0": {
+      "recall": 0.8666976121521577,
+      "det_f": 53.8,
+      "gid": 5380,
+      "raw": 0.7776572668112798,
+      "edge_adj": 0.7860399736674544,
+      "div": 0.0,
+      "score": 0.7860399736674544,
+      "ec": {
+        "TP": 717,
+        "FP": 24,
+        "FN": 181
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1
+      },
+      "T_true": 6030,
+      "T_pred": 5380,
+      "T_ratio": 0.8922056384742952,
+      "s_f": 0.6502,
+      "assign": "pure"
+    },
+    "@98.5_baseline_rescored": {
+      "raw": 0.8507625272331155,
+      "edge_adj": 0.8647020525549449,
+      "div": 0.0,
+      "score": 0.8647020525549449,
+      "ec": {
+        "TP": 781,
+        "FP": 20,
+        "FN": 117
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1
+      },
+      "T_true": 6030,
+      "T_pred": 5042,
+      "T_ratio": 0.8361525704809287,
+      "recall": 0.9300561952077103,
+      "det_f": 50.42,
+      "s_f": 0.9094,
+      "assign": "pure"
+    },
+    "delta_recall": -0.06335858305555264,
+    "delta_raw": -0.07310526042183574,
+    "delta_adj": -0.07866207888749055,
+    "delta_score": -0.07866207888749055,
+    "delta_T_ratio": 0.05605306799336651,
+    "delta_div": 0.0
+  },
+  "gates": {
+    "recall_ge_0.90": false,
+    "adj_ge_bar": false,
+    "bar_adj": 0.8647020525549449
+  },
+  "verdict": "DIVERGES",
+  "verdict_reason": "recall FAIL (0.8667 vs 0.90 gate) AND adj FAIL (0.7860 vs bar 0.8647)",
+  "policy": "STOP (sample luck)",
+  "division_readout": "div 0.0000 @96 vs 0.0000 @98.5; dc96={'TP': 0, 'FP': 0, 'FN': 1} dc98={'TP': 0, 'FP': 0, 'FN': 1}: one-to-one linker predicts zero forks; the 1 GT division FN as expected",
+  "status": "done"
+}

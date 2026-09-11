@@ -1,0 +1,52 @@
+{
+  "p96": {
+    "recall": 0.8666976121521577,
+    "det_f": 53.8,
+    "gid": 5380,
+    "s_f": 0.6502,
+    "T_ratio": 0.8922056384742952,
+    "edge": 0.7860399736674544,
+    "raw": 0.7776572668112798,
+    "div": 0.0,
+    "score": 0.7860399736674544,
+    "ec": {
+      "TP": 717,
+      "FP": 24,
+      "FN": 181
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 1
+    },
+    "T_true": 6030,
+    "T_pred": 5380,
+    "assign": "pure"
+  },
+  "p98": {
+    "edge": 0.8647020525549449,
+    "raw": 0.8507625272331155,
+    "div": 0.0,
+    "score": 0.8647020525549449,
+    "ec": {
+      "TP": 781,
+      "FP": 20,
+      "FN": 117
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 1
+    },
+    "T_true": 6030,
+    "T_pred": 5042,
+    "T_ratio": 0.8361525704809287
+  },
+  "scorer": {
+    "protocol": "1.1",
+    "scorer_version": "1.1.0",
+    "solver": "trusted pure-python Hungarian unmodified (small-N sample, no swap needed)",
+    "scripts_unmodified": true
+  },
+  "wall_s": 2.19594407081604
+}

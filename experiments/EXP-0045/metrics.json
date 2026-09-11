@@ -1,0 +1,193 @@
+{
+  "experiment": "EXP-0045",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "match": {
+    "max_dist_um": 7.0,
+    "voxel_size_um": [
+      1.625,
+      0.40625,
+      0.40625
+    ],
+    "method": "match_nodes per-timepoint optimal assignment"
+  },
+  "pred_source": "experiments/EXP-0021/<sid>_pred.json (IMAGE graphs)",
+  "gt_source": "experiments/EXP-0003/gt/<sid>_gt.json",
+  "divisions": [
+    {
+      "sample": "6bba_05db0fb1",
+      "gt_parent": 25000381,
+      "gt_d1": 26000400,
+      "gt_d2": 26000403,
+      "gt_t_parent": 24,
+      "gt_t_daughters": 25,
+      "matched_pred": {
+        "parent": null,
+        "d1": null,
+        "d2": 7285
+      },
+      "nearest_pred_dist_um": {
+        "25000381": 12.188,
+        "26000400": 12.282,
+        "26000403": 1.675
+      },
+      "gt_daughter_dist_um": 12.488,
+      "detected_daughter_dist_um": 0.0,
+      "detected_daughter_ids": [
+        7285,
+        7285
+      ],
+      "fork_edges_from_matched_parent": [],
+      "site_edges": {
+        "parent": null,
+        "d1": null,
+        "d2": {
+          "pred_id": 7285,
+          "in": [],
+          "out": [
+            7572
+          ]
+        }
+      },
+      "class": "LOST-AT-DETECTION",
+      "pred_forks_in_sample": 0
+    },
+    {
+      "sample": "6bba_05db0fb1",
+      "gt_parent": 53001011,
+      "gt_d1": 54001033,
+      "gt_d2": 54001035,
+      "gt_t_parent": 52,
+      "gt_t_daughters": 53,
+      "matched_pred": {
+        "parent": 14683,
+        "d1": null,
+        "d2": null
+      },
+      "nearest_pred_dist_um": {
+        "53001011": 6.81,
+        "54001033": 7.38,
+        "54001035": 9.379
+      },
+      "gt_daughter_dist_um": 8.522,
+      "detected_daughter_dist_um": 15.336,
+      "detected_daughter_ids": [
+        14932,
+        14946
+      ],
+      "fork_edges_from_matched_parent": [
+        14932
+      ],
+      "site_edges": {
+        "parent": {
+          "pred_id": 14683,
+          "in": [
+            14442
+          ],
+          "out": [
+            14932
+          ]
+        },
+        "d1": null,
+        "d2": null
+      },
+      "class": "LOST-AT-DETECTION",
+      "pred_forks_in_sample": 0
+    },
+    {
+      "sample": "6bba_05db0fb1",
+      "gt_parent": 63001217,
+      "gt_d1": 64001240,
+      "gt_d2": 64001241,
+      "gt_t_parent": 62,
+      "gt_t_daughters": 63,
+      "matched_pred": {
+        "parent": null,
+        "d1": null,
+        "d2": null
+      },
+      "nearest_pred_dist_um": {
+        "63001217": 13.202,
+        "64001240": 13.449,
+        "64001241": 12.911
+      },
+      "gt_daughter_dist_um": 9.353,
+      "detected_daughter_dist_um": 14.213,
+      "detected_daughter_ids": [
+        17348,
+        17354
+      ],
+      "fork_edges_from_matched_parent": [],
+      "site_edges": {
+        "parent": null,
+        "d1": null,
+        "d2": null
+      },
+      "class": "LOST-AT-DETECTION",
+      "pred_forks_in_sample": 0
+    },
+    {
+      "sample": "6bba_062c8d37",
+      "gt_parent": 90001276,
+      "gt_d1": 91001298,
+      "gt_d2": 91001299,
+      "gt_t_parent": 89,
+      "gt_t_daughters": 90,
+      "matched_pred": {
+        "parent": 4549,
+        "d1": 4593,
+        "d2": 4598
+      },
+      "nearest_pred_dist_um": {
+        "90001276": 1.724,
+        "91001298": 1.625,
+        "91001299": 1.724
+      },
+      "gt_daughter_dist_um": 9.084,
+      "detected_daughter_dist_um": 9.493,
+      "detected_daughter_ids": [
+        4593,
+        4598
+      ],
+      "fork_edges_from_matched_parent": [
+        4593
+      ],
+      "site_edges": {
+        "parent": {
+          "pred_id": 4549,
+          "in": [
+            4502
+          ],
+          "out": [
+            4593
+          ]
+        },
+        "d1": {
+          "pred_id": 4593,
+          "in": [
+            4549
+          ],
+          "out": [
+            4639
+          ]
+        },
+        "d2": {
+          "pred_id": 4598,
+          "in": [],
+          "out": [
+            4646
+          ]
+        }
+      },
+      "class": "LOST-AT-LINKING",
+      "pred_forks_in_sample": 0
+    }
+  ],
+  "summary": {
+    "n_divisions": 4,
+    "n_lost_at_detection": 3,
+    "n_lost_at_linking": 1,
+    "n_recovered": 0,
+    "verdict": "GO"
+  }
+}

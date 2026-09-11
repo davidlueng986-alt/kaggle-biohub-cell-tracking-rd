@@ -1,0 +1,51 @@
+{
+  "per_sample": [
+    {
+      "adjusted_edge_jaccard": 0.209168640934884,
+      "edge_jaccard_raw": 0.19686274509803922,
+      "division_jaccard": 0.0,
+      "score": 0.209168640934884,
+      "edge_counts": {
+        "TP": 251,
+        "FP": 92,
+        "FN": 932
+      },
+      "division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "simplified": false,
+      "T_pred": 26168,
+      "T_true": 69800,
+      "T_true_used": true,
+      "n_pred_matched": 367,
+      "n_gt_matched": 367,
+      "voxel_size_um": [
+        1.625,
+        0.40625,
+        0.40625
+      ],
+      "max_dist_um": 7.0,
+      "sample": "sample0"
+    }
+  ],
+  "adjusted_edge_jaccard": 0.20916864093488396,
+  "division_jaccard": 0.0,
+  "division_counts_sum": {
+    "TP": 0,
+    "FP": 0,
+    "FN": 3
+  },
+  "score": 0.20916864093488396,
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "metric_spec": "https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md",
+  "voxel_size_um": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "max_dist_um": 7.0
+}
+wrote /home/box/workspace/kaggle-biohub-rd/experiments/EXP-0044/base_scores.json

@@ -1,0 +1,53 @@
+{
+  "exp_id": "EXP-0044",
+  "title": "Image r10 forks on 6bba_05db0fb1 full video (3 GT divisions)",
+  "status": "done",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "det_source": "experiments/EXP-0021/full_6bba_05db0fb1_t<0-99>.json @98.5 (mission text said EXP-0009; files live in EXP-0021)",
+  "gt": "experiments/EXP-0003/gt/6bba_05db0fb1_gt.json",
+  "base": {
+    "recall": null,
+    "raw": 0.19686274509803922,
+    "adj": 0.209168640934884,
+    "TP": 251,
+    "FP": 92,
+    "FN": 932,
+    "div_TP": 0,
+    "div_FP": 0,
+    "div_FN": 3,
+    "div_j": 0.0,
+    "score": 0.209168640934884,
+    "T_pred": 26168,
+    "T_true": 69800
+  },
+  "fork_r10": {
+    "recall": null,
+    "raw": 0.19545454545454546,
+    "adj": 0.20767241469132589,
+    "TP": 258,
+    "FP": 137,
+    "FN": 925,
+    "div_TP": 0,
+    "div_FP": 35,
+    "div_FN": 3,
+    "div_j": 0.0,
+    "score": 0.20767241469132589,
+    "T_pred": 26168,
+    "T_true": 69800
+  },
+  "delta": {
+    "d_adj": -0.0014962262435581075,
+    "d_raw": -0.0014081996434937571,
+    "d_div_TP": 0,
+    "d_div_FP": 35,
+    "d_score": -0.0014962262435581075
+  },
+  "verdict": "STOP",
+  "recall_shared_nodes": 0.290299,
+  "fork_extra": 2393,
+  "n_nodes": 26168,
+  "base_edges": 21665,
+  "fork_edges": 24058,
+  "assign": "scipy"
+}
