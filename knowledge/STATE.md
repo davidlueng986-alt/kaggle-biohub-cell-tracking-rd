@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (UNet v10 DIVERGED ep4-6, harvest on timeout; EXP-0059 sign-inversion; LB steady). Maintainer: gold-watch.
+Last updated: 2026-09-11 (UNet v10 DIVERGED ep4-7, timeout-harvest likely; EXP-0060 2/3 bars; LB steady). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## OpenCode execution standard (PM 2026-09-12)
@@ -95,7 +95,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0004/`: DONE 2026-09-09 — fork-proposing variant (H-002+H-003, `scripts/fork_link.py --propose-um 15.0`): fold0 44b6 unchanged (+0.0000), fold1 6bba micro −0.0025, div sums 0/0/4→3/10/1. Sub-gate REJECT for promotion (edge regression on fold1; single-seed cap anyway). Signal kept: 3/4 GT divisions geometrically recoverable → EXP-0005 tighter gating.
 - `experiments/EXP-0005/`: DONE 2026-09-09 — radius ablation {9,10,11,12}+isolation: r9 +0.0004 div 1/0/3; **r10 SELECTED** (+0.0011 fold1, div 3/0/1, FP=0, plateau r10==r11); r12 +0.0008 div 3/1/1; r15+iso −0.0011 div 4/7/0. fold0 identical grid-wide. Sub-gate numeric PASS; keep-trying (no fold0 win possible + single-run ceiling). r10 = ensemble-candidate.
 - Submit path (GOLD §5, skeleton): `scripts/graphs_to_csv.py` (writer + `--check`; demo 4 subset preds → valid 4294-row CSV) + `notebooks/submission_skeleton.ipynb` (5 cells compile; demo wiring 15 nodes→12 edges OK) + `notebooks/README.md`. DRAFT — no submit yet; detector+weights TODO.
-- `knowledge/`: this file + HYPOTHESES.md (H-001/H-002/H-004/H-005 active; H-003 classical parked, learned-features residual) + RESULTS.md (EXP-0000…0046 + 0049/0050/0051/0052/0054/0055/0056/0057/0058/0059 rows; 0047/0048 concurrent session).
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-002/H-004/H-005 active; H-003 classical parked, learned-features residual) + RESULTS.md (EXP-0000…0046 + 0049/0050/0051/0052/0054/0055/0056/0057/0058/0059/0060 rows; 0047/0048 concurrent session).
 - `experiments/EXP-0006/`: DONE 2026-09-09 — r10 replication (H-002+H-003, `scripts/perturb_graph.py` σ=0.3vox × seeds {0,1,2} + noise-matched base arm + corrected same-set LOO): literal-identical FAIL (seed0 div 2/0/2; ±0.005 wobble is base-linker's, shared by both arms); refined PASS (variant≥base 18/18, FP=0 all seeds, LOO 6/6). r10 KEEPS ensemble-candidate; boundary-pair fragility → H-003 appearance case.
 - `experiments/EXP-0007/`: DONE 2026-09-09 — DoG detection probe (H-002, `scripts/dog_detect.py`, CPU ~1s/frame): pct99 recall 1.00 both samples; 6bba mini-graph edge_raw 0.8462 (first meaningful image-based number); over video budget unoptimized (H-005 flag).
 - `experiments/EXP-0008/`: DONE 2026-09-09 — full-frame sweep (H-002+H-005): 44b6 recall 1.000 edge_raw 0.9038 (strong); 6bba recall 0.835 (FALSIFIED <0.90 → pct99 dead for dense tissue; fix = level @98.5, threshold already per-frame). Curve monotone. Timing 2.05/0.84 s/frame (H-005 debt quantified). Infra: scipy fast path (floor bit-identical).
@@ -154,6 +154,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0057/`: DONE (Stage A parallel) — full-video 05db0fb1 @94.5: recall +0.014 BUT adj −0.0069 (TP +1 vs FP +18). Descent TURNED: merging/displacement dominates below 95.0. @95.0 (0.750/0.547) LOCKED as operating point; do not descend without linker-side merge handling.
 - `experiments/EXP-0058/`: DONE (Stage A parallel) — threshold-hysteresis union (@99∪@95/3µm) on 05db0fb1 window: +1 GT node for +829 detections (cost 829/match vs ≤10 bar). STOP; halo is clutter. Single-threshold @95.0 stands.
 - `experiments/EXP-0059/`: DONE (Stage A parallel) — nested binary-brightness rule: split perfect, sign INVERTED (known-dark samples have highest means 627–1009 vs 62–256: bright clutter dominates). loso_worst 0.161 / micro-edge 0.433 / nested 0.342 — all below BTE. Follow-up specified: sign-corrected HIGH-B→96 (needs 062c8d37@99, 100 frames).
+- `experiments/EXP-0060/`: DONE (Stage A parallel) — sign-corrected HIGH-B→96: loso_worst 0.2872 ✓ / micro 0.6272 ✓ / nested_worst 0.3631 ✗ (fit-6bba 3-sample median forces all-44b6 onto @96, count-costing bright 0113). 2/3 bars: binary rules EXHAUSTED both signs (small-sample medians flip). No per-regime policy.
+- UNet v10 ep7 (watch): DIVERGENCE deepening (loss →2.54, recall 0 ×4, cnt collapsed to 0.01); best never saved; timeout-harvest (unet_last.pt, likely collapsed) expected. v11 needs train-owner lr/loss-scale review — PROPOSED, not pushed (PM direction required).
 - UNet v10: ep0 confirmed again (loss 0.1763, recall 0.925 over-detected, gate withholding); pace suggests timeout before ep20 → harvest unet_last.pt path stands; count-gate must see cnt fall into [0.7,1.0] with recall held.
 - UNet v10: ep0 confirmed (loss 0.1763, recall 0.925 over-detected, gate withholding best); CPU pace ~1.25 h/epoch → 20ep exceeds 12 h cap → plan TIMEOUT-harvest (unet_last.pt), not clean COMPLETE.
 - UNet v10 ep1 (watch): loss 0.1763→0.1369 FALLING, recall 0.839 held high, cnt 1.84 still over-dense (gate withholding correctly); no crash. Training HEALTHY — remaining gap is precision/count discipline, not escape. Timeout-harvest stands (many hours out).
@@ -179,7 +181,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): submit still uses 44b6@99.0 + 6bba@98.5 gate-7 (LB 0.668); tuned_ref worst adj 0.8194 is NOT BTE. **Trusted BTE = EXP-0053** loso_worst 0.2092 / nested_worst 0.4193 — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: UNet weights/timeout → EXP-0035 eval or harvest-or-replan; per-regime gate study only with PM direction (2-sample evidence, overfit risk); 4 slots left — spend only on gated winners.
+- Next: UNet timeout-harvest → EXP-0035 eval (collapsed weights likely; label honestly); v11 lr/loss-scale review needs PM/train-owner direction — PROPOSED, not pushed. LB reaction on movement; 4 slots left.
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -191,7 +193,7 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0046 + 0049/0050/0051/0052/0054/0055/0056/0057/0058/0059 done — read them, don't recreate; 0047/0048 concurrent session):
+# Loop (EXP-0001…0046 + 0049/0050/0051/0052/0054/0055/0056/0057/0058/0059/0060 done — read them, don't recreate; 0047/0048 concurrent session):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py

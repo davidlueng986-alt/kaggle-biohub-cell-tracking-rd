@@ -1,0 +1,270 @@
+{
+  "protocol_version": "1.2",
+  "cv_tag": "trusted",
+  "scorer_version": "1.1.0",
+  "exp_id": "EXP-0060",
+  "title": "Sign-corrected nested binary-brightness rule",
+  "hypothesis_id": "H-002",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "rule": {
+    "proxy": "frame-mean intensity t20-29 (GT-free)",
+    "cut": "fit-median",
+    "above": 96.0,
+    "below_or_equal": 99.0,
+    "gate": 7.0,
+    "frozen": true,
+    "note": "sign-corrected vs EXP-0059: HIGH-B -> 96.0 / LOW-B -> 99.0"
+  },
+  "brightness": {
+    "44b6_0113de3b": 256.28920855522153,
+    "44b6_0b24845f": 1009.0755217313766,
+    "44b6_0c582fdc": 626.6747548103333,
+    "6bba_05b6850b": 85.89325382709504,
+    "6bba_05db0fb1": 1002.5167531490326,
+    "6bba_062c8d37": 61.95581662654877
+  },
+  "loso_table": {
+    "44b6_0113de3b": {
+      "fit_on": [
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 256.28920855522153,
+      "assigned_pct": 99.0,
+      "gate": 7.0,
+      "edge": 0.938213715036662,
+      "raw": 0.9038461538461539,
+      "div": 1.0,
+      "score": 1.038213715036662,
+      "ec": {
+        "TP": 47,
+        "FP": 2,
+        "FN": 3
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_det": 15962,
+      "det_src": "frozen:EXP-0008/full_44b6_0113de3b",
+      "backend": "scipy"
+    },
+    "44b6_0b24845f": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 256.28920855522153,
+      "B_holdout": 1009.0755217313766,
+      "assigned_pct": 96.0,
+      "gate": 7.0,
+      "edge": 0.18724362084020568,
+      "raw": 0.18181818181818182,
+      "div": 1.0,
+      "score": 0.2872436208402057,
+      "ec": {
+        "TP": 10,
+        "FP": 6,
+        "FN": 39
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_det": 23009,
+      "det_src": "frozen:EXP-0040/full_44b6_0b24845f",
+      "backend": "scipy"
+    },
+    "44b6_0c582fdc": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 256.28920855522153,
+      "B_holdout": 626.6747548103333,
+      "assigned_pct": 96.0,
+      "gate": 7.0,
+      "edge": 0.18739391137989034,
+      "raw": 0.1794871794871795,
+      "div": 1.0,
+      "score": 0.28739391137989034,
+      "ec": {
+        "TP": 14,
+        "FP": 8,
+        "FN": 56
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_det": 15642,
+      "det_src": "frozen:EXP-0040/full_44b6_0c582fdc",
+      "backend": "scipy"
+    },
+    "6bba_05b6850b": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 85.89325382709504,
+      "assigned_pct": 99.0,
+      "gate": 7.0,
+      "edge": 0.7120683921897376,
+      "raw": 0.6922222222222222,
+      "div": 1.0,
+      "score": 0.8120683921897376,
+      "ec": {
+        "TP": 623,
+        "FP": 55,
+        "FN": 222
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_det": 4538,
+      "det_src": "frozen:EXP-0008/full_6bba_05b6850b",
+      "backend": "pure"
+    },
+    "6bba_05db0fb1": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 256.28920855522153,
+      "B_holdout": 1002.5167531490326,
+      "assigned_pct": 96.0,
+      "gate": 7.0,
+      "edge": 0.4822026604488088,
+      "raw": 0.4637247569184742,
+      "div": 0.0,
+      "score": 0.4822026604488088,
+      "ec": {
+        "TP": 620,
+        "FP": 154,
+        "FN": 563
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "n_det": 41987,
+      "det_src": "frozen:EXP-0039/full_6bba_05db0fb1",
+      "backend": "scipy"
+    },
+    "6bba_062c8d37": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_05db0fb1"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 61.95581662654877,
+      "assigned_pct": 99.0,
+      "gate": 7.0,
+      "edge": 0.7988260414664874,
+      "raw": 0.7800429184549357,
+      "div": 0.0,
+      "score": 0.7988260414664874,
+      "ec": {
+        "TP": 727,
+        "FP": 34,
+        "FN": 171
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1
+      },
+      "n_det": 4578,
+      "det_src": "fresh:EXP-0060/det",
+      "backend": "pure"
+    }
+  },
+  "loso": {
+    "keys": [
+      "44b6_0113de3b@99.0",
+      "44b6_0b24845f@96.0",
+      "44b6_0c582fdc@96.0",
+      "6bba_05b6850b@99.0",
+      "6bba_05db0fb1@96.0",
+      "6bba_062c8d37@99.0"
+    ],
+    "worst": 0.2872436208402057,
+    "micro_edge": 0.6272434758656341,
+    "div_micro": 0.0,
+    "score_micro": 0.6272434758656341,
+    "complete_6of6": true
+  },
+  "embryo_nested": {
+    "fit_44b6_apply_6bba": {
+      "HP": [
+        "fit-median",
+        96.0,
+        99.0,
+        7.0
+      ],
+      "keys": [
+        "6bba_05b6850b@99.0",
+        "6bba_05db0fb1@96.0",
+        "6bba_062c8d37@99.0"
+      ],
+      "micro": 0.6406034650165943,
+      "complete_3of3": true
+    },
+    "fit_6bba_apply_44b6": {
+      "HP": [
+        "fit-median",
+        96.0,
+        99.0,
+        7.0
+      ],
+      "keys": [
+        "44b6_0113de3b@96.0",
+        "44b6_0b24845f@96.0",
+        "44b6_0c582fdc@96.0"
+      ],
+      "micro": 0.36306800747430157,
+      "complete_3of3": true
+    },
+    "nested_worst": 0.36306800747430157
+  },
+  "BTE": {
+    "loso_worst": 0.2092,
+    "micro": 0.4826,
+    "nested_worst": 0.4193
+  },
+  "bars": {
+    "loso_worst": true,
+    "micro": true,
+    "nested_worst": false
+  },
+  "decision": "keep-trying"
+}
