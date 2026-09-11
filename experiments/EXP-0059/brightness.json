@@ -1,0 +1,178 @@
+{
+  "B": {
+    "44b6_0113de3b": 256.28920855522153,
+    "44b6_0b24845f": 1009.0755217313766,
+    "44b6_0c582fdc": 626.6747548103333,
+    "6bba_05b6850b": 85.89325382709504,
+    "6bba_05db0fb1": 1002.5167531490326,
+    "6bba_062c8d37": 61.95581662654877
+  },
+  "frames": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "low": 96.0,
+  "high": 99.0,
+  "loso": {
+    "44b6_0113de3b": {
+      "fit_on": [
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 256.28920855522153,
+      "assigned_pct": 96.0,
+      "gate": 7.0
+    },
+    "44b6_0b24845f": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 256.28920855522153,
+      "B_holdout": 1009.0755217313766,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    },
+    "44b6_0c582fdc": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 256.28920855522153,
+      "B_holdout": 626.6747548103333,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    },
+    "6bba_05b6850b": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 85.89325382709504,
+      "assigned_pct": 96.0,
+      "gate": 7.0
+    },
+    "6bba_05db0fb1": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 256.28920855522153,
+      "B_holdout": 1002.5167531490326,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    },
+    "6bba_062c8d37": {
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc",
+        "6bba_05b6850b",
+        "6bba_05db0fb1"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 61.95581662654877,
+      "assigned_pct": 96.0,
+      "gate": 7.0
+    }
+  },
+  "nested": {
+    "6bba_05b6850b": {
+      "fit_embryo": "44b6",
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 85.89325382709504,
+      "assigned_pct": 96.0,
+      "gate": 7.0
+    },
+    "6bba_05db0fb1": {
+      "fit_embryo": "44b6",
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 1002.5167531490326,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    },
+    "6bba_062c8d37": {
+      "fit_embryo": "44b6",
+      "fit_on": [
+        "44b6_0113de3b",
+        "44b6_0b24845f",
+        "44b6_0c582fdc"
+      ],
+      "fit_median": 626.6747548103333,
+      "B_holdout": 61.95581662654877,
+      "assigned_pct": 96.0,
+      "gate": 7.0
+    },
+    "44b6_0113de3b": {
+      "fit_embryo": "6bba",
+      "fit_on": [
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 85.89325382709504,
+      "B_holdout": 256.28920855522153,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    },
+    "44b6_0b24845f": {
+      "fit_embryo": "6bba",
+      "fit_on": [
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 85.89325382709504,
+      "B_holdout": 1009.0755217313766,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    },
+    "44b6_0c582fdc": {
+      "fit_embryo": "6bba",
+      "fit_on": [
+        "6bba_05b6850b",
+        "6bba_05db0fb1",
+        "6bba_062c8d37"
+      ],
+      "fit_median": 85.89325382709504,
+      "B_holdout": 626.6747548103333,
+      "assigned_pct": 99.0,
+      "gate": 7.0
+    }
+  }
+}
