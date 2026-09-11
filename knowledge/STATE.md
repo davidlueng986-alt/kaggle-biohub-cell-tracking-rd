@@ -3,6 +3,11 @@
 Last updated: 2026-09-11 (UNet v10 DIVERGED ep4-7, timeout-harvest likely; EXP-0060 2/3 bars; LB steady). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
+## Reporting policy (PM 2026-09-12)
+- To Alex: **try get higher mark** — no「打贏基準／BTE」talk. Always include concrete trusted CV numbers + LB.
+- Public diagnostic reference: **0.668** (v7 gate-7). Forge 0.946 still untrusted.
+- Trusted CV stays for honesty / anti-leakage; not an oral BTE ritual.
+
 ## OpenCode execution standard (PM 2026-09-12)
 - AI Master MUST open OpenCode **web UI** at `http://127.0.0.1:5096/` session `ses_f79cedb0fffepcQrAHaF52L2cf` (not curl-only).
 - Session agent mode MUST be **`orchestrator`** with Stage A **multi-agent parallel** (`@general` fan-out). Never nudge with `agent: build` as the primary mode.
