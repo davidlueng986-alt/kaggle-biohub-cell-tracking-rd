@@ -66,3 +66,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-11 (WATCH): UNet v10 ep2 loss 0.134 falling, recall 0.914 held, cnt 1.91 stuck (gate withholding); LB steady (v7 0.668, slots 4). No action — harvest on timeout/COMPLETE.
 - 2026-09-11 (WATCH): UNet v10 ep3 loss uptick (0.134→0.143), recall 0.937 held, cnt 1.94 stuck (gate withholding); LB steady (v7 0.668, slots 4). No action — harvest on timeout/COMPLETE.
 - 2026-09-11 (STAGE A): EXP-0058 STOPs threshold-fusion (+1 GT for +829 det); UNet ep3 uptick persists, recall held, gate withholding; LB steady (v7 0.668, slots 4). No action — harvest on timeout/COMPLETE.
+- 2026-09-11 (WATCH): UNet v10 ep4 instability (loss spike 0.44, recall →0.000, cnt 1.00) — lr×fg-weight suspected; ep5 decides recover vs diverge. LB steady (v7 0.668, slots 4). No action.
