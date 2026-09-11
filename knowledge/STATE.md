@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (UNet v10 ep2 healthy-but-imprecise; LB steady 0.668; no action). Maintainer: gold-watch.
+Last updated: 2026-09-11 (UNet v10 ep3: loss uptick, recall held, gate withholding; LB steady). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## EXECUTION OWNER (PM handoff 2026-09-11 ~20:28 HKT)
@@ -151,6 +151,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - UNet v10: ep0 confirmed (loss 0.1763, recall 0.925 over-detected, gate withholding best); CPU pace ~1.25 h/epoch → 20ep exceeds 12 h cap → plan TIMEOUT-harvest (unet_last.pt), not clean COMPLETE.
 - UNet v10 ep1 (watch): loss 0.1763→0.1369 FALLING, recall 0.839 held high, cnt 1.84 still over-dense (gate withholding correctly); no crash. Training HEALTHY — remaining gap is precision/count discipline, not escape. Timeout-harvest stands (many hours out).
 - UNet v10 ep2 (watch): loss 0.1338 falling, recall 0.914 held, cnt 1.91 stuck over-dense (gate withholding all 3 epochs). Precision gap persists; timeout-harvest (unet_last.pt) expected, not clean COMPLETE.
+- UNet v10 ep3 (watch): loss 0.1432 UPTICK (0.1338→0.1432), recall 0.937 held, cnt 1.94 stuck (gate withholding all 4). First loss reversal — watch for flat/divergence next epochs; timeout-harvest stands.
 - UNet v10 ESCAPED (watch): ep0 loss 0.1763 (≠ 0.7065), recall 0.925 via over-detection (fpr 1.0, cnt 1.93 — gate correctly withholding best). Fix works mechanically; count discipline is now the training target.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
