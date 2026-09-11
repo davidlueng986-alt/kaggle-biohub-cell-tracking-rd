@@ -1,0 +1,73 @@
+{
+  "exp_id": "EXP-0058",
+  "title": "Threshold-hysteresis union probe on 05db0fb1",
+  "hypothesis_id": "H-002",
+  "protocol_version": "1.2",
+  "real_data": true,
+  "image_based": true,
+  "scope": "detection/recall-only window probe (no edges/linking); single-sample operating-point probe, HPs fixed a priori, no selection; ceiling keep-trying, NOT a promotion claim",
+  "sample": "6bba_05db0fb1",
+  "window": {
+    "t0": 20,
+    "t1": 29,
+    "n_frames": 10
+  },
+  "n_frames_detected": 20,
+  "detector": {
+    "script": "scripts/dog_detect.py",
+    "sigmas": "base",
+    "min_size": 50,
+    "thr_mode": "percentile"
+  },
+  "fusion": {
+    "anchor_pct": 99.0,
+    "halo_pct": 95.0,
+    "gate_um": 3.0,
+    "halo_kept": 3381,
+    "halo_dropped": 1387
+  },
+  "matcher": {
+    "voxel_um": [
+      1.625,
+      0.40625,
+      0.40625
+    ],
+    "max_dist_um": 7.0
+  },
+  "configs": {
+    "hi99": {
+      "matched": 17,
+      "n_gt": 143,
+      "recall": 0.1189,
+      "total_det": 2216,
+      "det_per_frame": 221.6,
+      "s_per_frame": 0.68
+    },
+    "lo95": {
+      "matched": 99,
+      "n_gt": 143,
+      "recall": 0.6923,
+      "total_det": 4768,
+      "det_per_frame": 476.8,
+      "s_per_frame": 0.69
+    },
+    "union": {
+      "matched": 100,
+      "n_gt": 143,
+      "recall": 0.6993,
+      "total_det": 5597,
+      "det_per_frame": 559.7
+    }
+  },
+  "extra_matched": 1,
+  "extra_det": 829,
+  "marginal_cost_per_match": 829.0,
+  "rescued_gt_ids": [
+    21000300
+  ],
+  "go_criterion": "recall(union) > recall(@95) by >=1 GT node AND extra_det/extra_matched <= 10",
+  "verdict": "STOP",
+  "decision": "keep-trying",
+  "decision_reason": "Window rung only; GO -> full-video follow-up rung, not run here.",
+  "wall_s": 320.7
+}
