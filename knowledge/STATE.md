@@ -3,6 +3,11 @@
 Last updated: 2026-09-11 (v10 escape CONFIRMED via over-detection; EXP-0055 descent continues; UNet RUNNING). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
+## EXECUTION OWNER (PM handoff 2026-09-11 ~20:28 HKT)
+- **AI Master** owns the continuous gold R&D **execution** loop (OpenCode nudge, EXP runs, UNet harvest, ledger updates, working-status to Alex).
+- **PM** remains sole product authority (goals, PROTOCOL, BTE policy, acceptance). Contact PM for policy / out-of-brief / final done-failure.
+- Handoff brief delivered to AI Master with full trusted-CV + session context (no context loss intended).
+
 ## PRIORITY (PM 2026-09-11)
 - **Trusted CV rebuild ACTIVE (PROTOCOL v1.2).** Standing image 0.8194 is `tuned_ref` only — not trusted.
 - BTE = EXP-0053 trusted `loso_worst` **0.2092** / `embryo_nested_worst` **0.4193** (fold0 0.4193 / fold1 0.6136). Challengers must beat this envelope. **Do not BTE Forge 0.946** (`lb_external_untrusted`).

@@ -1,9 +1,9 @@
 # PM brief — Biohub Cell Tracking: AIM GOLD (continuous)
 
-Owner: PM. Executor: OpenCode (Muse Spark 1.3 contributor, xhigh, Orchestrator). Repo: https://github.com/davidlueng986-alt/kaggle-biohub-cell-tracking-rd
+Owner: PM (product). Execution owner: **AI Master** (harness → OpenCode Muse Spark 1.3 orchestrator). PM owns go/policy; AI Master runs the loop and reports working state to Alex. Repo: https://github.com/davidlueng986-alt/kaggle-biohub-cell-tracking-rd
 
 ## North star
-Maximize **private-LB durable** score for `biohub-cell-tracking-during-development`. Public LB is diagnostic only. Target: **gold-zone** competitive score under PROTOCOL v1.1 (embryo-grouped CV, trusted scorer, anti-shakeup gates). Deadline: **2026-09-29 23:59 UTC**.
+Maximize **private-LB durable** score for `biohub-cell-tracking-during-development`. Public LB is diagnostic only. Target: **gold-zone** competitive score under PROTOCOL v1.2 (nested trusted CV / LOSO, trusted scorer, BTE vs trusted standing only — never external LB like Forge 0.946). Deadline: **2026-09-29 23:59 UTC**.
 
 ## Constraints (hard)
 - VM: **no GPU**, ~108GB free. Do **NOT** download full ~88GB. Pull a **subset**: ≥2 samples from embryo `6bba` and ≥2 from `44b6` (full `.zarr` + `.geff` for those sample ids), plus `sample_submission.csv` (already present).
