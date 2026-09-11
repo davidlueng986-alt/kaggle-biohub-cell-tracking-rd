@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (EXP-0052 timing FITS ≥1.9×; UNet ep4 flat-recall watch; LB steady). Maintainer: gold-watch.
+Last updated: 2026-09-11 17:21 HKT (EXP-0052 timing FITS ≥1.9×; UNet v9 ep7+ still flat loss=0.7065 recall=0; LB steady 0.668). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -129,7 +129,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0046/`: DONE (single agent) — orphan pass STOP: true site recovered but buried (div-FP 18; control fires 3904 forks; edge regresses both). Orphan-ness not selective in dense fields; parked with r10. Division needs beyond-proximity signal (learned/GPU).
 - UNet v8: ep3 done, ~1.25 h/epoch observed (NOT ~3.5 h/20ep — timeout risk before ep20, ~20 h ETA vs 12 h cap); val_recall 0.000 flat, count-gate withholding best as designed; HNM fix live. Early-warning checkpoint ep8–10: recall still 0 → threshold/loss review; harvest unet_last.pt on timeout regardless.
 - UNet v9 TRIAGE-DRIVEN (Stage A parallel): loss == all-zero baseline (0.5018) + 159fg/36705bg + neg-Dice veto = zero-collapse attractor (not slow learning). Fix bundled: HNM off + foreground-weighted MSE ×200 (attribution via trajectory; embryo discipline preserved). Validated locally (smoke + 1 real epoch, no crash). Pushed v9, RUNNING (no instant-fail). Watch: loss < 0.50 early = escaped.
-- UNet v9 ESCAPED then FLAT (watch 2026-09-11 15:21 HKT): ep0 loss 0.8574 → ep1–4 loss 0.7065 flat; val_recall=0.000 cnt=0.00 all epochs; HNM silent (off); still RUNNING. Early-warning NOW: recall still 0 at ep4 (bar was past ~ep5 → threshold/loss review). Harvest unet_last.pt on COMPLETE/timeout → EXP-0035; OpenCode concurrently scaffolding EXP-0052 (H-005 timing).
+- UNet v9 ESCAPED then FLAT (watch 2026-09-11 17:21 HKT): ep0 loss 0.8574 → ep1–7+ loss 0.7065 flat; val_recall=0.000 cnt=0.00 all epochs; HNM silent (off); still RUNNING past early-warning. Action: OpenCode nudged for threshold/loss review + Stage A parallel; harvest unet_last.pt on COMPLETE/timeout → EXP-0035 regardless.
 - `experiments/EXP-0052/`: DONE (Stage A parallel) — hidden-timing calibration: det fit R²=0.995 (Kaggle-anchored R²=0.993); projections sparse 5.80 h / mix 6.04 h / dense-worst 6.30 h (≥1.9× headroom); v7 visible 0.1214 h re-confirmed; hidden logs unrecoverable (boundary recorded). Timeout fear RETIRED quantitatively.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
