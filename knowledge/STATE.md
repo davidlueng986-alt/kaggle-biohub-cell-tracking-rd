@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 ~12:20 HKT (gold-watch: OpenCode idle→nudge admitted; EXP-0046 last; v7 56153940 PENDING; UNet v9 RUNNING CPU early-ep watch loss<0.50; LB DoG 0.650 / Forge 0.946). Maintainer: gold-watch.
+Last updated: 2026-09-11 ~12:22 HKT (gold-watch: OpenCode ModelUnavailable opencode-go→switched Muse Free + nudged RUNNING; EXP-0046 last; v7 56153940 PENDING; UNet v9 CPU early; LB DoG 0.650 / Forge 0.946). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
