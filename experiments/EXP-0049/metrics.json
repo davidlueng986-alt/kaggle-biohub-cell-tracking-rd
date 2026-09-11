@@ -1,0 +1,45 @@
+{
+  "experiment": "EXP-0049",
+  "static": {
+    "gate_um_single_7_no_10": {
+      "equal": true,
+      "detail": "GATE_UM=7.0 x1, '10.0' x0"
+    },
+    "find_wheels_search_based_no_hardcoded": {
+      "equal": true,
+      "detail": "def+walk=True, hardcoded=False"
+    },
+    "all_code_cells_compile": {
+      "equal": true,
+      "detail": "5 code cells"
+    },
+    "kernel_metadata_flags": {
+      "equal": true,
+      "detail": "gpu=False net=False ds=['liangwanyiudavid/biohub-zarr-wheels'] comp=['biohub-cell-tracking-during-development']"
+    },
+    "pct_map_and_no_forks": {
+      "equal": true,
+      "detail": "pct_map=True, fork_tokens=none"
+    }
+  },
+  "probes": {
+    "detect_positions_equal_6_frames": {
+      "equal": true,
+      "detail": "6bba_05b6850b t20 pct=98.5 n=43 eq=True (1s); 6bba_05b6850b t21 pct=98.5 n=44 eq=True (1s); 6bba_05b6850b t22 pct=98.5 n=41 eq=True (1s); 44b6_0113de3b t20 pct=99.0 n=146 eq=True (1s); 44b6_0113de3b t21 pct=99.0 n=151 eq=True (1s); 44b6_0113de3b t22 pct=99.0 n=151 eq=True (1s)"
+    },
+    "linked_edges_equal_2_chains_maxd7": {
+      "equal": true,
+      "detail": "6bba_05b6850b nodes=128 nb_edges=84 repo_edges=84 eq=True; 44b6_0113de3b nodes=448 nb_edges=281 repo_edges=281 eq=True"
+    },
+    "assign_equal_scipy_path_N70": {
+      "equal": true,
+      "detail": "identical_perm=True cost=14.410420 repo_backend=scipy"
+    },
+    "assign_equal_pure_path_N5": {
+      "equal": true,
+      "detail": "identical_perm=True repo_backend=pure"
+    }
+  },
+  "verdict": "IN-SYNC",
+  "elapsed_s": 8.6
+}
