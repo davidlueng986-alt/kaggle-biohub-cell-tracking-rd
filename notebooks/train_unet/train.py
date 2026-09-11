@@ -42,18 +42,17 @@ CONFIG = dict(
     pos_frac=0.5,                # embryo-balanced: half pos / half neg
     bright_upsample=4.0,         # upweight bright_max negs (44b6 has ~6% hard)
     epochs=20,
-    lr=3e-4,
+    lr=1e-3,  # v10: faster exit from flat init under reweighted loss (Adam-safe)
     weight_decay=1e-5,
-    peak_thr=0.3,                # heatmap peak -> detection threshold
+    peak_thr=0.1,  # v10: instrumentation — countable weak bumps so gate can save (was 0.3)
     match_um=7.0,                # detection matches GT iff within 7 um
     voxel_um=(1.625, 0.40625, 0.40625),
     mine_every=0,                # v9: OFF (zero-collapse escape; HNM's 4x suppressor
                                 # deepened the all-zero attractor — triage 2026-09-11; was 2)
     mine_topk=512,               # hardest train negs get boosted weight
     mine_boost=1.0,              # v9: neutral (was 4.0; see mine_every)
-    fg_weight=200.0,             # v9: foreground voxel weight in MSE (159 fg vs 36705 bg
-                                # voxels/batch makes unweighted MSE + neg-Dice veto lock all-zero;
-                                # ~bg/fg ratio; preserves embryo discipline — weights, not data)
+    fg_weight=2500.0,  # v10: past ~1350 breakeven (net init pull -0.955; was 200, too weak).
+                      # v9 bundled HNM-off + x200; v10 keeps HNM off, strengthens weight, drops Dice.
     out_dir="/kaggle/working",   # checkpoint dir (falls back to ./working)
 )
 
@@ -345,10 +344,11 @@ def train(args):
             out = torch.sigmoid(model(img.to(device)))
             tgt_d = tgt.to(device)
             # audit FLAG#6: design Opt-A loss = MSE + Dice-on-binarised-mask;
-            # v9: foreground-weighted MSE (bg/fg ~230:1 locks all-zero otherwise)
+            # v9: foreground-weighted MSE (bg/fg ~230:1 locks all-zero otherwise).
+            # v10: Dice OFF — its +0.5 discontinuity vetoes any escape from zero
+            # (triage analytic: rows a=0 go 0.7065 -> 1.2063 on any nonzero output).
             w = 1.0 + (CONFIG["fg_weight"] - 1.0) * (tgt_d > 0.5).float()
-            loss = (((out - tgt_d) ** 2) * w).mean() \
-                + dice_loss(out, (tgt_d > 0.5).float())
+            loss = (((out - tgt_d) ** 2) * w).mean()
             loss.backward()
             opt.step()
             tot += loss.item()

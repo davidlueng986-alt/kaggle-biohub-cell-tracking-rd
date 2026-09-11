@@ -1,0 +1,270 @@
+{
+  "exp_id": "EXP-0054",
+  "title": "GT-free count target analysis (T_ratio vs edge)",
+  "hypothesis_id": "H-002/H-004",
+  "status": "done",
+  "sources": [
+    "EXP-0008",
+    "EXP-0009",
+    "EXP-0010",
+    "EXP-0011",
+    "EXP-0012",
+    "EXP-0021",
+    "EXP-0039",
+    "EXP-0040",
+    "EXP-0043",
+    "EXP-0044"
+  ],
+  "n_unique_rows": 13,
+  "table": [
+    {
+      "sample": "44b6_0113de3b",
+      "op": "@99.0",
+      "src": "EXP-0021",
+      "T_ratio": 0.6197631527858668,
+      "det_f": 159.62,
+      "edge_raw": 0.9038461538461539,
+      "edge_adj": 0.938213715036662
+    },
+    {
+      "sample": "44b6_0113de3b",
+      "op": "@98.5",
+      "src": "EXP-0009",
+      "T_ratio": 0.7315860997864493,
+      "det_f": 188.42,
+      "edge_raw": 0.9038461538461539,
+      "edge_adj": 0.9281066409808402
+    },
+    {
+      "sample": "44b6_0b24845f",
+      "op": "@99.0-bar",
+      "src": "EXP-0021",
+      "T_ratio": 0.3961579509071505,
+      "det_f": 129.92,
+      "edge_raw": 0.09803921568627451,
+      "edge_adj": 0.10395923577542009
+    },
+    {
+      "sample": "44b6_0b24845f",
+      "op": "@96.0",
+      "src": "EXP-0040",
+      "T_ratio": 0.7016008537886873,
+      "det_f": 230.09,
+      "edge_raw": 0.18181818181818182,
+      "edge_adj": 0.18724362084020568
+    },
+    {
+      "sample": "44b6_0c582fdc",
+      "op": "@99.0-bar",
+      "src": "EXP-0021",
+      "T_ratio": 0.45707847485513986,
+      "det_f": 127.79,
+      "edge_raw": 0.09090909090909091,
+      "edge_adj": 0.09584474113768054
+    },
+    {
+      "sample": "44b6_0c582fdc",
+      "op": "@96.0",
+      "src": "EXP-0040",
+      "T_ratio": 0.559482080263252,
+      "det_f": 156.42,
+      "edge_raw": 0.1794871794871795,
+      "edge_adj": 0.18739391137989034
+    },
+    {
+      "sample": "6bba_05b6850b",
+      "op": "@98.5",
+      "src": "EXP-0009",
+      "T_ratio": 0.7423766111285759,
+      "det_f": 47.23,
+      "edge_raw": 0.7988571428571428,
+      "edge_adj": 0.8194375712938429
+    },
+    {
+      "sample": "6bba_05b6850b",
+      "op": "@98.0",
+      "src": "EXP-0011",
+      "T_ratio": 0.7717698836843759,
+      "det_f": 49.1,
+      "edge_raw": 0.7882623705408516,
+      "edge_adj": 0.8062528917924284
+    },
+    {
+      "sample": "6bba_05b6850b",
+      "op": "@98.0+split",
+      "src": "EXP-0012",
+      "T_ratio": 0.9858535051870481,
+      "det_f": 62.72,
+      "edge_raw": 0.7077986179664363,
+      "edge_adj": 0.708799904914204
+    },
+    {
+      "sample": "6bba_05db0fb1",
+      "op": "@98.5-bar",
+      "src": "EXP-0021",
+      "T_ratio": 0.3748997134670487,
+      "det_f": 261.68,
+      "edge_raw": 0.19686274509803922,
+      "edge_adj": 0.209168640934884
+    },
+    {
+      "sample": "6bba_05db0fb1",
+      "op": "@96.0",
+      "src": "EXP-0039",
+      "T_ratio": 0.6015329512893983,
+      "det_f": 419.87,
+      "edge_raw": 0.4637247569184742,
+      "edge_adj": 0.4822026604488088
+    },
+    {
+      "sample": "6bba_062c8d37",
+      "op": "@98.5-bar",
+      "src": "EXP-0021",
+      "T_ratio": 0.8361525704809287,
+      "det_f": 50.42,
+      "edge_raw": 0.8507625272331155,
+      "edge_adj": 0.8647020525549449
+    },
+    {
+      "sample": "6bba_062c8d37",
+      "op": "@96.0",
+      "src": "EXP-0043",
+      "T_ratio": 0.8922056384742952,
+      "det_f": 53.8,
+      "edge_raw": 0.7776572668112798,
+      "edge_adj": 0.7860399736674544
+    }
+  ],
+  "excluded_ledger": [
+    "EXP-0008 full_video_p99 rows: n_det_total copies window-probe per-frame means; T_ratio underivable; edge values kept as reference only",
+    "EXP-0010 combo rows: duplicate EXP-0009 operating points, no independent T_ratio",
+    "EXP-0021/M39/M40/M43 rescore bars: verified bit-identical duplicates of EXP-0009/EXP-0021 arms (rescore_match_ledger true)",
+    "EXP-0044 fork_r10 arm: linker-only variant at identical counts (raw -0.0014, div FP +35, adj -0.0015); FP-mechanism note, not a count row"
+  ],
+  "binned_edge_raw_by_T_ratio": {
+    "0-0.5": {
+      "n": 3,
+      "mean_raw": 0.12860368389780155
+    },
+    "0.5-0.8": {
+      "n": 7,
+      "mean_raw": 0.6028345627591625
+    },
+    "0.8-1.0": {
+      "n": 3,
+      "mean_raw": 0.7787394706702772
+    },
+    "1.0+": {
+      "n": 0,
+      "mean_raw": null
+    }
+  },
+  "spearman_T_ratio_vs_raw": 0.5942,
+  "spearman_det_f_vs_raw": -0.2503,
+  "within_sample": {
+    "best_by_raw": {
+      "44b6_0113de3b": {
+        "op": "@99.0",
+        "src": "EXP-0021",
+        "T_ratio": 0.6197631527858668,
+        "det_f": 159.62,
+        "raw": 0.9038461538461539,
+        "adj": 0.938213715036662
+      },
+      "44b6_0b24845f": {
+        "op": "@96.0",
+        "src": "EXP-0040",
+        "T_ratio": 0.7016008537886873,
+        "det_f": 230.09,
+        "raw": 0.18181818181818182,
+        "adj": 0.18724362084020568
+      },
+      "44b6_0c582fdc": {
+        "op": "@96.0",
+        "src": "EXP-0040",
+        "T_ratio": 0.559482080263252,
+        "det_f": 156.42,
+        "raw": 0.1794871794871795,
+        "adj": 0.18739391137989034
+      },
+      "6bba_05b6850b": {
+        "op": "@98.5",
+        "src": "EXP-0009",
+        "T_ratio": 0.7423766111285759,
+        "det_f": 47.23,
+        "raw": 0.7988571428571428,
+        "adj": 0.8194375712938429
+      },
+      "6bba_05db0fb1": {
+        "op": "@96.0",
+        "src": "EXP-0039",
+        "T_ratio": 0.6015329512893983,
+        "det_f": 419.87,
+        "raw": 0.4637247569184742,
+        "adj": 0.4822026604488088
+      },
+      "6bba_062c8d37": {
+        "op": "@98.5-bar",
+        "src": "EXP-0021",
+        "T_ratio": 0.8361525704809287,
+        "det_f": 50.42,
+        "raw": 0.8507625272331155,
+        "adj": 0.8647020525549449
+      }
+    },
+    "lowT_to_highT": {
+      "44b6_0113de3b": {
+        "dT": 0.11182294700058248,
+        "draw": 0.0,
+        "lo_op": "@99.0",
+        "hi_op": "@98.5",
+        "n_ops": 2
+      },
+      "44b6_0b24845f": {
+        "dT": 0.3054429028815368,
+        "draw": 0.08377896613190731,
+        "lo_op": "@99.0-bar",
+        "hi_op": "@96.0",
+        "n_ops": 2
+      },
+      "44b6_0c582fdc": {
+        "dT": 0.10240360540811211,
+        "draw": 0.08857808857808858,
+        "lo_op": "@99.0-bar",
+        "hi_op": "@96.0",
+        "n_ops": 2
+      },
+      "6bba_05b6850b": {
+        "dT": 0.24347689405847217,
+        "draw": -0.09105852489070654,
+        "lo_op": "@98.5",
+        "hi_op": "@98.0+split",
+        "n_ops": 3
+      },
+      "6bba_05db0fb1": {
+        "dT": 0.22663323782234962,
+        "draw": 0.266862011820435,
+        "lo_op": "@98.5-bar",
+        "hi_op": "@96.0",
+        "n_ops": 2
+      },
+      "6bba_062c8d37": {
+        "dT": 0.05605306799336651,
+        "draw": -0.07310526042183574,
+        "lo_op": "@98.5-bar",
+        "hi_op": "@96.0",
+        "n_ops": 2
+      }
+    }
+  },
+  "best_T_ratio_span": [
+    0.559482080263252,
+    0.8361525704809287
+  ],
+  "best_det_f_span": [
+    47.23,
+    419.87
+  ],
+  "verdict": "NOT_EXISTS",
+  "verdict_reason": "No GT-free count target beats per-sample tuning. (1) Best-T_ratio spans 0.56-0.84 with 3/6 samples still rising at their max-T arm (peaks uncaptured); best-det/f spans 47-420 (9x), so no fixed detection/video prior is jointly near-optimal. (2) Pooled det/f predicts edge WORSE (Spearman -0.25) than T_ratio (+0.59), and within-sample they are exactly proportional, so det/f adds nothing once per-sample scale is known. (3) T_ratio itself needs T_true from GT .geff metadata (docs/COMPETITION.md:28,55), unobservable on hidden test: a T_ratio interval is circular as a GT-free rule. Hidden-test operating discipline stays OPEN; embryo caveat: all rows from 2 train embryos, hidden is embryo-disjoint, and per-embryo levels already failed on new samples (EXP-0021/EXP-0043)."
+}
