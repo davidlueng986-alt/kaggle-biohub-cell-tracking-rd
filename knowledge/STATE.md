@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (EXP-0046 STOPs orphan rule; v7 PENDING, UNet RUNNING). Maintainer: gold-watch.
+Last updated: 2026-09-11 ~11:15 HKT (gold-watch: EXP-0046 STOP idle nudged Stage A; v7 56153940 PENDING; UNet v8 RUNNING ep≥5 recall=0). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -123,6 +123,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0045/`: DONE (Stage A parallel, analysis) — division-evidence audit: 3/4 divisions LOST-AT-DETECTION (7.4–13.4 µm), 1/4 LOST-AT-LINKING (062c8d37 orphan, zero forks emitted anywhere). GO: orphan-driven second-edge pass (EXP-0046) — r10 failed for firing on clutter, not orphans.
 - `experiments/EXP-0046/`: DONE (single agent) — orphan pass STOP: true site recovered but buried (div-FP 18; control fires 3904 forks; edge regresses both). Orphan-ness not selective in dense fields; parked with r10. Division needs beyond-proximity signal (learned/GPU).
 - UNet v8: ep3 done, ~1.25 h/epoch observed (NOT ~3.5 h/20ep — timeout risk before ep20, ~20 h ETA vs 12 h cap); val_recall 0.000 flat, count-gate withholding best as designed; HNM fix live. Early-warning checkpoint ep8–10: recall still 0 → threshold/loss review; harvest unet_last.pt on timeout regardless.
+- UNet v9 TRIAGE-DRIVEN (Stage A parallel): loss == all-zero baseline (0.5018) + 159fg/36705bg + neg-Dice veto = zero-collapse attractor (not slow learning). Fix bundled: HNM off + foreground-weighted MSE ×200 (attribution via trajectory; embryo discipline preserved). Validated locally (smoke + 1 real epoch, no crash). Pushed v9, RUNNING (no instant-fail). Watch: loss < 0.50 early = escaped.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43; 10-node window vs 51-node truth), others hold. Window selection invalid on small windows; no EXP-0035 policy.

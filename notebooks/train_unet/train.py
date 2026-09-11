@@ -47,9 +47,13 @@ CONFIG = dict(
     peak_thr=0.3,                # heatmap peak -> detection threshold
     match_um=7.0,                # detection matches GT iff within 7 um
     voxel_um=(1.625, 0.40625, 0.40625),
-    mine_every=2,                # hard-neg mining refresh cadence (epochs; 0=off)
+    mine_every=0,                # v9: OFF (zero-collapse escape; HNM's 4x suppressor
+                                # deepened the all-zero attractor — triage 2026-09-11; was 2)
     mine_topk=512,               # hardest train negs get boosted weight
-    mine_boost=4.0,
+    mine_boost=1.0,              # v9: neutral (was 4.0; see mine_every)
+    fg_weight=200.0,             # v9: foreground voxel weight in MSE (159 fg vs 36705 bg
+                                # voxels/batch makes unweighted MSE + neg-Dice veto lock all-zero;
+                                # ~bg/fg ratio; preserves embryo discipline — weights, not data)
     out_dir="/kaggle/working",   # checkpoint dir (falls back to ./working)
 )
 
@@ -340,9 +344,11 @@ def train(args):
             opt.zero_grad()
             out = torch.sigmoid(model(img.to(device)))
             tgt_d = tgt.to(device)
-            # audit FLAG#6: design Opt-A loss = MSE + Dice-on-binarised-mask
-            loss = (nn.functional.mse_loss(out, tgt_d)
-                    + dice_loss(out, (tgt_d > 0.5).float()))
+            # audit FLAG#6: design Opt-A loss = MSE + Dice-on-binarised-mask;
+            # v9: foreground-weighted MSE (bg/fg ~230:1 locks all-zero otherwise)
+            w = 1.0 + (CONFIG["fg_weight"] - 1.0) * (tgt_d > 0.5).float()
+            loss = (((out - tgt_d) ** 2) * w).mean() \
+                + dice_loss(out, (tgt_d > 0.5).float())
             loss.backward()
             opt.step()
             tot += loss.item()
