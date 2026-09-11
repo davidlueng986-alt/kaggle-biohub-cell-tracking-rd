@@ -1,0 +1,163 @@
+{
+  "exp_id": "EXP-0051",
+  "title": "GT-motion regime test for gate-10 advantage (analysis-only)",
+  "protocol_version": "1.1",
+  "scorer_version": "1.1.0",
+  "analysis_only": true,
+  "no_detection": true,
+  "no_linking": true,
+  "voxel_size_um": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "gt_stats": {
+    "44b6_0113de3b": {
+      "n_nodes": 52,
+      "n_edges": 50,
+      "n_occupied_frames": 52,
+      "density_nodes_per_frame": 1.0,
+      "frac_7_10": 0.02,
+      "n_fast_7_10": 1,
+      "frac_gt7": 0.02,
+      "frac_gt10": 0.0,
+      "median_um": 2.882652237165848,
+      "p90_um": 4.666571847643813,
+      "max_um": 7.814374775053984
+    },
+    "44b6_0b24845f": {
+      "n_nodes": 51,
+      "n_edges": 49,
+      "n_occupied_frames": 40,
+      "density_nodes_per_frame": 1.275,
+      "frac_7_10": 0.0,
+      "n_fast_7_10": 0,
+      "frac_gt7": 0.0,
+      "frac_gt10": 0.0,
+      "median_um": 2.0714766773970688,
+      "p90_um": 3.4291066438065276,
+      "max_um": 5.154734625807618
+    },
+    "44b6_0c582fdc": {
+      "n_nodes": 71,
+      "n_edges": 70,
+      "n_occupied_frames": 71,
+      "density_nodes_per_frame": 1.0,
+      "frac_7_10": 0.0,
+      "n_fast_7_10": 0,
+      "frac_gt7": 0.0,
+      "frac_gt10": 0.0,
+      "median_um": 2.1877232028983924,
+      "p90_um": 3.305353873776458,
+      "max_um": 5.025034981221523
+    },
+    "6bba_05b6850b": {
+      "n_nodes": 861,
+      "n_edges": 845,
+      "n_occupied_frames": 100,
+      "density_nodes_per_frame": 8.61,
+      "frac_7_10": 0.005917159763313609,
+      "n_fast_7_10": 5,
+      "frac_gt7": 0.005917159763313609,
+      "frac_gt10": 0.0,
+      "median_um": 0.9084026158592896,
+      "p90_um": 2.6012692214570947,
+      "max_um": 9.95934117110665
+    },
+    "6bba_05db0fb1": {
+      "n_nodes": 1229,
+      "n_edges": 1183,
+      "n_occupied_frames": 100,
+      "density_nodes_per_frame": 12.29,
+      "frac_7_10": 0.0169061707523246,
+      "n_fast_7_10": 20,
+      "frac_gt7": 0.0169061707523246,
+      "frac_gt10": 0.0,
+      "median_um": 1.6750116604071745,
+      "p90_um": 3.6198542272253333,
+      "max_um": 9.834271229989541
+    },
+    "6bba_062c8d37": {
+      "n_nodes": 930,
+      "n_edges": 898,
+      "n_occupied_frames": 99,
+      "density_nodes_per_frame": 9.393939393939394,
+      "frac_7_10": 0.028953229398663696,
+      "n_fast_7_10": 26,
+      "frac_gt7": 0.028953229398663696,
+      "frac_gt10": 0.0,
+      "median_um": 1.8168052317185792,
+      "p90_um": 4.487177913232324,
+      "max_um": 9.834271229989541
+    }
+  },
+  "gate_deltas_g10_minus_g7_adj": {
+    "image_from_EXP0050": {
+      "44b6_0113de3b": -0.2776531883957626,
+      "44b6_0b24845f": -0.0019992160726042263,
+      "44b6_0c582fdc": 0.02580435338322168,
+      "6bba_05b6850b": -0.0060219609319799305,
+      "6bba_05db0fb1": -0.01707192907783661,
+      "6bba_062c8d37": 0.013084770903520226
+    },
+    "oracle_from_EXP0017_grid": {
+      "44b6_0113de3b": 0.02199596194913611,
+      "44b6_0b24845f": 0.0,
+      "44b6_0c582fdc": 0.0,
+      "6bba_05b6850b": 0.006428795976108237,
+      "6bba_05db0fb1": 0.015785887717612246,
+      "6bba_062c8d37": 0.03140200999457066
+    }
+  },
+  "rank_table": {
+    "order": [
+      "44b6_0113de3b",
+      "44b6_0b24845f",
+      "44b6_0c582fdc",
+      "6bba_05b6850b",
+      "6bba_05db0fb1",
+      "6bba_062c8d37"
+    ],
+    "fast_frac_rank_desc": [
+      2.0,
+      5.5,
+      5.5,
+      4.0,
+      3.0,
+      1.0
+    ],
+    "density_rank_desc": [
+      5.5,
+      4.0,
+      5.5,
+      3.0,
+      1.0,
+      2.0
+    ],
+    "image_adv_rank_desc": [
+      6.0,
+      3.0,
+      1.0,
+      4.0,
+      5.0,
+      2.0
+    ],
+    "oracle_adv_rank_desc": [
+      2.0,
+      5.5,
+      5.5,
+      4.0,
+      3.0,
+      1.0
+    ]
+  },
+  "spearman": {
+    "fast_vs_image_adv": -0.3768511731740915,
+    "density_vs_image_adv": -0.11595420713048969,
+    "fast_vs_oracle_adv": 1.0,
+    "p90_vs_oracle_adv": 0.753702346348183
+  },
+  "verdict": "WEAK",
+  "verdict_rule": "STRONG-MECHANISM iff fast_vs_image_adv rho>=0.8 else WEAK",
+  "decision": "keep uniform gate-7; do not pursue per-regime gate"
+}
