@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (v7 LB 0.668 IN — gate wins hidden too; 0049/0050 closed by this session). Maintainer: gold-watch.
+Last updated: 2026-09-11 (v7 LB 0.668 IN; v9 ESCAPED zero-collapse ep0-1; 0049/50/51 closed; UNet + LB watch live). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
