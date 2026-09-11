@@ -1,0 +1,343 @@
+{
+  "exp_id": "EXP-0042",
+  "title": "Higher-moment DoG shape descriptors vs operating level",
+  "status": "done",
+  "protocol_version": "1.1",
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "scope": "analysis-only: GT-free higher-moment stat vs fixed-@98.5 recall + assembled best-pct; no new detection policy",
+  "window": {
+    "t0": 20,
+    "t1": 29,
+    "n_frames": 10
+  },
+  "detector": {
+    "sig_small": [
+      1.0,
+      3.0,
+      3.0
+    ],
+    "sig_large": [
+      1.6,
+      5.0,
+      5.0
+    ],
+    "min_size": 50,
+    "thr_mode": "percentile",
+    "ref_pct": 98.5
+  },
+  "compute": {
+    "fresh_dog_frames": 60,
+    "fresh_detect_frames": 20,
+    "fresh_sources": [
+      "44b6_0b24845f",
+      "44b6_0c582fdc"
+    ],
+    "reuse_sources": {
+      "44b6_0113de3b": "experiments/EXP-0009/full_44b6_0113de3b_t{t}.json",
+      "6bba_05b6850b": "experiments/EXP-0009/full_6bba_05b6850b_t{t}.json",
+      "6bba_05db0fb1": "experiments/EXP-0021/full_6bba_05db0fb1_t{t}.json",
+      "6bba_062c8d37": "experiments/EXP-0021/full_6bba_062c8d37_t{t}.json"
+    },
+    "step_cap": 30,
+    "global_cap": 60,
+    "within_cap": true
+  },
+  "recall98_gt": {
+    "44b6_0113de3b": {
+      "recall98": 1.0,
+      "matched": 3,
+      "gt_total": 3,
+      "n_det": 1766
+    },
+    "44b6_0b24845f": {
+      "recall98": 0.8,
+      "matched": 8,
+      "gt_total": 10,
+      "n_det": 1550
+    },
+    "44b6_0c582fdc": {
+      "recall98": 0.0,
+      "matched": 0,
+      "gt_total": 10,
+      "n_det": 1623
+    },
+    "6bba_05b6850b": {
+      "recall98": 1.0,
+      "matched": 84,
+      "gt_total": 84,
+      "n_det": 444
+    },
+    "6bba_05db0fb1": {
+      "recall98": 0.1888,
+      "matched": 27,
+      "gt_total": 143,
+      "n_det": 2850
+    },
+    "6bba_062c8d37": {
+      "recall98": 0.9726,
+      "matched": 71,
+      "gt_total": 73,
+      "n_det": 527
+    }
+  },
+  "best_pct_gt": {
+    "44b6_0113de3b": {
+      "pct": 99.0,
+      "prov": "EXP-0008/0009 tie 1.00@99.0+98.5"
+    },
+    "44b6_0b24845f": {
+      "pct": 98.5,
+      "prov": "EXP-0024 sweep tie 0.80"
+    },
+    "44b6_0c582fdc": {
+      "pct": 97.5,
+      "prov": "EXP-0024 sweep strict best"
+    },
+    "6bba_05b6850b": {
+      "pct": 98.5,
+      "prov": "EXP-0008/0009/0011 three-point"
+    },
+    "6bba_05db0fb1": {
+      "pct": 97.5,
+      "prov": "EXP-0024 sweep strict best"
+    },
+    "6bba_062c8d37": {
+      "pct": 98.5,
+      "prov": "EXP-0021 single point"
+    }
+  },
+  "best_pct_sensitivity_alt": {
+    "44b6_0113de3b": {
+      "pct": 99.0,
+      "prov": "EXP-0008/0009 tie 1.00@99.0+98.5"
+    },
+    "44b6_0b24845f": {
+      "pct": 98.5,
+      "prov": "EXP-0024 sweep tie 0.80"
+    },
+    "44b6_0c582fdc": {
+      "pct": 97.5,
+      "prov": "EXP-0024 sweep strict best"
+    },
+    "6bba_05b6850b": {
+      "pct": 98.5,
+      "prov": "EXP-0008/0009/0011 three-point"
+    },
+    "6bba_05db0fb1": {
+      "pct": 96.0,
+      "prov": "sensitivity alt"
+    },
+    "6bba_062c8d37": {
+      "pct": 98.5,
+      "prov": "EXP-0021 single point"
+    }
+  },
+  "stat_table_median_over_window": {
+    "44b6_0113de3b": {
+      "skew": 4.559762893500803,
+      "kurt_x": 31.591698732656912,
+      "tail6": 0.07548713684082031,
+      "tail12": 0.06312012672424316,
+      "tail24": 0.046886563301086426,
+      "r995_50": -302.2032803543829,
+      "otsu_frac": 0.03386831283569336,
+      "med": -1.0436458587646484,
+      "mad": 2.636890412376953,
+      "recall98": 1.0,
+      "best_pct": 99.0
+    },
+    "44b6_0b24845f": {
+      "skew": 1.4165532454584855,
+      "kurt_x": 5.124957443401711,
+      "tail6": 0.056923508644104004,
+      "tail12": 0.008574485778808594,
+      "tail24": 0.00011587142944335938,
+      "r995_50": -98.65862880512886,
+      "otsu_frac": 0.15322554111480713,
+      "med": -1.1128311157226562,
+      "mad": 8.101751328514649,
+      "recall98": 0.8,
+      "best_pct": 98.5
+    },
+    "44b6_0c582fdc": {
+      "skew": 1.922645955765221,
+      "kurt_x": 8.539942227999667,
+      "tail6": 0.11565732955932617,
+      "tail12": 0.07056975364685059,
+      "tail24": 0.023952364921569824,
+      "r995_50": -120.79384149894864,
+      "otsu_frac": 0.09138095378875732,
+      "med": -1.5723953247070312,
+      "mad": 5.183025361107422,
+      "recall98": 0.0,
+      "best_pct": 97.5
+    },
+    "6bba_05b6850b": {
+      "skew": 7.252981335781543,
+      "kurt_x": 85.5764254400844,
+      "tail6": 0.0639733076095581,
+      "tail12": 0.05367112159729004,
+      "tail24": 0.04355216026306152,
+      "r995_50": -453.32376738260416,
+      "otsu_frac": 0.0179365873336792,
+      "med": -0.25980329513549805,
+      "mad": 0.4853136549459229,
+      "recall98": 1.0,
+      "best_pct": 98.5
+    },
+    "6bba_05db0fb1": {
+      "skew": 1.752653705068179,
+      "kurt_x": 5.920707284896164,
+      "tail6": 0.043448686599731445,
+      "tail12": 0.005274176597595215,
+      "tail24": 1.0967254638671875e-05,
+      "r995_50": -45.11476811502896,
+      "otsu_frac": 0.14149296283721924,
+      "med": -5.79461669921875,
+      "mad": 21.978744507835938,
+      "recall98": 0.1888111888111888,
+      "best_pct": 97.5
+    },
+    "6bba_062c8d37": {
+      "skew": 7.807714427219521,
+      "kurt_x": 93.30773934302165,
+      "tail6": 0.06263840198516846,
+      "tail12": 0.0476149320602417,
+      "tail24": 0.03588736057281494,
+      "r995_50": -564.132571858609,
+      "otsu_frac": 0.013133049011230469,
+      "med": -0.15017127990722656,
+      "mad": 0.32147264580590823,
+      "recall98": 0.9726027397260274,
+      "best_pct": 98.5
+    }
+  },
+  "rank_test": {
+    "skew": {
+      "rho_best": 0.3703,
+      "p_best": 0.4699,
+      "rho_fixed98": 0.5798,
+      "p_fixed98": 0.2278,
+      "rho_best_alt96": 0.3947,
+      "loo_err_notches": [
+        3,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "loo_mean_err": 0.833,
+      "loo_within1": "4/6"
+    },
+    "kurt_x": {
+      "rho_best": 0.3703,
+      "p_best": 0.4699,
+      "rho_fixed98": 0.5798,
+      "p_fixed98": 0.2278,
+      "rho_best_alt96": 0.3947,
+      "loo_err_notches": [
+        3,
+        2,
+        0,
+        0,
+        2,
+        0
+      ],
+      "loo_mean_err": 1.167,
+      "loo_within1": "3/6"
+    },
+    "tail6": {
+      "rho_best": 0.1852,
+      "p_best": 0.7254,
+      "rho_fixed98": 0.116,
+      "p_fixed98": 0.8268,
+      "rho_best_alt96": 0.3339,
+      "loo_err_notches": [
+        1,
+        0,
+        3,
+        0,
+        2,
+        0
+      ],
+      "loo_mean_err": 1.0,
+      "loo_within1": "4/6"
+    },
+    "tail12": {
+      "rho_best": 0.1852,
+      "p_best": 0.7254,
+      "rho_fixed98": 0.116,
+      "p_fixed98": 0.8268,
+      "rho_best_alt96": 0.3339,
+      "loo_err_notches": [
+        3,
+        2,
+        3,
+        0,
+        2,
+        0
+      ],
+      "loo_mean_err": 1.667,
+      "loo_within1": "2/6"
+    },
+    "tail24": {
+      "rho_best": 0.7715,
+      "p_best": 0.0723,
+      "rho_fixed98": 0.8117,
+      "p_fixed98": 0.0499,
+      "rho_best_alt96": 0.8197,
+      "loo_err_notches": [
+        1,
+        2,
+        2,
+        1,
+        2,
+        0
+      ],
+      "loo_mean_err": 1.333,
+      "loo_within1": "3/6"
+    },
+    "r995_50": {
+      "rho_best": -0.5246,
+      "p_best": 0.2853,
+      "rho_fixed98": -0.6377,
+      "p_fixed98": 0.1731,
+      "rho_best_alt96": -0.5768,
+      "loo_err_notches": [
+        1,
+        2,
+        2,
+        0,
+        2,
+        0
+      ],
+      "loo_mean_err": 1.167,
+      "loo_within1": "3/6"
+    },
+    "otsu_frac": {
+      "rho_best": -0.3703,
+      "p_best": 0.4699,
+      "rho_fixed98": -0.5798,
+      "p_fixed98": 0.2278,
+      "rho_best_alt96": -0.3947,
+      "loo_err_notches": [
+        1,
+        2,
+        0,
+        0,
+        2,
+        0
+      ],
+      "loo_mean_err": 0.833,
+      "loo_within1": "4/6"
+    }
+  },
+  "criterion": "|rho|>=0.8 (vs best-pct OR fixed-@98.5 recall) AND LOO within-one-notch >=5/6 (notches [97.5,98,98.5,99,99.5])",
+  "go_stats": [],
+  "best_stat": "tail24",
+  "verdict": "STOP",
+  "wall_s": 90.7
+}

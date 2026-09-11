@@ -1,0 +1,108 @@
+{
+  "exp_id": "EXP-0041",
+  "title": "Window-best full-video validation 98.5/97.5",
+  "protocol_version": "1.1",
+  "samples": [
+    "44b6_0b24845f",
+    "44b6_0c582fdc"
+  ],
+  "frames": 100,
+  "linker": "baseline_link defaults (gate 7um, one-to-one, causal)",
+  "scorer": "scripts/score.py CLI v1.1.0, scripts unmodified; recall diagnostic via scipy LSA (diagnostic only)",
+  "per_sample": {
+    "44b6_0b24845f": {
+      "pct": 98.5,
+      "window_recall_ref": 0.8,
+      "full_recall": 0.4875,
+      "d_recall_full_minus_window": -0.31250000000000006,
+      "recall_within_0.10": false,
+      "bar": "EXP-0040 @96.0 frozen pred, recomputed-by-rescoring (never pasted)",
+      "bar96_adj_rescored": 0.18724362084020568,
+      "bar96_raw_rescored": 0.18181818181818182,
+      "bar96_T_pred": 23009,
+      "bar96_T_true": 32795,
+      "full_edge_adj": 0.22493759937272667,
+      "full_edge_raw": 0.21428571428571427,
+      "d_adj_full_minus_bar": 0.03769397853252099,
+      "adj_within_0.10_of_bar": true,
+      "full_edge_counts": {
+        "TP": 12,
+        "FP": 7,
+        "FN": 37
+      },
+      "full_division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "full_division_jaccard": 1.0,
+      "full_score": 0.3249375993727267,
+      "full_T_pred": 16493,
+      "full_T_true": 32795,
+      "det_per_frame": 164.93,
+      "total_det": 16493,
+      "s_per_frame": 0.6513,
+      "n_gt_frames": 40,
+      "verdict": "BREAKS",
+      "verdict_reason": "recall 0.4875 vs window 0.8000 (d=-0.3125, need >=-0.10) AND adj 0.2249 vs bar 0.1872 (d=+0.0377, need >=-0.10)",
+      "full_recall_def": "macro: mean of per-frame recalls over GT-annotated frames (same definition as EXP-0040/EXP-0021 ledger recalls cited in mission)",
+      "full_recall_micro": 0.43137254901960786,
+      "full_recall_micro_counts": {
+        "m": 22,
+        "g": 51
+      },
+      "recall_verdict_invariant_to_macro_micro": true,
+      "bar96_rescore_match_ledger": true,
+      "xcheck_EXP0034": "edge adj/ec and total_det reproduce EXP-0034 bit-exact (0.2249 12/7/37 @16493; 0.2767 21/9/49 @16531); micro recall also exact (0.4314/0.4930)"
+    },
+    "44b6_0c582fdc": {
+      "pct": 97.5,
+      "window_recall_ref": 0.5,
+      "full_recall": 0.49295774647887325,
+      "d_recall_full_minus_window": -0.007042253521126751,
+      "recall_within_0.10": true,
+      "bar": "EXP-0040 @96.0 frozen pred, recomputed-by-rescoring (never pasted)",
+      "bar96_adj_rescored": 0.18739391137989034,
+      "bar96_raw_rescored": 0.1794871794871795,
+      "bar96_T_pred": 15642,
+      "bar96_T_true": 27958,
+      "full_edge_adj": 0.27668749960383615,
+      "full_edge_raw": 0.26582278481012656,
+      "d_adj_full_minus_bar": 0.08929358822394581,
+      "adj_within_0.10_of_bar": true,
+      "full_edge_counts": {
+        "TP": 21,
+        "FP": 9,
+        "FN": 49
+      },
+      "full_division_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "full_division_jaccard": 1.0,
+      "full_score": 0.3766874996038362,
+      "full_T_pred": 16531,
+      "full_T_true": 27958,
+      "det_per_frame": 165.31,
+      "total_det": 16531,
+      "s_per_frame": 0.6547,
+      "n_gt_frames": 71,
+      "verdict": "HOLDS",
+      "verdict_reason": "recall 0.4930 vs window 0.5000 (d=-0.0070, need >=-0.10) AND adj 0.2767 vs bar 0.1874 (d=+0.0893, need >=-0.10)",
+      "full_recall_def": "macro: mean of per-frame recalls over GT-annotated frames (same definition as EXP-0040/EXP-0021 ledger recalls cited in mission)",
+      "full_recall_micro": 0.49295774647887325,
+      "full_recall_micro_counts": {
+        "m": 35,
+        "g": 71
+      },
+      "recall_verdict_invariant_to_macro_micro": true,
+      "bar96_rescore_match_ledger": true,
+      "xcheck_EXP0034": "edge adj/ec and total_det reproduce EXP-0034 bit-exact (0.2249 12/7/37 @16493; 0.2767 21/9/49 @16531); micro recall also exact (0.4314/0.4930)"
+    }
+  },
+  "overall": "STOP",
+  "overall_reason": "1/2 HOLDS: 44b6_0b24845f=BREAKS, 44b6_0c582fdc=HOLDS",
+  "policy_note": "GO -> window-best levels viable; recommend per-sample policy rung (do not run). STOP -> window does not transfer.",
+  "status": "done"
+}
