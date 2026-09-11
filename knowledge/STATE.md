@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 ~12:22 HKT (gold-watch: OpenCode ModelUnavailable opencode-go→switched Muse Free + nudged RUNNING; EXP-0046 last; v7 56153940 PENDING; UNet v9 CPU early; LB DoG 0.650 / Forge 0.946). Maintainer: gold-watch.
+Last updated: 2026-09-11 ~12:35 HKT (Stage A parallel: EXP-0047 HOLD-g7 3/5 + EXP-0048 READY; concurrent session owns EXP-0049/0050 — do not touch; v7 56153940 PENDING; UNet v9 RUNNING, logs silent; LB DoG 0.650 / Forge 0.946). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Goal
@@ -121,6 +121,9 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0043/`: DONE (Stage A parallel) — full-video 062c8d37 @96.0 DIVERGES (rec 0.867 < 0.90 bar, adj 0.786 < 0.8647; T_ratio 0.89). @96 does not generalize as dense policy. STOP.
 - `experiments/EXP-0044/`: DONE (Stage A parallel) — r10 forks on 05db0fb1 image full-video: +2393 proposals buy +7 edge TP at +45 edge FP +35 div FP, 0 div TP. STOP; radius-only proposals fire on clutter. Image forks stay parked.
 - `experiments/EXP-0045/`: DONE (Stage A parallel, analysis) — division-evidence audit: 3/4 divisions LOST-AT-DETECTION (7.4–13.4 µm), 1/4 LOST-AT-LINKING (062c8d37 orphan, zero forks emitted anywhere). GO: orphan-driven second-edge pass (EXP-0046) — r10 failed for firing on clutter, not orphans.
+- `experiments/EXP-0047/`: DONE (Stage A parallel, linking-only) — gate-10 vs gate-7 on dark+ref: HOLD-g7 3/5 (0b24845f −0.002, 05db0fb1 −0.017, 05b6850b −0.006; g10 wins 0c582fdc +0.026, 062c8d37 +0.013). Gate sample-conditional; v7 gate-7 safe default. Overlaps concurrent EXP-0050 — cross-check, no rerun.
+- `experiments/EXP-0048/`: DONE (Stage A parallel, enabling) — harvest drill READY: random-weight infer live (25.7k nodes/3f, 227s; thr-0.3 garbage expected), link skipped OOM-by-design; unet_best.pt → EXP-0035.
+- Concurrent session scope (DO NOT TOUCH): EXP-0049 (submit_gold drift re-audit) + EXP-0050 (gate-7 vs gate-10 all 6) scaffolded by sibling agent; 0050 overlaps 0047 — compare on arrival.
 - `experiments/EXP-0046/`: DONE (single agent) — orphan pass STOP: true site recovered but buried (div-FP 18; control fires 3904 forks; edge regresses both). Orphan-ness not selective in dense fields; parked with r10. Division needs beyond-proximity signal (learned/GPU).
 - UNet v8: ep3 done, ~1.25 h/epoch observed (NOT ~3.5 h/20ep — timeout risk before ep20, ~20 h ETA vs 12 h cap); val_recall 0.000 flat, count-gate withholding best as designed; HNM fix live. Early-warning checkpoint ep8–10: recall still 0 → threshold/loss review; harvest unet_last.pt on timeout regardless.
 - UNet v9 TRIAGE-DRIVEN (Stage A parallel): loss == all-zero baseline (0.5018) + 159fg/36705bg + neg-Dice veto = zero-collapse attractor (not slow learning). Fix bundled: HNM off + foreground-weighted MSE ×200 (attribution via trajectory; embryo discipline preserved). Validated locally (smoke + 1 real epoch, no crash). Pushed v9, RUNNING (no instant-fail). Watch: loss < 0.50 early = escaped.

@@ -1,0 +1,15 @@
+{
+  "exp_id": "EXP-0048",
+  "random_infer_ok": true,
+  "n_nodes": 25745,
+  "frames": [
+    20,
+    21,
+    22
+  ],
+  "infer_s": 227.2,
+  "heat_max": 0.524,
+  "link_step": "skipped-by-design: random-thr emits 8.5k dets/frame garbage; full-density Hungarian OOM-infeasible and decision-irrelevant",
+  "verdict": "READY",
+  "notes": "infer wiring live end-to-end (zarr->heatmap->peaks->json). Real-weights harvest -> sparse dets -> BL.link unaffected. Re-run cap: top-K/frame before link."
+}
