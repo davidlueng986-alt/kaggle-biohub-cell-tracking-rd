@@ -11,7 +11,7 @@
 > UPDATE: ALL FOUR ours COMPLETE publicScore **0.650** (v5 gate-10 ×3 + v6 vectorized ×1 identical —
 > end-to-end determinism confirmed; +0.032 vs old 0.618). Forge 0.946 confirmed (gap = detection recall;
 > divisions secondary ≤0.10, T-penalty amplifier). Not gold-zone.
-> UPDATE 00:02 UTC 2026-09-11: submitted v7 gate-7 ref **56153940** PENDING (post-reset, 4 slots left; checklist followed: status COMPLETE verified pre-submit, remaining-count STOP rule holds for next). Gate-7 proven +0.002–0.28 on visible; hidden verdict pending.
+> UPDATE 00:02 UTC 2026-09-11: v7 gate-7 ref **56153940** COMPLETE publicScore **0.668** (+0.018 vs gate-10 0.650). EXP-0053 trusted BTE set: loso_worst 0.2092 / nested_worst 0.4193.
 > UPDATE ~19:50 UTC: probe `biohub-probe-gate7-image` v3 COMPLETE — gate-7 beats gate-10 on ALL FOUR visible
 > samples (0113de3b 0.6606→0.9382; +0.002/+0.006/+0.017 elsewhere; 109761 rows valid). submit_gold flipped to
 > UPDATE 2026-09-11 05:30 HKT: all gold DoG refs COMPLETE publicScore **0.650**. Same-account Lineage Forge ref 56144839 COMPLETE **0.946** (correct prior "not ours" mislabel). Next: gate-7 submit after slot reset (~00:00 UTC).
@@ -77,3 +77,4 @@ Every row must link hypothesis → result → decision (no bare scores).
 | EXP-0051 | H-002 | gate-regime interaction (Stage A parallel, analysis) | fast-frac rho −0.38 image (flips idiosyncratic; 0c582fdc 0 fast pairs yet top g10 win) vs +1.00 oracle | — | keep-trying | WEAK: keep uniform gate-7. No per-regime rung. |
 | EXP-0052 | H-005 | hidden-timing calibration (Stage A parallel, logs+fit) | det fit R²=0.995; hidden projections 5.8/6.0/6.3 h (≥1.9× headroom); v7 visible 0.1214 h confirmed | — | keep-trying | FITS: timeout fear retired quantitatively (dense-worst 6.9 h). |
 | EXP-0054 | H-002 | GT-free count target analysis: T_ratio vs edge over 13 frozen rows (Stage A parallel, analysis) | bins [0–0.5] 0.129 / [0.5–0.8] 0.603 / [0.8–1.0] 0.779; Spearman T_ratio–raw +0.594, det/f–raw −0.250; best-T span [0.56,0.84] understates spread | — | keep-trying | STOP (verdict NOT_EXISTS): pooled rise is embryo-confound; within-sample optima diverge; T_ratio needs GT T_true → circular as GT-free rule. |
+| EXP-0053 | H-002+H-004 | trusted CV rebaseline DoG, LOSO+embryo-nested, pct{96..99.5}×gate{7,10}, scorer v1.1 | loso_micro 0.4826; loso_worst **0.2092** (05db0fb1); embryo_nested fold0(44b6) 0.4193 / fold1(6bba) 0.6136 / worst 0.4193; per-holdout HPs vary (96–98.5, gate7) | LB diag 0.668 (v7) / Forge 0.946 untrusted | keep-trying | DEFINES trusted standing (BTE). Confirms selection-leakage vs tuned_ref 0.8194 (loso_worst ≪). Dark samples dominate worst. No promotion content — challenger must beat trusted envelope. Elapsed 4077s. |

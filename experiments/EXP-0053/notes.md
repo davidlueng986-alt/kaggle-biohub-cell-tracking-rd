@@ -11,3 +11,10 @@
 ## Decisions
 - keep-trying (rebaseline defines standing; promotion needs a challenger
   under the same envelope).
+
+## Completion (2026-09-11 gold-watch)
+- loso_micro **0.4826**, loso_worst **0.2092** (holdout 6bba_05db0fb1 @98.5/gate7).
+- embryo_nested: fold0(44b6) micro **0.4193** / fold1(6bba) **0.6136** / worst **0.4193** (both nested HPs @97.0/gate7).
+- vs tuned_ref 0.8194: selection-leakage confirmed (hypothesis holds).
+- vs public LB 0.650/0.668: public above trusted worst (diagnostic only).
+- decision: keep-trying — BTE defined; next challenger under same trusted envelope.

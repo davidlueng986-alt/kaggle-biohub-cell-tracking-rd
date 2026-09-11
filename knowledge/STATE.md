@@ -1,11 +1,11 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (EXP-0054 ledger corrected to artifact — T_ratio analysis, NOT_EXISTS; v10 RUNNING; EXP-0053 rebaseline running). Maintainer: gold-watch.
+Last updated: 2026-09-11 19:20 HKT (EXP-0053 trusted rebaseline COMPLETE — BTE set; UNet v10 still RUNNING; OpenCode watch). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## PRIORITY (PM 2026-09-11)
 - **Trusted CV rebuild ACTIVE (PROTOCOL v1.2).** Standing image 0.8194 is `tuned_ref` only — not trusted.
-- BTE target = best `trusted` `loso_worst` after EXP-0053 rebaseline. **Do not BTE Forge 0.946** (`lb_external_untrusted`).
+- BTE = EXP-0053 trusted `loso_worst` **0.2092** / `embryo_nested_worst` **0.4193** (fold0 0.4193 / fold1 0.6136). Challengers must beat this envelope. **Do not BTE Forge 0.946** (`lb_external_untrusted`).
 - Spec: `docs/TRUSTED_CV.md` + `docs/PROTOCOL.md` §2. Ledger: `knowledge/LB_CALIBRATION.md`.
 
 ## Goal
@@ -137,7 +137,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - UNet v10 TRIAGE-DRIVEN-2 (Stage A parallel triage: ep8, loss bit-frozen 0.7065, zero grads at sigmoid=0.0f, breakeven ≈1350): HNM off kept + fg-weight ×2500 + Dice OFF + thr 0.1 + lr 1e-3. Local 60-iter probe: iter-0 loss 0.4268 (predicted 0.4–0.6 ✓), moving. Pushed v10, RUNNING. Watch: ep0 loss ≠ 0.7065/0.8574 + recall > 0 by ep2–3.
 - UNet v9 ESCAPED then FLAT (watch 2026-09-11 17:21 HKT): ep0 loss 0.8574 → ep1–7+ loss 0.7065 flat; val_recall=0.000 cnt=0.00 all epochs; HNM silent (off); still RUNNING past early-warning. Action: OpenCode nudged for threshold/loss review + Stage A parallel; harvest unet_last.pt on COMPLETE/timeout → EXP-0035 regardless.
 - `experiments/EXP-0052/`: DONE (Stage A parallel) — hidden-timing calibration: det fit R²=0.995 (Kaggle-anchored R²=0.993); projections sparse 5.80 h / mix 6.04 h / dense-worst 6.30 h (≥1.9× headroom); v7 visible 0.1214 h re-confirmed; hidden logs unrecoverable (boundary recorded). Timeout fear RETIRED quantitatively.
-- `experiments/EXP-0053/`: RUNNING (this session) — trusted CV rebaseline (H-002/H-004, v1.2): harness `scripts/trusted_cv.py` written, `--smoke` gate passed (nested HPs differ per holdout as designed, 35 s); full 6-sample LOSO + embryo-nested in background, det cache filling. Defines trusted standing (BTE) on completion.
+- `experiments/EXP-0053/`: **DONE** 2026-09-11 — trusted CV rebaseline (H-002+H-004, v1.2): loso_micro 0.4826 / loso_worst **0.2092** (05db0fb1) / embryo_nested_worst **0.4193** (fold0 44b6 0.4193 / fold1 6bba 0.6136); HPs vary per holdout (pct 96–98.5, gate 7); confirms selection-leakage vs tuned_ref 0.8194; decision keep-trying (defines BTE, not a promotion).
 - `experiments/EXP-0054/`: DONE (Stage A parallel, analysis) — GT-free count-target analysis over 13 frozen rows: pooled bins rise only via embryo confound; within-sample optima diverge (05b6850b peaks T≈0.74, 062c8d37 T≈0.84); T_ratio needs GT T_true → circular as GT-free rule. Verdict NOT_EXISTS.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
@@ -153,7 +153,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - EXP-0019 CANDIDATE: gate-10+r10 combo, worst-fold 1.0895, div 3/0/1, fold0 identical (0 clean-tissue forks).
 - EXP-0020 verdict: promotion DENIED (seed0 −4e-4), candidacy REVOKED per pre-registered rule — narrowly, as designed. Config retained in variant pool; re-nomination path = appearance-confirmed forks (jitter-invariant evidence).
 - Superseded floor: EXP-0003 gate-7 (worst 1.0705) — kept for reference, no longer the number to beat.
-- Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194 `tuned_ref` — NOT trusted standing; trusted rebaseline EXP-0053 running defines BTE) — image side rejected widening; oracle best is not submittable (needs GT nodes).
+- Standing IMAGE policy (submittable path): submit still uses 44b6@99.0 + 6bba@98.5 gate-7 (LB 0.668); tuned_ref worst adj 0.8194 is NOT BTE. **Trusted BTE = EXP-0053** loso_worst 0.2092 / nested_worst 0.4193 — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
 - Next: UNet weights/timeout → EXP-0035 eval or harvest-or-replan; per-regime gate study only with PM direction (2-sample evidence, overfit risk); 4 slots left — spend only on gated winners.
