@@ -1,0 +1,120 @@
+{
+  "v7_log_records": 31,
+  "visible_per_video": [
+    {
+      "k": 1,
+      "n": 4,
+      "sample": "44b6_0113de3b",
+      "pct": 99.0,
+      "T": 100,
+      "det": 15962,
+      "edges": 14511,
+      "seconds": 110.0,
+      "elapsed_h": 0.03
+    },
+    {
+      "k": 2,
+      "n": 4,
+      "sample": "44b6_0b24845f",
+      "pct": 99.0,
+      "T": 100,
+      "det": 12992,
+      "edges": 9511,
+      "seconds": 108.0,
+      "elapsed_h": 0.06
+    },
+    {
+      "k": 3,
+      "n": 4,
+      "sample": "6bba_05b6850b",
+      "pct": 98.5,
+      "T": 100,
+      "det": 4723,
+      "edges": 4229,
+      "seconds": 105.0,
+      "elapsed_h": 0.09
+    },
+    {
+      "k": 4,
+      "n": 4,
+      "sample": "6bba_05db0fb1",
+      "pct": 98.5,
+      "T": 100,
+      "det": 26168,
+      "edges": 21665,
+      "seconds": 114.0,
+      "elapsed_h": 0.12
+    }
+  ],
+  "visible_total_s": 437.0,
+  "visible_total_h": 0.1214,
+  "visible_wrote_total_h": 0.12,
+  "visible_matches_0_12h": true,
+  "hidden_rerun_in_log": false,
+  "local_frames_n": 1000,
+  "local_fit_vs_n_components": {
+    "intercept_s": 0.5308,
+    "slope_s_per_det": 0.007098,
+    "r2": 0.9522
+  },
+  "local_fit_vs_n_kept": {
+    "intercept_s": 0.3633,
+    "slope_s_per_det": 0.010504,
+    "r2": 0.995
+  },
+  "kaggle_fit_s_per_frame": {
+    "intercept_s": 1.0289,
+    "slope_s_per_det": 0.000425,
+    "r2": 0.9933,
+    "n": 4
+  },
+  "regime_det_per_frame": {
+    "44b6_0113de3b": 169.22,
+    "44b6_0b24845f": 129.92,
+    "44b6_0c582fdc": 127.79,
+    "6bba_05b6850b": 46.61,
+    "6bba_05db0fb1": 261.68,
+    "6bba_062c8d37": 50.42
+  },
+  "regime_sources": {
+    "sparse_best": "6bba_05b6850b",
+    "dense_worst": "6bba_05db0fb1"
+  },
+  "projection_basis": {
+    "hidden_videos": 199,
+    "frames_per_video": 100,
+    "total_frames": 19900,
+    "cap_h": 12.0
+  },
+  "projections_h": {
+    "sparse_best": {
+      "det_per_frame": 46.61,
+      "s_per_frame": 1.0487,
+      "total_s": 20870.0,
+      "total_h": 5.797,
+      "headroom_vs_cap": 2.07
+    },
+    "observed_mix": {
+      "det_per_frame": 149.61,
+      "s_per_frame": 1.0925,
+      "total_s": 21740.8,
+      "total_h": 6.039,
+      "headroom_vs_cap": 1.987
+    },
+    "dense_worst": {
+      "det_per_frame": 261.68,
+      "s_per_frame": 1.1401,
+      "total_s": 22688.2,
+      "total_h": 6.302,
+      "headroom_vs_cap": 1.904
+    },
+    "double_dense_robustness": {
+      "det_per_frame": 523.36,
+      "s_per_frame": 1.2513,
+      "total_s": 24900.4,
+      "total_h": 6.917,
+      "headroom_vs_cap": 1.735
+    }
+  },
+  "verdict": "fits"
+}

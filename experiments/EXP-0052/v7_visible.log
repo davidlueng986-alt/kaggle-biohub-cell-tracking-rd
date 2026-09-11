@@ -1,0 +1,32 @@
+[{"stream_name":"stderr","time":7.898904613,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.898968655,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.898975668,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.898980946,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.662459204,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.662500744,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.662505217,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.662509778,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":209.826677971,"data":"zarr installed offline 3.3.0\n"}
+,{"stream_name":"stdout","time":209.826713852,"data":"numcodecs 0.16.5\n"}
+,{"stream_name":"stdout","time":210.024323049,"data":"numpy OK 2.0.2\n"}
+,{"stream_name":"stdout","time":210.024362746,"data":"scipy OK 1.16.3\n"}
+,{"stream_name":"stdout","time":210.024369676,"data":"zarr OK 3.3.0\n"}
+,{"stream_name":"stdout","time":211.015754914,"data":"input top tree: ['biohub-zarr-wheels', 'competitions']\n"}
+,{"stream_name":"stdout","time":211.015802241,"data":"test root: /kaggle/input/competitions/biohub-cell-tracking-during-development/test (4 samples)\n"}
+,{"stream_name":"stdout","time":211.015810468,"data":"videos: 4 ['44b6_0113de3b', '44b6_0b24845f', '6bba_05b6850b', '6bba_05db0fb1'] \n"}
+,{"stream_name":"stdout","time":211.987156614,"data":"scipy LSA: True\n"}
+,{"stream_name":"stdout","time":321.975606761,"data":"[1/4] 44b6_0113de3b: pct=99.0 T=100 det=15962 edges=14511 110s (elapsed 0.03h, proj 0.1h)\n"}
+,{"stream_name":"stdout","time":430.071541772,"data":"[2/4] 44b6_0b24845f: pct=99.0 T=100 det=12992 edges=9511 108s (elapsed 0.06h, proj 0.1h)\n"}
+,{"stream_name":"stdout","time":535.473303684,"data":"[3/4] 6bba_05b6850b: pct=98.5 T=100 det=4723 edges=4229 105s (elapsed 0.09h, proj 0.1h)\n"}
+,{"stream_name":"stdout","time":649.8716493,"data":"[4/4] 6bba_05db0fb1: pct=98.5 T=100 det=26168 edges=21665 114s (elapsed 0.12h, proj 0.1h)\n"}
+,{"stream_name":"stdout","time":650.082142113,"data":"WROTE /kaggle/working/submission.csv: 109761 rows, 4 datasets, total 0.12h\n"}
+,{"stream_name":"stdout","time":650.712654195,"data":"SUBMISSION VALID: 109761 rows, 4 datasets, all refs resolve\n"}
+,{"stream_name":"stderr","time":654.114193087,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":654.114245294,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":654.305617476,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":654.305648191,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":655.104218395,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":655.515364035,"data":"[NbConvertApp] Writing 16274 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":658.700247569,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":659.820937579,"data":"[NbConvertApp] Writing 335885 bytes to __results__.html\n"}
+]
