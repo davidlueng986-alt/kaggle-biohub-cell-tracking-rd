@@ -63,3 +63,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-11 (STAGE A): EXP-0056 CONTINUE-DESCENT (05db0fb1 @95.0: rec 0.750/adj 0.547, beats @95.5); UNet v10 ep0 confirmed escaped but pace forces TIMEOUT-harvest plan (unet_last.pt, not clean COMPLETE). Next: @94.5 rung + harvest.
 - 2026-09-11 (STAGE A): EXP-0057 STOP-DESCENT (@94.5: recall +0.014 but adj −0.0069, TP+1/FP+18) — merging/displacement dominates below 95.0; @95.0 locked. UNet ep0 slow (~1.25h/ep): expect timeout-harvest, watch cnt→[0.7,1.0] with recall held.
 - 2026-09-11 (WATCH): UNet v10 ep1 loss 0.137 (falling), recall 0.839 held, cnt 1.84 over-dense — training healthy, gap is precision/count discipline; LB steady (v7 0.668, slots 4, top ~0.97). Next: timeout-harvest → EXP-0035.
+- 2026-09-11 (WATCH): UNet v10 ep2 loss 0.134 falling, recall 0.914 held, cnt 1.91 stuck (gate withholding); LB steady (v7 0.668, slots 4). No action — harvest on timeout/COMPLETE.
