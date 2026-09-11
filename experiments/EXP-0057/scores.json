@@ -1,0 +1,33 @@
+{
+  "p945": {
+    "recall": 0.7635221077941666,
+    "det_f": 448.96,
+    "gid": 44896,
+    "s_f": 0.6522,
+    "T_ratio": 0.6432091690544413,
+    "edge": 0.5396553980647908,
+    "raw": 0.5210643015521065,
+    "div": 0.0,
+    "score": 0.5396553980647908,
+    "ec": {
+      "TP": 705,
+      "FP": 170,
+      "FN": 478
+    },
+    "dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 3
+    },
+    "T_true": 69800,
+    "T_pred": 44896,
+    "assign": "scipy"
+  },
+  "scorer": {
+    "protocol": "1.1",
+    "scorer_version": "1.1.0",
+    "solver": "scipy linear_sum_assignment (runtime-only, equivalence-gated vs pure-python Hungarian)",
+    "scripts_unmodified": true
+  },
+  "wall_s": 23.38706088066101
+}

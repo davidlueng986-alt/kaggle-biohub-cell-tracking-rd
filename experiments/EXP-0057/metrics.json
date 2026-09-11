@@ -1,0 +1,143 @@
+{
+  "exp_id": "EXP-0057",
+  "title": "05db0fb1 full-video @94.5 descent probe",
+  "protocol_version": "1.2",
+  "scorer_version": "1.1.0",
+  "cv_tag": "single-sample operating-point test (NOT a promotion claim): single deterministic pass, HP fixed a priori at 94.5, no selection on this sample",
+  "dry_run": false,
+  "real_data": true,
+  "image_based": true,
+  "simplified_scorer": false,
+  "sample": "6bba_05db0fb1",
+  "frames": 100,
+  "pct": 94.5,
+  "T_true": 69800,
+  "gt_divisions": 3,
+  "linker": "baseline_link defaults (gate 7um, one-to-one, causal)",
+  "comparison": {
+    "@94.5": {
+      "recall": 0.7635221077941666,
+      "det_f": 448.96,
+      "gid": 44896,
+      "raw": 0.5210643015521065,
+      "edge_adj": 0.5396553980647908,
+      "div": 0.0,
+      "score": 0.5396553980647908,
+      "ec": {
+        "TP": 705,
+        "FP": 170,
+        "FN": 478
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "T_true": 69800,
+      "T_ratio": 0.6432091690544413,
+      "s_f": 0.6522,
+      "assign": "scipy"
+    },
+    "@95.0_frozen": {
+      "recall": 0.7500254835034247,
+      "det_f": 443.2,
+      "gid": 44320,
+      "raw": 0.5273408239700375,
+      "edge_adj": 0.5465910305527832,
+      "div": 0.0,
+      "score": 0.5465910305527832,
+      "ec": {
+        "TP": 704,
+        "FP": 152,
+        "FN": 479
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "T_true": 69800,
+      "T_ratio": 0.6349570200573066,
+      "s_f": 0.6599,
+      "assign": "scipy"
+    },
+    "@95.5_frozen": {
+      "recall": 0.7135076679856092,
+      "det_f": 433.24,
+      "gid": 43324,
+      "raw": 0.49700598802395207,
+      "edge_adj": 0.5158580375066485,
+      "div": 0.0,
+      "score": 0.5158580375066485,
+      "ec": {
+        "TP": 664,
+        "FP": 153,
+        "FN": 519
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "T_true": 69800,
+      "T_ratio": 0.6206876790830945,
+      "s_f": 0.6418,
+      "assign": "scipy"
+    },
+    "@96.0_frozen": {
+      "recall": 0.6756134747605336,
+      "det_f": 419.87,
+      "gid": 41987,
+      "raw": 0.4637247569184742,
+      "edge_adj": 0.4822026604488088,
+      "div": 0.0,
+      "score": 0.4822026604488088,
+      "ec": {
+        "TP": 620,
+        "FP": 154,
+        "FN": 563
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "T_true": 69800,
+      "T_ratio": 0.6015329512893983,
+      "s_f": 0.6651,
+      "assign": "scipy"
+    },
+    "@98.5_frozen": {
+      "recall": 0.2902987184384243,
+      "det_f": 261.68,
+      "raw": 0.19686274509803922,
+      "edge_adj": 0.209168640934884,
+      "div": 0.0,
+      "score": 0.209168640934884,
+      "ec": {
+        "TP": 251,
+        "FP": 92,
+        "FN": 932
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3
+      },
+      "T_true": 69800,
+      "T_ratio": 0.3748997134670487,
+      "s_f": 3.1198,
+      "assign": "scipy"
+    },
+    "delta_recall_vs950": 0.013496624290741943,
+    "delta_raw_vs950": -0.006276522417930974,
+    "delta_adj_vs950": -0.006935632487992449,
+    "delta_score_vs950": -0.006935632487992449,
+    "delta_T_ratio_vs950": 0.008252148997134667
+  },
+  "verdict": "STOP-DESCENT",
+  "verdict_reason": "recall OK (0.7635 vs bar 0.75) AND adj FELL (0.5397 vs bar 0.5466)",
+  "division_readout": "div 0.0000, dc 0/0/3: one-to-one linker predicts zero forks; 3 GT divisions all FN as expected",
+  "parity_watch": "T_ratio @94.5 = 0.6432 (@95.0 was 0.6350; watch level ~0.65)",
+  "status": "done"
+}

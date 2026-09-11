@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (EXP-0056 descent continues @95.0; UNet timeout-harvest plan; LB steady). Maintainer: gold-watch.
+Last updated: 2026-09-11 (EXP-0057 descent TURNS at @94.5; UNet ep0 slow-burn, timeout-harvest likely; LB steady). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## EXECUTION OWNER (PM handoff 2026-09-11 ~20:28 HKT)
@@ -90,7 +90,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0004/`: DONE 2026-09-09 — fork-proposing variant (H-002+H-003, `scripts/fork_link.py --propose-um 15.0`): fold0 44b6 unchanged (+0.0000), fold1 6bba micro −0.0025, div sums 0/0/4→3/10/1. Sub-gate REJECT for promotion (edge regression on fold1; single-seed cap anyway). Signal kept: 3/4 GT divisions geometrically recoverable → EXP-0005 tighter gating.
 - `experiments/EXP-0005/`: DONE 2026-09-09 — radius ablation {9,10,11,12}+isolation: r9 +0.0004 div 1/0/3; **r10 SELECTED** (+0.0011 fold1, div 3/0/1, FP=0, plateau r10==r11); r12 +0.0008 div 3/1/1; r15+iso −0.0011 div 4/7/0. fold0 identical grid-wide. Sub-gate numeric PASS; keep-trying (no fold0 win possible + single-run ceiling). r10 = ensemble-candidate.
 - Submit path (GOLD §5, skeleton): `scripts/graphs_to_csv.py` (writer + `--check`; demo 4 subset preds → valid 4294-row CSV) + `notebooks/submission_skeleton.ipynb` (5 cells compile; demo wiring 15 nodes→12 edges OK) + `notebooks/README.md`. DRAFT — no submit yet; detector+weights TODO.
-- `knowledge/`: this file + HYPOTHESES.md (H-001/H-002/H-004/H-005 active; H-003 classical parked, learned-features residual) + RESULTS.md (EXP-0000…0046 + 0049/0050/0051/0052/0054/0055/0056 rows; 0047/0048 concurrent session).
+- `knowledge/`: this file + HYPOTHESES.md (H-001/H-002/H-004/H-005 active; H-003 classical parked, learned-features residual) + RESULTS.md (EXP-0000…0046 + 0049/0050/0051/0052/0054/0055/0056/0057 rows; 0047/0048 concurrent session).
 - `experiments/EXP-0006/`: DONE 2026-09-09 — r10 replication (H-002+H-003, `scripts/perturb_graph.py` σ=0.3vox × seeds {0,1,2} + noise-matched base arm + corrected same-set LOO): literal-identical FAIL (seed0 div 2/0/2; ±0.005 wobble is base-linker's, shared by both arms); refined PASS (variant≥base 18/18, FP=0 all seeds, LOO 6/6). r10 KEEPS ensemble-candidate; boundary-pair fragility → H-003 appearance case.
 - `experiments/EXP-0007/`: DONE 2026-09-09 — DoG detection probe (H-002, `scripts/dog_detect.py`, CPU ~1s/frame): pct99 recall 1.00 both samples; 6bba mini-graph edge_raw 0.8462 (first meaningful image-based number); over video budget unoptimized (H-005 flag).
 - `experiments/EXP-0008/`: DONE 2026-09-09 — full-frame sweep (H-002+H-005): 44b6 recall 1.000 edge_raw 0.9038 (strong); 6bba recall 0.835 (FALSIFIED <0.90 → pct99 dead for dense tissue; fix = level @98.5, threshold already per-frame). Curve monotone. Timing 2.05/0.84 s/frame (H-005 debt quantified). Infra: scipy fast path (floor bit-identical).
@@ -146,6 +146,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0054/`: DONE (Stage A parallel, analysis) — GT-free count-target analysis over 13 frozen rows: pooled bins rise only via embryo confound; within-sample optima diverge (05b6850b peaks T≈0.74, 062c8d37 T≈0.84); T_ratio needs GT T_true → circular as GT-free rule. Verdict NOT_EXISTS.
 - `experiments/EXP-0055/`: DONE (Stage A parallel) — full-video 05db0fb1 @95.5: recall 0.7135 / adj 0.5159, beats @96.0 bars (+0.038/+0.034); T_ratio 0.62; div 0. Descent hasn't turned; next rung @95.0.
 - `experiments/EXP-0056/`: DONE (Stage A parallel) — full-video 05db0fb1 @95.0: recall 0.750 / adj 0.547, beats @95.5 (+0.037/+0.031); T_ratio ~0.64; div 0. Descent STILL hasn't turned; next rung @94.5.
+- `experiments/EXP-0057/`: DONE (Stage A parallel) — full-video 05db0fb1 @94.5: recall +0.014 BUT adj −0.0069 (TP +1 vs FP +18). Descent TURNED: merging/displacement dominates below 95.0. @95.0 (0.750/0.547) LOCKED as operating point; do not descend without linker-side merge handling.
+- UNet v10: ep0 confirmed again (loss 0.1763, recall 0.925 over-detected, gate withholding); pace suggests timeout before ep20 → harvest unet_last.pt path stands; count-gate must see cnt fall into [0.7,1.0] with recall held.
 - UNet v10: ep0 confirmed (loss 0.1763, recall 0.925 over-detected, gate withholding best); CPU pace ~1.25 h/epoch → 20ep exceeds 12 h cap → plan TIMEOUT-harvest (unet_last.pt), not clean COMPLETE.
 - UNet v10 ESCAPED (watch): ep0 loss 0.1763 (≠ 0.7065), recall 0.925 via over-detection (fpr 1.0, cnt 1.93 — gate correctly withholding best). Fix works mechanically; count discipline is now the training target.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
@@ -177,7 +179,7 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0046 + 0049/0050/0051/0052/0054/0055/0056 done — read them, don't recreate; 0047/0048 concurrent session):
+# Loop (EXP-0001…0046 + 0049/0050/0051/0052/0054/0055/0056/0057 done — read them, don't recreate; 0047/0048 concurrent session):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
