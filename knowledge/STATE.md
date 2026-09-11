@@ -3,6 +3,11 @@
 Last updated: 2026-09-11 17:21 HKT (EXP-0052 timing FITS ≥1.9×; UNet v9 ep7+ still flat loss=0.7065 recall=0; LB steady 0.668). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
+## PRIORITY (PM 2026-09-11)
+- **Trusted CV rebuild ACTIVE (PROTOCOL v1.2).** Standing image 0.8194 is `tuned_ref` only — not trusted.
+- BTE target = best `trusted` `loso_worst` after EXP-0053 rebaseline. **Do not BTE Forge 0.946** (`lb_external_untrusted`).
+- Spec: `docs/TRUSTED_CV.md` + `docs/PROTOCOL.md` §2. Ledger: `knowledge/LB_CALIBRATION.md`.
+
 ## Goal
 
 Build a durable auto R&D loop (hypothesize → operationalize → execute → trusted score → update knowledge)
@@ -20,7 +25,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 
 ## Protocol pointer
 
-- **FROZEN v1.1**: `docs/PROTOCOL.md` (faithful scorer v1.1.0: per-timepoint 7 µm Hungarian, pinned voxel, T_true=`estimated_number_of_nodes`, division window, submission.csv micro-average; embryo folds fold0 holdout `44b6` / fold1 holdout `6bba`; causality rule; 5 promotion gates; worst-fold ensemble; leakage checklist; compute budget).
+- **FROZEN v1.2**: `docs/PROTOCOL.md` (faithful scorer v1.1.0: per-timepoint 7 µm Hungarian, pinned voxel, T_true=`estimated_number_of_nodes`, division window, submission.csv micro-average; embryo folds fold0 holdout `44b6` / fold1 holdout `6bba`; causality rule; 5 promotion gates; worst-fold ensemble; leakage checklist; compute budget).
 - Competition facts: `docs/COMPETITION.md`. Auth steps: `docs/AUTH.md`.
 - Loop runner: `bash scripts/run_loop.sh --dry-run` (script is `.sh`, takes no `--exp` flag).
 - Scaffolder: `bash scripts/new_experiment.sh EXP-XXXX "title"`.
@@ -71,8 +76,8 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 
 ## What exists
 
-- `docs/`: PROTOCOL.md (FROZEN v1.1), COMPETITION.md (submission schema + voxel + T_true verified 2026-09-09), AUTH.md.
-- `scripts/`: score.py v1.1.0 (faithful), test_score.py (13 tests, all pass), run_loop.sh, new_experiment.sh. `requirements.txt` (numpy>=2.0).
+- `docs/`: PROTOCOL.md (FROZEN v1.2), COMPETITION.md (submission schema + voxel + T_true verified 2026-09-09), AUTH.md, TRUSTED_CV.md (operational brief).
+- `scripts/`: score.py v1.1.0 (faithful), test_score.py (13 tests, all pass), trusted_cv.py (v1.2 LOSO + embryo-nested harness), run_loop.sh, new_experiment.sh. `requirements.txt` (numpy>=2.0).
 - `experiments/EXP-0000/`: template; `run_loop.sh --dry-run` validates it.
 - `experiments/EXP-0001/`: DONE — legacy toy harness re-scored under v1.1 (fold0 0.5/1.0/0.6 hand-calc match, `dry_run:true`, keep-trying). Do not recreate.
 - `experiments/EXP-0002/`: DONE 2026-09-09 — full-scorer geometric validation (H-001+H-004): perfect 1.1 / idswitch 0.333 (FP≥1) / inflated adj 0.9 / division TP then FN; 6/6 checks pass; `dry_run:true`, keep-trying (no real data, NOT promotable).
@@ -85,7 +90,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0007/`: DONE 2026-09-09 — DoG detection probe (H-002, `scripts/dog_detect.py`, CPU ~1s/frame): pct99 recall 1.00 both samples; 6bba mini-graph edge_raw 0.8462 (first meaningful image-based number); over video budget unoptimized (H-005 flag).
 - `experiments/EXP-0008/`: DONE 2026-09-09 — full-frame sweep (H-002+H-005): 44b6 recall 1.000 edge_raw 0.9038 (strong); 6bba recall 0.835 (FALSIFIED <0.90 → pct99 dead for dense tissue; fix = level @98.5, threshold already per-frame). Curve monotone. Timing 2.05/0.84 s/frame (H-005 debt quantified). Infra: scipy fast path (floor bit-identical).
 - `experiments/EXP-0009/`: DONE 2026-09-09 — full-video @98.5 (H-002): 44b6 adj −0.010 (raw identical — pure count cost) vs 6bba adj +0.107 (raw 0.7989, recall 0.893). Level SPLITS by sample → per-embryo levels (44b6@99.0 + 6bba@98.5) next; T_ratio 0.73–0.74 (bonus holds, crossover watched).
-- `experiments/EXP-0010/`: DONE 2026-09-09 — combo + window probe (H-002): combo adj 0.9382/0.8194, worst 0.8194 ≥ both uniforms (all 4 combo checks pass); 6bba@98.0 window recall 1.000 det/f 57 → EXP-0011 full-video @98.0 GO. Standing image-based policy = per-embryo levels.
+- `experiments/EXP-0010/`: DONE 2026-09-09 — combo + window probe (H-002): combo adj 0.9382/0.8194, worst 0.8194 ≥ both uniforms (all 4 combo checks pass); 6bba@98.0 window recall 1.000 det/f 57 → EXP-0011 full-video @98.0 GO. [RETAG v1.2: `tuned_ref` — levels chosen on scored samples; superseded as standing by trusted rebaseline.]
 - `experiments/EXP-0011/`: DONE 2026-09-09 — full-video 6bba@98.0 (H-002): recall 0.880 + adj 0.8063, BOTH below @98.5 → descent OVERSHOT (merge-dominated: det/f +4% only, centroids displace past 7µm). STOP descending; 6bba locks @98.5 (recall 0.893, adj 0.8194). Lesson: gate windows must span density regimes.
 - `experiments/EXP-0012/`: DONE 2026-09-09 — peak-splitter full-video (H-002, `dog_detect --split-size 3000`, 595 splits): recall 0.993 ✓ BUT adj 0.7088 ✗ (FP 30→168 — fragments link aggressively; T_ratio 0.99 parity, damage is edge-FP not T-penalty). Standing policy stays @98.5 base. Lesson: window gates need edge readouts, not recall alone.
 - `experiments/EXP-0013/`: DONE 2026-09-09 — window gate t20–29+t40–49 (H-002; prominence 0.7 + two-phase conservative linking): A rec 0.982 raw 0.9533; D == C (phased engaged, NO stealing — leftover confusion). Gate FAIL → splitter family PARKED for linking; fewer-better detections win.
@@ -131,6 +136,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - UNet v9 TRIAGE-DRIVEN (Stage A parallel): loss == all-zero baseline (0.5018) + 159fg/36705bg + neg-Dice veto = zero-collapse attractor (not slow learning). Fix bundled: HNM off + foreground-weighted MSE ×200 (attribution via trajectory; embryo discipline preserved). Validated locally (smoke + 1 real epoch, no crash). Pushed v9, RUNNING (no instant-fail). Watch: loss < 0.50 early = escaped.
 - UNet v9 ESCAPED then FLAT (watch 2026-09-11 17:21 HKT): ep0 loss 0.8574 → ep1–7+ loss 0.7065 flat; val_recall=0.000 cnt=0.00 all epochs; HNM silent (off); still RUNNING past early-warning. Action: OpenCode nudged for threshold/loss review + Stage A parallel; harvest unet_last.pt on COMPLETE/timeout → EXP-0035 regardless.
 - `experiments/EXP-0052/`: DONE (Stage A parallel) — hidden-timing calibration: det fit R²=0.995 (Kaggle-anchored R²=0.993); projections sparse 5.80 h / mix 6.04 h / dense-worst 6.30 h (≥1.9× headroom); v7 visible 0.1214 h re-confirmed; hidden logs unrecoverable (boundary recorded). Timeout fear RETIRED quantitatively.
+- `experiments/EXP-0053/`: RUNNING (this session) — trusted CV rebaseline (H-002/H-004, v1.2): harness `scripts/trusted_cv.py` written, `--smoke` gate passed (nested HPs differ per holdout as designed, 35 s); full 6-sample LOSO + embryo-nested in background, det cache filling. Defines trusted standing (BTE) on completion.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43; 10-node window vs 51-node truth), others hold. Window selection invalid on small windows; no EXP-0035 policy.
@@ -145,7 +151,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - EXP-0019 CANDIDATE: gate-10+r10 combo, worst-fold 1.0895, div 3/0/1, fold0 identical (0 clean-tissue forks).
 - EXP-0020 verdict: promotion DENIED (seed0 −4e-4), candidacy REVOKED per pre-registered rule — narrowly, as designed. Config retained in variant pool; re-nomination path = appearance-confirmed forks (jitter-invariant evidence).
 - Superseded floor: EXP-0003 gate-7 (worst 1.0705) — kept for reference, no longer the number to beat.
-- Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194) — image side rejected widening; oracle best is not submittable (needs GT nodes).
+- Standing IMAGE policy (submittable path): 44b6@99.0 + 6bba@98.5 (worst adj 0.8194 `tuned_ref` — NOT trusted standing; trusted rebaseline EXP-0053 running defines BTE) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
 - Next: UNet weights/timeout → EXP-0035 eval or harvest-or-replan; per-regime gate study only with PM direction (2-sample evidence, overfit risk); 4 slots left — spend only on gated winners.
