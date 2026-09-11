@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 17:21 HKT (EXP-0052 timing FITS ≥1.9×; UNet v9 ep7+ still flat loss=0.7065 recall=0; LB steady 0.668). Maintainer: gold-watch.
+Last updated: 2026-09-11 18:26 HKT (EXP-0053 trusted rebaseline still RUNNING ~45m into 05db0fb1 cache; UNet v9 still RUNNING flat loss=0.7065 recall=0 through ep8+; LB steady 0.668; OpenCode nudged). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## PRIORITY (PM 2026-09-11)
