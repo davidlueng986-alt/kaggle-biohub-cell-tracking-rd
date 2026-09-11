@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (EXP-0057 descent TURNS at @94.5; UNet ep0 slow-burn, timeout-harvest likely; LB steady). Maintainer: gold-watch.
+Last updated: 2026-09-11 (UNet v10 healthy: loss falling, recall high, precision gap remains; LB steady 0.668). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## EXECUTION OWNER (PM handoff 2026-09-11 ~20:28 HKT)
@@ -149,6 +149,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0057/`: DONE (Stage A parallel) — full-video 05db0fb1 @94.5: recall +0.014 BUT adj −0.0069 (TP +1 vs FP +18). Descent TURNED: merging/displacement dominates below 95.0. @95.0 (0.750/0.547) LOCKED as operating point; do not descend without linker-side merge handling.
 - UNet v10: ep0 confirmed again (loss 0.1763, recall 0.925 over-detected, gate withholding); pace suggests timeout before ep20 → harvest unet_last.pt path stands; count-gate must see cnt fall into [0.7,1.0] with recall held.
 - UNet v10: ep0 confirmed (loss 0.1763, recall 0.925 over-detected, gate withholding best); CPU pace ~1.25 h/epoch → 20ep exceeds 12 h cap → plan TIMEOUT-harvest (unet_last.pt), not clean COMPLETE.
+- UNet v10 ep1 (watch): loss 0.1763→0.1369 FALLING, recall 0.839 held high, cnt 1.84 still over-dense (gate withholding correctly); no crash. Training HEALTHY — remaining gap is precision/count discipline, not escape. Timeout-harvest stands (many hours out).
 - UNet v10 ESCAPED (watch): ep0 loss 0.1763 (≠ 0.7065), recall 0.925 via over-detection (fpr 1.0, cnt 1.93 — gate correctly withholding best). Fix works mechanically; count discipline is now the training target.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.
