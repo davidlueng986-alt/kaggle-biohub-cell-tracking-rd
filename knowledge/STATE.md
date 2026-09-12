@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-12 (UNet timeout-harvest complete best+last; last-eval skipped by rationale; LB steady). Maintainer: gold-watch.
+Last updated: 2026-09-12 (harvest provenance fixed; frontier BLOCKED again; LB steady, slots 5). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Reporting policy (PM 2026-09-12)

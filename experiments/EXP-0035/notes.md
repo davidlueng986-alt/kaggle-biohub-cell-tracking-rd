@@ -21,7 +21,7 @@
 
 - Weights: v10 kernel CANCELLED after divergence; harvested unet_best.pt
   (ep4 gated pre-divergence best, 5.4MB, keys model/cfg/ep, e0 (32,1,3,3,3))
-  + unet_last.pt (ep9, loss 2.5719, val_recall 0.000 — /tmp only, unevaluated).
+  + unet_last.pt (ep9, loss 2.5719, val_recall 0.000 — data/weights/unet_v10_timeout_last.pt, gitignored, unevaluated).
   Evaluated BEST (gated) per hypothesis; ckpt thr=0.1 (not 0.3).
 - Numbers (6bba t20–29, GT 8.4/frame; DoG same-window bar recomputed:
   recall 1.000, raw/adj 1.0, 44.4 det/frame): learned recall 0.9881 (83/84,
