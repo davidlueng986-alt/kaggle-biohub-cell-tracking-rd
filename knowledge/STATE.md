@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-12 (ledger hygiene verified 61 rows; frontier BLOCKED ×7; LB steady, slots 5). Maintainer: gold-watch.
+Last updated: 2026-09-12 (loop-pointer 0053 gap closed; frontier BLOCKED ×8; LB steady, slots 5). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Reporting policy (PM 2026-09-12)
@@ -198,7 +198,7 @@ ls experiments/ data/train/
 export PATH="$HOME/.local/bin:$PATH" && kaggle competitions list --search "biohub"
 gh auth status
 # Download watch: tail -n 5 /tmp/biohub-subset-dl.log  (expect DONE ok 738 fail 0)
-# Loop (EXP-0001…0052 + 0054/0055/0056/0057/0058/0059/0060 done — read them, don't recreate):
+# Loop (EXP-0001…0052 + 0053/BTE + 0054/0055/0056/0057/0058/0059/0060 done — read them, don't recreate):
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
