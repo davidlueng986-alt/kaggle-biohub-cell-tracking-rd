@@ -90,3 +90,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×15 (inventory clean, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
 - 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×16 (inventory clean, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
 - 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×17 (inventory clean, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
+- 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×18 (inventory clean, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
