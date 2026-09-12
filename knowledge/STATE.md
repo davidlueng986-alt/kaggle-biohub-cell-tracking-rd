@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-12 (frontier BLOCKED ×18; ledger clean; LB steady, slots 5). Maintainer: gold-watch.
+Last updated: 2026-09-12 (frontier BLOCKED ×19; ledger clean; LB steady, slots 5). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Reporting policy (PM 2026-09-12)
@@ -77,7 +77,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Audit (Stage A parallel, read-only) caught 3 REAL flags pre-completion: (1) HNM slice-overrun crash at ep-1 refresh (verified by reading; FATAL); (2) recall-only ckpt selection ignoring count discipline; (3) MSE-only loss vs design Dice term; plus determinism gaps (cuda seed, sampler offset) and a position/index confusion in HNM boost (second bug, same function). All fixed + locally validated (dice range, HNM unit past old crash class, full --smoke PASS) → pushed v8, RUNNING past old crash point.
 - v8 status: ep 3/20, loss 0.5318→0.5018 then flat, val_recall 0.000 (zero-positive start, count-gate withholding best as designed); HNM fired ep1+ep3 (slice fix HOLDS live); ETA ~2.8–3 h. Early warning: recall/cnt still 0 past ep8–10 → threshold/loss review. Logs stream only via `logs -f` while RUNNING.
 - Eval ready: `notebooks/train_unet/infer.py` built + unit-tested (5/5 synthetic peaks, 0 decoy FPs) + random-weight dry run green; EXP-0035 run.sh skeleton waits on WEIGHTS_PATH.
-- Next: UNet v10 harvested + EXP-0035 REJECT (done); LB reaction on movement; v11 needs PM/train-owner green-light; frontier BLOCKED ×17 (no manufactured rungs).
+- Next: UNet v10 harvested + EXP-0035 REJECT (done); LB reaction on movement; v11 needs PM/train-owner green-light; frontier BLOCKED ×18 (no manufactured rungs).
 
 ## Auth status (verification commands — re-run, do not assume)
 
@@ -202,5 +202,5 @@ gh auth status
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# Next: LB watch / UNet timeout-harvest already complete; v11 needs PM direction; frontier BLOCKED ×17 (see Next above)
+# Next: LB watch / UNet timeout-harvest already complete; v11 needs PM direction; frontier BLOCKED ×18 (see Next above)
 ```
