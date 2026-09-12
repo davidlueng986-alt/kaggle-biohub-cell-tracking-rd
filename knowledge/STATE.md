@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-12 (stale Next-pointers cleaned; frontier BLOCKED ×5; LB steady, slots 5). Maintainer: gold-watch.
+Last updated: 2026-09-12 (dedupe 0032-34; frontier BLOCKED ×6; LB steady, slots 5). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Reporting policy (PM 2026-09-12)
@@ -127,9 +127,6 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0029/`: DONE — truncate gate + kernel v6 (H-005): truncate=2.0 REJECTED (20/20 frames differ, rec 0.970, raw 0.9145 — single-frame probes don't transfer; default stays 4.0). Notebook vectorized port verified identical locally; v6 COMPLETE 0.11 h vs 0.36 h (3.3×, same rows) → submitted v6 ref 56147475 (rule held; slots now 0). Hidden projection ~5.5 h.
 - `experiments/EXP-0030/`: DONE (Stage A parallel) — min-size {25,50,100} window: raw/ec IDENTICAL 143/2/5; ms25 adj −0.0031 (count cost), ms100 rec −0.006. STOP, min-size stays 50.
 - `experiments/EXP-0031/`: DONE (Stage A parallel) — r10 on DETECTED graphs: raw −0.025, div-FP 3 on 0-division window (6 extra edges, 0 possible TP). STOP, image forks parked; oracle r10 standalone stands.
-- `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready (dataset published, UNet training RUNNING v8).
-- `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8). Per-video calibration needs GT or learned estimator.
-- `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43); others hold. Window selection invalid on small windows.
 - `experiments/EXP-0035/`: DONE (Stage A parallel) — FIRST LEARNED EVAL, unet_best.pt ep4 harvested (gated pre-divergence; earlier "never saved" watch claims corrected — cnt==1.00 passes the gate with recall 0): learned recall 0.988 (83/84) at 26k det/frame → raw/adj 0.0. REJECT all gates. Count explosion is the disease; v11 = calibration/threshold + gated training past ep4.
 - `experiments/EXP-0036/`: DONE — notebook↔repo drift audit: detect/link/assign/CSV all EQUAL; deltas accepted (gate override, no max-size, no split opts, validator gap). IN-SYNC.
 - `experiments/EXP-0037/`: DONE — submit-output rescore (frozen graphs): gate-10-vs-7 churn sole deviation (0113de3b −0.28 adj). Gate is a tunable.

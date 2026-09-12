@@ -78,3 +78,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-12 (STAGE A): harvest ledger CONSISTENT (5/5 checks; rounding-only nit); frontier BLOCKED ×3 (inventory clean, no manufactured rung); LB steady (v7 0.668, slots 5). v11 needs PM direction.
 - 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×4 (inventory clean); harvest CONSISTENT + stale best-unsaved claims superseded (ep4 gated-vacuous best exists). No action.
 - 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×5 (inventory clean); ledger CONSISTENT (Next-pointer cleanup applied). v11 needs PM direction.
+- 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×6 (inventory clean); ledger CONSISTENT + dedupe 0032-34 + 0047/48 qualifier review deferred (dirs ledgered, harmless). v11 needs PM direction.
