@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # --- weights config (set once unet_best.pt lands; empty = not landed) ---
-WEIGHTS_PATH=""
+WEIGHTS_PATH="/home/box/workspace/kaggle-biohub-rd/data/weights/unet_best.pt"
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 EXP="$ROOT/experiments/EXP-0035"

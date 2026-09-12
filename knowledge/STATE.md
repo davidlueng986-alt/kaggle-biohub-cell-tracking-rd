@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-11 (UNet v10 ep9 diverged-plateau, best never saved; frontier BLOCKED again; LB steady). Maintainer: gold-watch.
+Last updated: 2026-09-11 (EXP-0035 first learned eval REJECT; UNet harvested; LB steady). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Reporting policy (PM 2026-09-12)
@@ -130,7 +130,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready (dataset published, UNet training RUNNING v8).
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8). Per-video calibration needs GT or learned estimator.
 - `experiments/EXP-0034/`: DONE (Stage C parallel) — per-sample-best transfer 2/3: 0b24845f BREAKS (window 0.80 → full 0.43); others hold. Window selection invalid on small windows.
-- `experiments/EXP-0035/`: skeleton (eval-builder): infer.py built+unit-tested, run.sh waits on WEIGHTS_PATH. Awaiting unet_best.pt.
+- `experiments/EXP-0035/`: DONE (Stage A parallel) — FIRST LEARNED EVAL, unet_best.pt ep4 harvested (gated pre-divergence; earlier "never saved" watch claims corrected — cnt==1.00 passes the gate with recall 0): learned recall 0.988 (83/84) at 26k det/frame → raw/adj 0.0. REJECT all gates. Count explosion is the disease; v11 = calibration/threshold + gated training past ep4.
 - `experiments/EXP-0036/`: DONE — notebook↔repo drift audit: detect/link/assign/CSV all EQUAL; deltas accepted (gate override, no max-size, no split opts, validator gap). IN-SYNC.
 - `experiments/EXP-0037/`: DONE — submit-output rescore (frozen graphs): gate-10-vs-7 churn sole deviation (0113de3b −0.28 adj). Gate is a tunable.
 - `experiments/EXP-0038/`: DONE (Stage C parallel) — T-discipline filter STOP: adj −0.0035/−0.0341, TP loss dwarfs FP savings; short tracks carry truth. Park filtering.
@@ -188,7 +188,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): submit still uses 44b6@99.0 + 6bba@98.5 gate-7 (LB 0.668); tuned_ref worst adj 0.8194 is NOT BTE. **Trusted BTE = EXP-0053** loso_worst 0.2092 / nested_worst 0.4193 — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: UNet timeout-harvest → EXP-0035 eval (collapsed weights likely; label honestly); v11 lr/loss-scale review needs PM/train-owner direction — PROPOSED, not pushed. LB reaction on movement; 4 slots left.
+- Next: v11 calibration/threshold direction needs PM/train-owner green-light (not pushed); LB reaction on movement; 4 slots left. Harvested weights: data/weights/unet_best.pt (gitignored, ep4).
 
 ## Next loop steps (cold agent — copy/paste)
 

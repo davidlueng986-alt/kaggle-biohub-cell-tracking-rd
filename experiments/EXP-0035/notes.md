@@ -17,6 +17,24 @@
   - No weights_eval numbers fabricated; metrics.json stays placeholder until
     unet_best.pt lands.
 
+## Verdict (2026-09-12 harvest-and-eval)
+
+- Weights: v10 kernel CANCELLED after divergence; harvested unet_best.pt
+  (ep4 gated pre-divergence best, 5.4MB, keys model/cfg/ep, e0 (32,1,3,3,3))
+  + unet_last.pt (ep9, loss 2.5719, val_recall 0.000 — /tmp only, unevaluated).
+  Evaluated BEST (gated) per hypothesis; ckpt thr=0.1 (not 0.3).
+- Numbers (6bba t20–29, GT 8.4/frame; DoG same-window bar recomputed:
+  recall 1.000, raw/adj 1.0, 44.4 det/frame): learned recall 0.9881 (83/84,
+  exact gate-reduced Hungarian), edge raw/adj 0.0 (linking INFEASIBLE —
+  count cloud percolates gated components; edges=[]), det/frame 26025
+  (~3100x GT). Verdict: REJECT (fails all three gates).
+- Infra: infer 3539s (~10min/frame, NMS-bound at thr 0.1); run.sh link+score
+  OOM-killed (dense 26k Hungarian); staged scoring used identical
+  _hungarian/_pair/edge_counts/division_counts math (see metrics.json notes).
+  run.sh line 7 set to absolute WEIGHTS_PATH ($ROOT undefined at line 7).
+- Decision: keep-trying (single-pass ceiling; v11 needs calibration/threshold
+  + count-gated training that survives past ep4, not more capacity first).
+
 ## Decisions
 
 - Window eval t20–29 on 6bba (dark sample); window-local scoring, no T_true.
