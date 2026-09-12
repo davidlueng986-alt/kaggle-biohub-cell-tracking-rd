@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-12 (harvest CONSISTENT audit; frontier BLOCKED ×3; LB steady, slots 5). Maintainer: gold-watch.
+Last updated: 2026-09-12 (harvest CONSISTENT + stale-claim cleanup; frontier BLOCKED ×4; LB steady). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## Reporting policy (PM 2026-09-12)
@@ -167,10 +167,10 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - UNet v10 ep2 (watch): loss 0.1338 falling, recall 0.914 held, cnt 1.91 stuck over-dense (gate withholding all 3 epochs). Precision gap persists; timeout-harvest (unet_last.pt) expected, not clean COMPLETE.
 - UNet v10 ep3 (watch): loss 0.1432 UPTICK (0.1338→0.1432), recall 0.937 held, cnt 1.94 stuck (gate withholding all 4). First loss reversal — watch for flat/divergence next epochs; timeout-harvest stands.
 - UNet v10 ep4 (watch): INSTABILITY EVENT — loss SPIKE 0.1432→0.4420, recall 0.937→0.000 (detections exist cnt 1.00 but match nothing), fpr 1.000. lr 1e-3 × fg×2500 suspected (not gradual drift). ep5 is the tell: rebound → keep watching; still 0/diverged → escalate to train-owner (lr/loss-scale review, runbook §g kill triggers). No weights; harvest on timeout/COMPLETE only.
-- UNet v10 ep4 re-confirmed (watch): fpr=1.000 ALL epochs (fires everywhere — count-explosion risk); best never saved (cnt gate working); ep5 still computing (slow epoch). Timeout-harvest likely; count-gate may yield NO gated best at all.
-- UNet v10 ep9 (watch): diverged plateau persists (loss 2.57 flat, recall 0 ×6, cnt ~0.03); best never saved all 9 epochs → expect ONLY unet_last.pt on timeout (no gated best). Frontier re-audit BLOCKED again (ensemble probe non-promotable by construction: oracle tag, gates 1+3 fail).
+- UNet v10 ep4 re-confirmed (watch): fpr=1.000 ALL epochs (fires everywhere — count-explosion risk); best-SAVE STATUS SUPERSEDED (see HARVESTED line: ep4 saved gated-vacuous); ep5 still computing (slow epoch). Timeout-harvest likely; count-gate may yield NO USEFUL gated best.
+- UNet v10 ep9 (watch): diverged plateau persists (loss 2.57 flat, recall 0 ×6, cnt ~0.03); AT THE TIME best appeared unsaved — SUPERSEDED by harvest (ep4 gated-vacuous best exists). Frontier re-audit BLOCKED again (ensemble probe non-promotable by construction: oracle tag, gates 1+3 fail).
 - UNet HARVESTED (timeout at ep9, ~43k sec = 12 h cap hit): data/weights/unet_best.pt (ep4 gated-vacuous recall-0) + unet_v10_timeout_last.pt (ep9 diverged) — both gitignored, loadable (keys model/cfg/ep). Last-eval SKIPPED deliberately (training recall 0 ⇒ expected zero; CPU better spent). v11 needs PM/train-owner green-light.
-- UNet v10 ep8 (watch): divergence PERSISTS (loss →2.57, recall 0 ×5, cnt ~0.01); best never saved all 8 epochs. No weights; timeout-harvest (unet_last.pt, collapsed) expected. v11 review with train-owner/PM (lr/loss-scale) — proposed, not pushed.
+- UNet v10 ep8 (watch): divergence PERSISTS (loss →2.57, recall 0 ×5, cnt ~0.01); AT THE TIME best appeared unsaved — SUPERSEDED by harvest (ep4 gated-vacuous best exists). No weights then; timeout-harvest (unet_last.pt, collapsed) expected. v11 review with train-owner/PM (lr/loss-scale) — proposed, not pushed.
 - UNet v10 ESCAPED (watch): ep0 loss 0.1763 (≠ 0.7065), recall 0.925 via over-detection (fpr 1.0, cnt 1.93 — gate correctly withholding best). Fix works mechanically; count discipline is now the training target.
 - `experiments/EXP-0032/`: DONE (Stage A parallel, enabling) — 6388 patches 50/50 (471 MB gitignored), verified + deterministic; train_design.md written. GPU path data-ready.
 - `experiments/EXP-0033/`: DONE (Stage C parallel, analysis) — no GT-free statistic predicts operating level (best rho +0.68 < 0.8; 98.5 spans both regimes → non-monotone). Per-video calibration needs GT or learned density estimator.

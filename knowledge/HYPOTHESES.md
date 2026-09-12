@@ -76,3 +76,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-12 (HARVEST): UNet timeout at ep9 confirmed (~43k sec = cap); best+last harvested to data/weights/ (gitignored, loadable); last-eval skipped (training recall 0, expected zero). LB steady (v7 0.668, slots 4). v11 needs PM direction.
 - 2026-09-12 (STAGE A): LB steady (v7 0.668, slots 5 post-reset — no trigger); frontier BLOCKED again (inventory clean); harvest audit CONSISTENT except /tmp-vs-data/weights drift (fixed in EXP-0035 notes+metrics). Timeout at ep9 confirmed via kernel log (~43k sec).
 - 2026-09-12 (STAGE A): harvest ledger CONSISTENT (5/5 checks; rounding-only nit); frontier BLOCKED ×3 (inventory clean, no manufactured rung); LB steady (v7 0.668, slots 5). v11 needs PM direction.
+- 2026-09-12 (STAGE A): LB steady; frontier BLOCKED ×4 (inventory clean); harvest CONSISTENT + stale best-unsaved claims superseded (ep4 gated-vacuous best exists). No action.
