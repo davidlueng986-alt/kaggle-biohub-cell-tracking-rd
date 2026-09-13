@@ -4,7 +4,7 @@ Last updated: 2026-09-13 (frontier BLOCKED ×30; ledger clean; LB steady, slots 
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## GOAL / GO (PM 2026-09-13)
-- Alex target: **gold**, score **~0.9** (public diagnostic now **0.668**).
+- Alex north star: maximize **Trusted CV** and **Private LB** toward gold; **0.9 is gold-zone reference, not a ceiling** (public diagnostic now **0.668**).
 - **v11 GREENLIT**: calibration/threshold + gated training for count discipline (EXP-0035 count-explosion is the disease). No more manufactured CPU-classical rungs while frontier BLOCKED.
 - Acceptance: learned path must produce non-zero edge with non-exploding det/frame before submit burn.
 
