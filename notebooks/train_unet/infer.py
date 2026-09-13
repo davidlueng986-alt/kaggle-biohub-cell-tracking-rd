@@ -24,8 +24,17 @@ Deterministic, CPU-only.
 Usage:
   python3 infer.py --weights unet_best.pt --zarr data/train/6bba_05b6850b.zarr \\
       --t-start 20 --t-end 21 --out pred.json
-  python3 infer.py --self-test        # synthetic peak-extraction unit test
+  python3 infer.py --weights unet_best.pt --zarr data/train/6bba_05b6850b.zarr \\
+      --t-start 20 --t-end 21 --out pred.json --thr 0.5 --top-k 150 \\
+      --max-det-per-frame 300 --ceiling 500
+  python3 infer.py --self-test        # synthetic unit tests (v11: 4 checks)
   python3 infer.py --help
+
+v11 count discipline (EXP-0035: 26025 det/frame flood -> edge/adj 0.0):
+  --thr / --top-k (per frame) / --top-k-volume / --max-det-per-frame
+  (density-prior cap, soft) / --ceiling (hard flood guard, truncate + loud
+  warning, never silently exceeded). det/frame mean/max/min reported per
+  sample + stored in output meta.
 """
 import argparse
 import json
@@ -43,6 +52,18 @@ DEFAULT_PATCH_CENTER = (8, 24, 24)
 DEFAULT_PEAK_THR = 0.3
 DEFAULT_VOXEL_UM = (1.625, 0.40625, 0.40625)
 DEFAULT_TRAIN_SPLIT = "6bba"
+# v11 count discipline (EXP-0035: 26025 det/frame flood -> edge/adj 0.0).
+# Usable band 1-150 det/frame (GT 0.5-12.3/frame across subset 6; DoG
+# operates ~44-57/frame dense). Density-prior cap 300 (soft, warn+truncate);
+# hard flood ceiling 500/frame (loud WARNING + truncate, never exceeded).
+DEFAULT_TOP_K = None          # per-frame top-K by score (None = unlimited)
+DEFAULT_TOP_K_VOLUME = None   # volume-level top-K by score (None = unlimited)
+DEFAULT_MAX_DET_PER_FRAME = 300
+HARD_CEILING_PER_FRAME = 500
+# Candidate pre-cap: bounds NMS O(n^2) runtime on flood inputs. Only engages
+# above 50k raw candidates (normal inputs never reach it); deterministic
+# (score desc, coords asc). Logged whenever it engages.
+CANDIDATE_PRE_CAP = 50000
 PEAK_FOOTPRINT = (3, 9, 9)
 # NMS min separation = footprint halves (Chebyshev, inclusive).
 NMS_HALVES = tuple(s // 2 for s in PEAK_FOOTPRINT)  # (1, 4, 4)
@@ -171,20 +192,44 @@ def infer_heatmap(model, frame_norm, patch_shape, stride, batch, device):
     return heat / np.maximum(count, 1e-6)
 
 
+def _warn(msg):
+    """Count-discipline warnings always go to stderr (never silent)."""
+    print(f"WARNING [count-discipline] {msg}", file=sys.stderr, flush=True)
+
+
 def extract_peaks(prob, thr=DEFAULT_PEAK_THR, footprint=PEAK_FOOTPRINT,
-                  halves=NMS_HALVES):
+                  halves=NMS_HALVES, top_k=DEFAULT_TOP_K,
+                  max_det=DEFAULT_MAX_DET_PER_FRAME,
+                  ceiling=HARD_CEILING_PER_FRAME):
     """Peaks = local maxima >= thr, greedy NMS dedup (min peak separation).
 
-    Returns [(z, y, x, score)] sorted by score desc, coords asc (deterministic).
+    v11 count discipline: after NMS, truncate to the tightest of
+    (top_k, max_det, ceiling) — all applied on the score-desc ordering, so
+    truncation keeps the most confident peaks. `ceiling` is the hard flood
+    guard (always enforced when >= 1); every truncation is reported in the
+    returned info dict AND logged to stderr (never silent).
+
+    Returns (peaks, info) where peaks = [(z, y, x, score)] sorted by score
+    desc, coords asc (deterministic), and info = {n_candidates, n_peaks_raw,
+    n_peaks, truncated, capped_by, pre_capped}.
     """
     prob = np.asarray(prob, dtype=np.float32)
     mx = ndi.maximum_filter(prob, size=footprint)
     cand = np.argwhere((prob == mx) & (prob >= thr))
+    info = {"n_candidates": int(len(cand)), "n_peaks_raw": 0, "n_peaks": 0,
+            "truncated": 0, "capped_by": None, "pre_capped": False}
     if len(cand) == 0:
-        return []
+        return [], info
     order = sorted(range(len(cand)),
                    key=lambda i: (-float(prob[tuple(cand[i])]),
                                   int(cand[i][0]), int(cand[i][1]), int(cand[i][2])))
+    if len(order) > CANDIDATE_PRE_CAP:
+        # Flood guard for NMS runtime: keep the most confident candidates.
+        order = order[:CANDIDATE_PRE_CAP]
+        info["pre_capped"] = True
+        _warn(f"candidate pre-cap: {info['n_candidates']} raw candidates "
+              f"> {CANDIDATE_PRE_CAP}; NMS runs on top-{CANDIDATE_PRE_CAP} "
+              f"by score")
     kept = []
     hz, hy, hx = halves
     for i in order:
@@ -192,14 +237,36 @@ def extract_peaks(prob, thr=DEFAULT_PEAK_THR, footprint=PEAK_FOOTPRINT,
         if all(abs(z - kz) > hz or abs(y - ky) > hy or abs(x - kx) > hx
                for kz, ky, kx, _ in kept):
             kept.append((z, y, x, float(prob[z, y, x])))
-    return kept
+    info["n_peaks_raw"] = len(kept)
+    # Tightest cap wins; ceiling is the hard backstop (always applied).
+    caps = []
+    if top_k is not None and top_k >= 1:
+        caps.append(("top_k", int(top_k)))
+    if max_det is not None and max_det >= 1:
+        caps.append(("max_det_per_frame", int(max_det)))
+    if ceiling is not None and ceiling >= 1:
+        caps.append(("ceiling", int(ceiling)))
+    if caps:
+        name, lim = min(caps, key=lambda c: c[1])
+        if len(kept) > lim:
+            info["truncated"] = len(kept) - lim
+            info["capped_by"] = name
+            kept = kept[:lim]
+            _warn(f"frame truncated: {info['n_peaks_raw']} peaks -> {lim} "
+                  f"(capped_by={name}, thr={thr})")
+            if name == "ceiling":
+                _warn(f"FLOOD-GUARD ENGAGED: raw peaks {info['n_peaks_raw']} "
+                      f"exceeded hard ceiling {lim}; output truncated, "
+                      f"do NOT trust this frame's recall")
+    info["n_peaks"] = len(kept)
+    return kept, info
 
 
-def run_self_test():
-    """Unit test: 5 Gaussian peaks + 2 weak decoys -> recover exactly the 5."""
-    set_seed(0)
+def _synth_heatmap(seed=0):
+    """Shared synthetic heatmap: 5 strong peaks + 2 weak decoys + noise."""
+    set_seed(seed)
     Z, Y, X = DEFAULT_PATCH_SHAPE
-    rng = np.random.default_rng(0)
+    rng = np.random.default_rng(seed)
     true = [(3, 10, 10), (5, 30, 35), (10, 12, 30), (12, 36, 12), (8, 24, 24)]
     decoy = [(4, 40, 8), (13, 8, 40)]
     zz, yy, xx = np.mgrid[0:Z, 0:Y, 0:X]
@@ -214,7 +281,14 @@ def run_self_test():
              + ((xx - cx) / sg[2]) ** 2)
         prob = np.maximum(prob, (0.2 * np.exp(-0.5 * g)).astype(np.float32))
     prob += (0.01 * rng.standard_normal(prob.shape)).astype(np.float32)
-    got = extract_peaks(prob, thr=DEFAULT_PEAK_THR)
+    return prob, true
+
+
+def run_self_test():
+    """Unit tests (v11 = original recovery + flood-cap + thr monotonicity)."""
+    # (0) Original EXP-0035 gate: 5 Gaussian peaks + 2 weak decoys.
+    prob, true = _synth_heatmap(seed=0)
+    got, info = extract_peaks(prob, thr=DEFAULT_PEAK_THR)
     assert len(got) == 5, f"expected 5 peaks, got {len(got)}: {got}"
     unmatched = list(true)
     for z, y, x, s in got:
@@ -224,8 +298,44 @@ def run_self_test():
         assert hit, f"peak {(z, y, x)} matches no true peak"
         unmatched.remove(hit[0])
     assert not unmatched, f"missed true peaks: {unmatched}"
-    print(f"SELF-TEST PASS: recovered exactly 5/5 peaks "
+    assert info["truncated"] == 0 and info["capped_by"] is None
+    print(f"SELF-TEST PASS [recovery]: exactly 5/5 peaks "
           f"(+2 sub-threshold decoys correctly ignored)")
+
+    # (a) v11 flood-cap: uniform-high noise heatmap must hit the ceiling,
+    # get truncated, and say so (warning + info flags, never silent).
+    rng = np.random.default_rng(1)
+    flood = (0.80 + 0.19 * rng.random(DEFAULT_PATCH_SHAPE)).astype(np.float32)
+    fgot, finfo = extract_peaks(flood, thr=0.3, top_k=None,
+                                max_det=10**9, ceiling=50)
+    assert finfo["n_peaks_raw"] > 50, \
+        f"flood fixture too tame: raw={finfo['n_peaks_raw']}"
+    assert len(fgot) == 50, f"ceiling not enforced: got {len(fgot)}"
+    assert finfo["capped_by"] == "ceiling" and finfo["truncated"] > 0, finfo
+    print(f"SELF-TEST PASS [flood-cap]: raw={finfo['n_peaks_raw']} capped "
+          f"to 50 by ceiling (truncated={finfo['truncated']})")
+
+    # (b) v11 threshold monotonicity: raising thr never adds detections.
+    thrs = [0.1, 0.3, 0.5, 0.7, 0.9]
+    counts = [len(extract_peaks(prob, thr=t,
+                                max_det=None, ceiling=None)[0]) for t in thrs]
+    assert all(b <= a for a, b in zip(counts, counts[1:])), \
+        f"thr not monotone: {list(zip(thrs, counts))}"
+    assert counts[0] >= counts[-1] and counts[0] >= 5 and counts[-1] <= 5, \
+        f"unexpected sweep: {list(zip(thrs, counts))}"
+    print(f"SELF-TEST PASS [thr-monotone]: "
+          + ", ".join(f"thr={t}:{n}" for t, n in zip(thrs, counts)))
+
+    # (c) v11 top-K: keeps the most confident peaks, deterministic order.
+    kgot, kinfo = extract_peaks(prob, thr=DEFAULT_PEAK_THR, top_k=3,
+                                max_det=None, ceiling=None)
+    assert len(kgot) == 3 and kinfo["capped_by"] == "top_k", kinfo
+    scores = [s for _, _, _, s in kgot]
+    assert all(b <= a for a, b in zip(scores, scores[1:])), scores
+    print(f"SELF-TEST PASS [top-k]: 5 peaks -> top-3 by score, "
+          f"order desc { [round(s, 3) for s in scores] }")
+    print("SELF-TEST PASS: 4/4 checks (recovery, flood-cap, "
+          "thr-monotone, top-k)")
     return 0
 
 
@@ -241,6 +351,16 @@ def main(argv=None):
     ap.add_argument("--mean", type=float, default=None)
     ap.add_argument("--std", type=float, default=None)
     ap.add_argument("--thr", type=float, default=None, help="peak thr (def: ckpt cfg)")
+    ap.add_argument("--top-k", type=int, default=None,
+                    help="per-frame top-K by score (def: no per-frame top-K)")
+    ap.add_argument("--top-k-volume", type=int, default=None,
+                    help="volume-level top-K by score over emitted frames")
+    ap.add_argument("--max-det-per-frame", type=int, default=DEFAULT_MAX_DET_PER_FRAME,
+                    help="density-prior cap per frame (0/neg = disable; "
+                         "ceiling still guards)")
+    ap.add_argument("--ceiling", type=int, default=HARD_CEILING_PER_FRAME,
+                    help="HARD flood ceiling per frame (truncate + loud "
+                         "warning; never silently exceeded)")
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--self-test", action="store_true")
@@ -272,6 +392,15 @@ def main(argv=None):
         model = UNet(cfg["base_ch"]).to(device).eval()
     patch_shape = tuple(cfg["patch_shape"])
     thr = a.thr if a.thr is not None else float(cfg["peak_thr"])
+    top_k = a.top_k if a.top_k is not None else DEFAULT_TOP_K
+    top_k_vol = a.top_k_volume if a.top_k_volume is not None \
+        else DEFAULT_TOP_K_VOLUME
+    max_det = a.max_det_per_frame
+    if max_det is not None and max_det <= 0:
+        max_det = None  # explicitly disabled; ceiling still guards
+    ceiling = a.ceiling
+    assert ceiling is not None and ceiling >= 1, \
+        f"--ceiling must be >= 1 (got {a.ceiling})"
     stride = tuple(p // 2 for p in patch_shape)
 
     if a.mean is not None and a.std is not None:
@@ -281,28 +410,71 @@ def main(argv=None):
         gmean, gstd = train_stats(find_patches_dir(), DEFAULT_TRAIN_SPLIT)
         norm_src = f"train-split-{DEFAULT_TRAIN_SPLIT}"
     print(f"norm: mean={gmean:.2f} std={gstd:.2f} ({norm_src}) "
-          f"patch={patch_shape} stride={stride} thr={thr}", flush=True)
+          f"patch={patch_shape} stride={stride} thr={thr} "
+          f"top_k={top_k} top_k_volume={top_k_vol} "
+          f"max_det_per_frame={max_det} ceiling={ceiling}", flush=True)
 
     nodes = []
+    per_frame = []
+    n_trunc_frames = 0
+    n_ceiling_hits = 0
     import time
     t_start = time.time()
     for t in range(t0, t1 + 1):
         frame = np.asarray(grp[t]).astype(np.float32)
         heat = infer_heatmap(model, (frame - gmean) / gstd,
                              patch_shape, stride, a.batch, device)
-        peaks = extract_peaks(heat, thr=thr)
+        peaks, pinfo = extract_peaks(heat, thr=thr, top_k=top_k,
+                                     max_det=max_det, ceiling=ceiling)
         for k, (z, y, x, s) in enumerate(peaks):
             nodes.append({"id": t * 1000000 + (k + 1), "t": t,
                           "z": z, "y": y, "x": x, "score": round(s, 4)})
-        print(f"t={t}: heat_max={heat.max():.3f} n_det={len(peaks)}", flush=True)
+        per_frame.append(len(peaks))
+        if pinfo["truncated"]:
+            n_trunc_frames += 1
+        if pinfo["capped_by"] == "ceiling":
+            n_ceiling_hits += 1
+        print(f"t={t}: heat_max={heat.max():.3f} n_det={len(peaks)} "
+              f"(raw={pinfo['n_peaks_raw']} capped_by={pinfo['capped_by']})",
+              flush=True)
+    if top_k_vol is not None and top_k_vol >= 1 and len(nodes) > top_k_vol:
+        nodes.sort(key=lambda n: (-n["score"], n["t"], n["z"], n["y"], n["x"]))
+        dropped = len(nodes) - top_k_vol
+        nodes = nodes[:top_k_vol]
+        _warn(f"volume top-K: dropped {dropped} lowest-score detections "
+              f"(kept {top_k_vol})")
     dt = time.time() - t_start
     nodes.sort(key=lambda n: n["id"])
+    n_frames = t1 - t0 + 1
+    import statistics as _stats
+    dpf_mean = sum(per_frame) / max(n_frames, 1)
+    dpf_max = max(per_frame) if per_frame else 0
+    dpf_min = min(per_frame) if per_frame else 0
+    band, band_note = "USABLE", "within 1-150 det/frame band"
+    if dpf_mean > HARD_CEILING_PER_FRAME:
+        band, band_note = "FLOOD", "mean exceeds hard ceiling (should be impossible)"
+    elif dpf_max > ceiling:
+        band, band_note = "FLOOD", "a frame exceeded the ceiling (should be impossible)"
+    elif dpf_mean > 150 or dpf_max > 300:
+        band, band_note = "ABOVE-BAND", "above usable 1-150 band: count discipline suspect"
+    print(f"det/frame: mean={dpf_mean:.1f} max={dpf_max} min={dpf_min} "
+          f"over {n_frames} frames [{band}: {band_note}] "
+          f"(truncated_frames={n_trunc_frames} ceiling_hits={n_ceiling_hits})",
+          flush=True)
     out = {"nodes": nodes, "edges": [],
-           "meta": {"weights": a.weights, "zarr": a.zarr,
-                    "t_range": [t0, t1], "thr": thr, "patch_shape": list(patch_shape),
-                    "stride": list(stride), "mean": gmean, "std": gstd,
-                    "voxel_size_um": list(cfg.get("voxel_um", DEFAULT_VOXEL_UM)),
-                    "seconds": round(dt, 1)}}
+            "meta": {"weights": a.weights, "zarr": a.zarr,
+                     "t_range": [t0, t1], "thr": thr,
+                     "top_k": top_k, "top_k_volume": top_k_vol,
+                     "max_det_per_frame": max_det, "ceiling": ceiling,
+                     "patch_shape": list(patch_shape),
+                     "stride": list(stride), "mean": gmean, "std": gstd,
+                     "voxel_size_um": list(cfg.get("voxel_um", DEFAULT_VOXEL_UM)),
+                     "det_per_frame": {"mean": round(dpf_mean, 2),
+                                       "max": dpf_max, "min": dpf_min},
+                     "truncated_frames": n_trunc_frames,
+                     "ceiling_hits": n_ceiling_hits,
+                     "band": band,
+                     "seconds": round(dt, 1)}}
     with open(a.out, "w") as f:
         json.dump(out, f)
     print(f"wrote {a.out}: {len(nodes)} detections over {t1 - t0 + 1} frames "

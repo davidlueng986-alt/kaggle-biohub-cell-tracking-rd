@@ -53,6 +53,16 @@ CONFIG = dict(
     mine_boost=1.0,              # v9: neutral (was 4.0; see mine_every)
     fg_weight=2500.0,  # v10: past ~1350 breakeven (net init pull -0.955; was 200, too weak).
                       # v9 bundled HNM-off + x200; v10 keeps HNM off, strengthens weight, drops Dice.
+    # v11 COUNT DISCIPLINE (EXP-0035: 26k-det/frame ckpt became "best" under
+    # recall-only selection). Gate uses recall AND count/FPR AND density together.
+    cnt_lo=0.7,                  # count_ratio window (patch-level proxy)
+    cnt_hi=1.0,
+    fpr_max=0.10,                # v11 hard FPR ceiling: fpr~1 floods never best
+    det_max=3.0,                 # v11 density ceiling (mean local-max peaks/patch;
+                                # sane ~=0.5; floods give hundreds — see validate())
+    fp_penalty=1.0,              # v11 single train-side calibration knob: extra
+                                # E[prob^2] penalty on NEG patches (~doubles bg
+                                # suppression; penalises FP floods, not recall)
     out_dir="/kaggle/working",   # checkpoint dir (falls back to ./working)
 )
 
@@ -237,16 +247,41 @@ def um_dist(dz, dy, dx):
 
 
 @torch.no_grad()
+def peak_counts(prob, thr):
+    """Local-max peak count per patch, mirroring infer.py:extract_peaks.
+
+    prob: torch tensor (B,1,D,H,W) probabilities. A voxel is a peak iff it is
+    a maximum over footprint (3,9,9) and >= thr. No NMS dedup here, so this is
+    a conservative UPPER-BOUND proxy for full-frame det density: a model that
+    floods (many supra-threshold bumps per patch) scores hundreds here while
+    the argmax-per-patch recall metric still sees at most 1 det/patch.
+    Uses torch.max_pool3d (kernel-safe: no scipy in train.py).
+    """
+    import torch.nn.functional as F
+    pooled = F.max_pool3d(prob, kernel_size=(3, 9, 9), stride=1, padding=(1, 4, 4))
+    is_peak = (prob == pooled) & (prob >= thr)
+    return is_peak.float().flatten(1).sum(1)
+
+
+@torch.no_grad()
 def validate(model, loader, device):
-    """Detection recall vs GT centroids on holdout embryo (7um rule, inline)."""
+    """Detection recall vs GT centroids on holdout embryo (7um rule, inline).
+
+    Returns recall + count-discipline proxies: neg FPR, patch count_ratio,
+    mean local-max peaks/patch (density/flood proxy), neg supra-threshold
+    voxel fraction. Count explosion is visible here BEFORE full-frame infer.
+    """
     model.eval()
     cz, cy, cx = CONFIG["patch_center"]
     thr, mu = CONFIG["peak_thr"], CONFIG["match_um"]
     n_pos = n_hit = n_det_neg = n_neg = 0
     errs = []
+    peak_sum, peak_n = 0.0, 0
+    neg_vox_over, neg_vox_tot = 0, 0
     for img, _, lab in loader:
-        prob = torch.sigmoid(model(img.to(device))).cpu().numpy()
-        for h, l in zip(prob, lab.numpy()):
+        prob = torch.sigmoid(model(img.to(device))).cpu()
+        pn = prob.numpy()
+        for h, l in zip(pn, lab.numpy()):
             pk = int(np.argmax(h[0]))
             pz, py, px = np.unravel_index(pk, h[0].shape)
             det = bool(h[0][pz, py, px] >= thr)
@@ -259,12 +294,77 @@ def validate(model, loader, device):
             else:
                 n_neg += 1
                 n_det_neg += int(det)
+                neg_vox_over += int((h[0] >= thr).sum())
+                neg_vox_tot += h[0].size
+        pc = peak_counts(prob, thr)
+        peak_sum += float(pc.sum())
+        peak_n += int(pc.numel())
     n_det = n_hit + n_det_neg
     return dict(recall=n_hit / max(n_pos, 1),
                 mean_err_um=float(np.mean(errs)) if errs else float("nan"),
                 neg_fpr=n_det_neg / max(n_neg, 1),
                 count_ratio=n_det / max(n_pos, 1),  # proxy T_pred/T_true (want ~0.7-1)
+                det_per_patch=peak_sum / max(peak_n, 1),  # v11 density proxy
+                neg_over_thr=(neg_vox_over / max(neg_vox_tot, 1)),  # v11 flood proxy
                 n_pos=n_pos, n_hit=n_hit, n_neg=n_neg)
+
+
+def gate_decision(m, best):
+    """v11 count-gated checkpoint selection: recall AND count/FPR AND density.
+
+    Returns (accept: bool, reason: str). A candidate with cnt==1.0 but zero
+    true hits, or fpr~1 (FP flood), is REJECTED with an explicit logged reason
+    and must NEVER be saved as best — this is the EXP-0035 failure mode.
+    """
+    if not (m["recall"] > best):
+        return False, (f"recall {m['recall']:.3f} not above best {best:.3f}")
+    if m["n_hit"] == 0:
+        return False, "degenerate: n_hit==0 (all detections are false positives)"
+    if m["neg_fpr"] > CONFIG["fpr_max"]:
+        return False, (f"fpr {m['neg_fpr']:.3f} > max {CONFIG['fpr_max']:.2f} "
+                       f"(FP flood — never best)")
+    if not (CONFIG["cnt_lo"] <= m["count_ratio"] <= CONFIG["cnt_hi"]):
+        return False, (f"cnt {m['count_ratio']:.2f} outside "
+                       f"[{CONFIG['cnt_lo']},{CONFIG['cnt_hi']}]")
+    if m["det_per_patch"] > CONFIG["det_max"]:
+        return False, (f"density {m['det_per_patch']:.1f} det/patch > max "
+                       f"{CONFIG['det_max']:.1f} (peak flood — never best)")
+    return True, (f"recall {m['recall']:.3f} + cnt {m['count_ratio']:.2f} + "
+                  f"fpr {m['neg_fpr']:.3f} + dens {m['det_per_patch']:.2f}/patch")
+
+
+def gate_self_test():
+    """v11 unit check: synthetic 26k-det flood must be REJECTED, sane ACCEPTED.
+
+    Runs inside smoke(); raises AssertionError on any gate mis-fire.
+    """
+    sane = dict(recall=0.60, count_ratio=0.85, neg_fpr=0.02,
+                det_per_patch=0.55, n_hit=100)
+    ok, rs = gate_decision(dict(sane), best=0.50)
+    print(f"  [gate-test] sane ckpt -> accept={ok} ({rs})", flush=True)
+    assert ok, "gate wrongly REJECTED a sane ckpt"
+    # EXP-0035 replay: val_recall 0.988 but ~26k det/frame (fpr~1, density flood)
+    flood = dict(recall=0.988, count_ratio=1.99, neg_fpr=1.0,
+                 det_per_patch=500.0, n_hit=172)
+    ok, rf = gate_decision(dict(flood), best=0.50)
+    print(f"  [gate-test] 26k-det flood ckpt -> accept={ok} ({rf})", flush=True)
+    assert not ok, "gate wrongly ACCEPTED the 26k-det flood ckpt"
+    # Forbidden degenerate: cnt==1.0 built purely from false positives
+    degen = dict(recall=0.0, count_ratio=1.0, neg_fpr=1.0,
+                 det_per_patch=1.0, n_hit=0)
+    ok, rd = gate_decision(dict(degen), best=-1.0)
+    print(f"  [gate-test] cnt==1.0/recall-0 ckpt -> accept={ok} ({rd})", flush=True)
+    assert not ok, "gate wrongly ACCEPTED the cnt==1.0/recall-0 ckpt"
+    # Density proxy fires on a uniform-flood heatmap (all-ones -> every voxel
+    # is a local max -> 16*48*48 peaks/patch >> det_max)
+    with torch.no_grad():
+        n = int(peak_counts(torch.ones(2, 1, *CONFIG["patch_shape"]),
+                            CONFIG["peak_thr"]).sum())
+    print(f"  [gate-test] uniform-flood density = {n // 2} peaks/patch "
+          f"(max {CONFIG['det_max']})", flush=True)
+    assert n // 2 > CONFIG["det_max"], "density proxy blind to uniform flood"
+    print("  [gate-test] PASS: flood REJECTED, degenerate REJECTED, sane ACCEPTED",
+          flush=True)
 
 
 def refresh_hard_negatives(model, ds, sampler, device):
@@ -339,7 +439,7 @@ def train(args):
     for ep in range(args.epochs if args.epochs is not None else CONFIG["epochs"]):
         model.train()
         tot, nb = 0.0, 0
-        for img, tgt, _ in tloader:
+        for img, tgt, lab in tloader:
             opt.zero_grad()
             out = torch.sigmoid(model(img.to(device)))
             tgt_d = tgt.to(device)
@@ -347,29 +447,40 @@ def train(args):
             # v9: foreground-weighted MSE (bg/fg ~230:1 locks all-zero otherwise).
             # v10: Dice OFF — its +0.5 discontinuity vetoes any escape from zero
             # (triage analytic: rows a=0 go 0.7065 -> 1.2063 on any nonzero output).
+            # v11: ONE train-side calibration knob — fp_penalty * E[prob^2] on
+            # NEG patches. Extra gradient 2*fp_penalty*prob suppresses FP floods
+            # (EXP-0035: 26k det/frame) without touching recall dynamics.
             w = 1.0 + (CONFIG["fg_weight"] - 1.0) * (tgt_d > 0.5).float()
             loss = (((out - tgt_d) ** 2) * w).mean()
+            if CONFIG["fp_penalty"]:
+                neg = out[lab.to(device) < 0.5]
+                if neg.numel():
+                    loss = loss + CONFIG["fp_penalty"] * (neg ** 2).mean()
             loss.backward()
             opt.step()
             tot += loss.item()
             nb += 1
         m = validate(model, vloader, device)
+        # v11 count-discipline logging: recall + count ratio + FPR + density
+        # proxies every epoch so count explosion is visible early.
         print(f"ep {ep}: loss={tot / max(nb, 1):.4f} val_recall={m['recall']:.3f} "
               f"err={m['mean_err_um']:.2f}um fpr={m['neg_fpr']:.3f} "
-              f"cnt={m['count_ratio']:.2f}", flush=True)
+              f"cnt={m['count_ratio']:.2f} dens={m['det_per_patch']:.2f}/patch "
+              f"negovr={m['neg_over_thr']:.4f}", flush=True)
         torch.save({"model": model.state_dict(), "cfg": CONFIG, "ep": ep},
                    odir / "unet_last.pt")
-        # audit FLAG#3: select on recall SUBJECT to count discipline
-        # (0.7<=cnt<=1.0 + documented FPR watch) — dense-output winners risk
-        # the a=0.1 T_pred penalty (COMPETITION.md pitfall 3).
-        gated = (0.7 <= m["count_ratio"] <= 1.0)
-        if m["recall"] > best and gated:
+        # v11 (extends audit FLAG#3): best requires recall AND count/FPR AND
+        # density TOGETHER. Flood/degenerate candidates are REJECTED with an
+        # explicit reason and NEVER saved as best.
+        accept, reason = gate_decision(m, best)
+        if accept:
             best, best_ep = m["recall"], ep
             torch.save({"model": model.state_dict(), "cfg": CONFIG, "ep": ep},
                        odir / "unet_best.pt")
-        elif m["recall"] > best:
-            print(f"  [gate] recall {m['recall']:.3f} best-so-far but cnt "
-                  f"{m['count_ratio']:.2f} outside [0.7,1.0] — not saved as best",
+            print(f"  [gate] ACCEPT ep{ep}: {reason} — saved unet_best.pt",
+                  flush=True)
+        else:
+            print(f"  [gate] REJECT ep{ep}: {reason} — NOT saved as best",
                   flush=True)
         if CONFIG["mine_every"] and (ep + 1) % CONFIG["mine_every"] == 0 and not args.no_mine:
             nh = refresh_hard_negatives(model, tr, sampler, device)
@@ -406,6 +517,7 @@ def smoke(args):
     s2 = sum(p.sum().item() for p in m2.parameters())
     print(f"checkpoint OK: {tmp} (sums {s1:.4f}/{s2:.4f})", flush=True)
     assert abs(s1 - s2) < 1e-3
+    gate_self_test()  # v11: synthetic flood must REJECT, sane must ACCEPT
     # real loader path: first 8 manifest rows (shapes only, no training)
     data_dir = args.data_dir or find_data_dir()
     rows = list(csv.DictReader(open(f"{data_dir}/MANIFEST.csv")))[:8]

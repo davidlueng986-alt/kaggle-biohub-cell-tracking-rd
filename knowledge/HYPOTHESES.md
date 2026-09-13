@@ -103,3 +103,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×28 (27-line history + weights checked, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
 - 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×29 (15-family table, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
 - 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×30 (17-family table incl downsample chain, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
+- 2026-09-13 (PM GREEN LIGHT v11): train count-gate + infer threshold/top-K/cap landed + smoke-green; EXP-0061 scaffolded PENDING_CODE (bar: edge>0 + det/frame≤500); frontier CPU still parked, v11 ACTIVE. LB steady (top active 0.963–0.970). Idea seeds: sister-separation prior, motion-projected gap cost.

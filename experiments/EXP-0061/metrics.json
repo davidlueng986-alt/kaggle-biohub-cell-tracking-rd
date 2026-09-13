@@ -1,0 +1,36 @@
+{
+  "exp_id": "EXP-0061",
+  "title": "UNet v11 gated-detection eval",
+  "status": "PENDING_CODE",
+  "reason": "v11 weights missing (no data/weights/unet_v11*.pt and $V11_WEIGHTS unset); needs train agent output",
+  "protocol_version": "v1.2",
+  "scorer": "scripts/score.py v1.1.0",
+  "cv_tag": "learned:unet-v11-gated:signal-only:not-trusted-no-promotion",
+  "window": {
+    "sample": "6bba_05b6850b",
+    "t": [
+      20,
+      29
+    ]
+  },
+  "bar": {
+    "pass_iff": "edge_raw > 0 AND edge_adj > 0 on >=1 sample/window AND det_per_frame <= 500",
+    "else": "STOP with reason"
+  },
+  "gating": {
+    "threshold": null,
+    "top_k": null,
+    "density_cap": null,
+    "provenance": "fixed a-priori per v11 infer-agent contract; null until live run (any eval-window tuning forces tuned_ref retag)"
+  },
+  "numbers": null,
+  "negative_control_ref": {
+    "exp": "EXP-0035",
+    "recall": 0.9880952380952381,
+    "det_per_frame": 26025.0,
+    "edge_raw": 0.0,
+    "edge_adj": 0.0,
+    "verdict": "REJECT"
+  },
+  "notes": "skeleton: no numbers fabricated; run.sh exits cleanly PENDING_CODE until weights+infer exist"
+}
