@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-13 (v11 ACTIVE — train/infer code landed smoke-green, EXP-0061 PENDING_CODE; CPU classical still parked; LB steady, slots 5). Maintainer: gold-watch.
+Last updated: 2026-09-13 (v11 kernel PUSHED+RUNNING on Kaggle GPU —ids liangwanyiudavid/biohub-unet-train-v11, v1 untouched; EXP-0061 PENDING_CODE awaiting weights; LB steady, slots 5). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## GOAL / GO (PM 2026-09-13)
@@ -82,7 +82,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Audit (Stage A parallel, read-only) caught 3 REAL flags pre-completion: (1) HNM slice-overrun crash at ep-1 refresh (verified by reading; FATAL); (2) recall-only ckpt selection ignoring count discipline; (3) MSE-only loss vs design Dice term; plus determinism gaps (cuda seed, sampler offset) and a position/index confusion in HNM boost (second bug, same function). All fixed + locally validated (dice range, HNM unit past old crash class, full --smoke PASS) → pushed v8, RUNNING past old crash point.
 - v8 status: ep 3/20, loss 0.5318→0.5018 then flat, val_recall 0.000 (zero-positive start, count-gate withholding best as designed); HNM fired ep1+ep3 (slice fix HOLDS live); ETA ~2.8–3 h. Early warning: recall/cnt still 0 past ep8–10 → threshold/loss review. Logs stream only via `logs -f` while RUNNING.
 - Eval ready: `notebooks/train_unet/infer.py` built + unit-tested (5/5 synthetic peaks, 0 decoy FPs) + random-weight dry run green; EXP-0035 run.sh skeleton waits on WEIGHTS_PATH.
-- Next: v11 code LANDED (count-gated train ckpt + threshold/top-K/cap infer, smoke-green); next = push v11 kernel to Kaggle GPU (spec in KERNEL_V11_NOTES.md, new slug) → harvest weights → EXP-0061 live eval; LB reaction on movement; CPU classical parked (no manufactured rungs).
+- Next: v11 kernel PUSHED+RUNNING (`liangwanyiudavid/biohub-unet-train-v11`, v1 untouched); watch gate logs (recall+cnt+fpr+dens; healthy ep0 = REJECT flood) → on COMPLETE `bash scripts/harvest_v11.sh` → `V11_WEIGHTS=... bash experiments/EXP-0061/run.sh`; idea backlog (hypothesis only): sister-separation prior, node-count effect in trusted CV; CPU classical parked.
 
 ## Auth status (verification commands — re-run, do not assume)
 
@@ -191,7 +191,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - Standing IMAGE policy (submittable path): submit still uses 44b6@99.0 + 6bba@98.5 gate-7 (LB 0.668); tuned_ref worst adj 0.8194 is NOT BTE. **Trusted BTE = EXP-0053** loso_worst 0.2092 / nested_worst 0.4193 — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
-- Next: v11 calibration/threshold direction needs PM/train-owner green-light (not pushed); LB reaction on movement; 5 slots left. Harvested weights: data/weights/unet_best.pt (gitignored, ep4).
+- Next: v11 kernel RUNNING on Kaggle GPU (do NOT restart); watch gate logs → harvest on COMPLETE → EXP-0061 live eval; LB reaction on movement; 5 slots left. Harvested weights: data/weights/unet_best.pt (gitignored, ep4).
 
 ## Next loop steps (cold agent — copy/paste)
 
@@ -207,5 +207,5 @@ gh auth status
 bash scripts/run_loop.sh --dry-run
 python3 scripts/score.py --dry-run
 python3 scripts/test_score.py
-# Next: v11 code landed smoke-green; next = Kaggle GPU kernel push (new slug) → harvest → EXP-0061 live eval; LB watch; CPU classical parked (see Next above)
+# Next: v11 RUNNING → harvest (scripts/harvest_v11.sh) → EXP-0061 live eval; LB watch; CPU classical parked (see Next above)
 ```
