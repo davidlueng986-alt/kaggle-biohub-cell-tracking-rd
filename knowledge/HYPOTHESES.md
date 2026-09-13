@@ -101,3 +101,4 @@ Status values: `backlog` | `active` | `done` | `rejected`.
 - 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×26 (H-001..H-005 cross-check, 0061 vacant); ledger verified CLEAN. v11 needs PM direction.
 - 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×27 (13-family table, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
 - 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×28 (27-line history + weights checked, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
+- 2026-09-13 (STAGE A): LB steady; frontier BLOCKED ×29 (15-family table, 0061 vacant); ledger hygiene synced. v11 needs PM direction.
