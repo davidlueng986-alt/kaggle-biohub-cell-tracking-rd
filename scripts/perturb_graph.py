@@ -19,10 +19,18 @@ def perturb(gt, seed, sigma=SIGMA_VOX):
     rng = random.Random(seed)
     nodes = []
     for n in gt["nodes"]:
-        nodes.append({"id": n["id"], "t": n["t"],
-                      "z": n["z"] + rng.gauss(0, sigma),
-                      "y": n["y"] + rng.gauss(0, sigma),
-                      "x": n["x"] + rng.gauss(0, sigma)})
+        # AUDIT-FIX C2 (P5): keep split/parent keys when present so the
+        # phased branch of baseline_link stays testable downstream.
+        # Previously they were stripped, silently disabling phased linking
+        # on perturbed graphs. Coordinates/edges/ids/T_true handling unchanged.
+        m = {"id": n["id"], "t": n["t"],
+             "z": n["z"] + rng.gauss(0, sigma),
+             "y": n["y"] + rng.gauss(0, sigma),
+             "x": n["x"] + rng.gauss(0, sigma)}
+        for k in ("split", "parent"):
+            if k in n:
+                m[k] = n[k]
+        nodes.append(m)
     g = {"nodes": nodes, "edges": [list(e) for e in gt["edges"]],
          "T_true": gt.get("T_true"), "voxel_size_um": gt.get("voxel_size_um"),
          "jitter_seed": seed, "jitter_sigma_vox": sigma}

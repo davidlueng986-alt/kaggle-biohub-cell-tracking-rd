@@ -1,6 +1,46 @@
 #!/usr/bin/env python3
+"""Subset downloader (AUDIT-FIX I1/I7).
+
+Auth (no secrets in repo): Kaggle CLI resolves credentials itself from EITHER
+  - env: KAGGLE_USERNAME + KAGGLE_KEY, OR
+  - file: ~/.kaggle/kaggle.json (chmod 600).
+This script preflights that BEFORE paginating so a missing auth fails fast with
+an actionable message instead of a cryptic list_error. KGAT Bearer-only setups
+(~/.kaggle/access_token without kaggle.json/env) must run `kaggle auth login`
+or export the env pair first. Requires kaggle CLI >= 2.2 for `--format csv`
+(verified: 2.2.4). Competition Rules must be accepted on the web page first
+(API returns 403 until accepted). Never commit kaggle.json / .env / tokens.
+See docs/AUTH.md.
+"""
+import os
 import subprocess, pathlib, sys, time
-root = pathlib.Path("/home/box/workspace/kaggle-biohub-rd/data")
+
+# AUDIT-FIX I1: repo-relative root (was absolute checkout hardcode), override
+# via BIOHUB_DATA_DIR. Resolves to the same path on the canonical VM.
+REPO = pathlib.Path(__file__).resolve().parent.parent
+root = pathlib.Path(os.environ.get("BIOHUB_DATA_DIR", REPO / "data"))
+
+
+def check_auth():
+    """Fail fast with guidance if the Kaggle CLI has no usable credentials."""
+    env_ok = bool(os.environ.get("KAGGLE_USERNAME") and os.environ.get("KAGGLE_KEY"))
+    kj = pathlib.Path.home() / ".kaggle" / "kaggle.json"
+    file_ok = kj.exists() and kj.stat().st_size > 0
+    if env_ok or file_ok:
+        print(f"auth OK (env={'yes' if env_ok else 'no'}, kaggle.json={'yes' if file_ok else 'no'})",
+              flush=True)
+        return
+    print("AUTH MISSING: Kaggle CLI has neither KAGGLE_USERNAME/KAGGLE_KEY env "
+          "nor ~/.kaggle/kaggle.json.", flush=True)
+    print("Fix (pick one, secrets stay out of the repo):", flush=True)
+    print("  kaggle auth login   # interactive, stores under ~/.kaggle/", flush=True)
+    print("  # or: Kaggle Settings -> API -> Create New Token -> ~/.kaggle/kaggle.json (chmod 600)", flush=True)
+    print("  # or: export KAGGLE_USERNAME=... KAGGLE_KEY=...  (see docs/AUTH.md)", flush=True)
+    print("Then accept competition Rules on the web page and re-run.", flush=True)
+    sys.exit(3)
+
+
+check_auth()
 ids = [l.strip() for l in (root / "SUBSET_IDS.txt").read_text().splitlines() if l.strip()]
 print("target ids", ids, flush=True)
 token = None

@@ -25,7 +25,7 @@ Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is
 
 ## PRIORITY (PM 2026-09-11)
 - **Trusted CV rebuild ACTIVE (PROTOCOL v1.2).** Standing image 0.8194 is `tuned_ref` only — not trusted.
-- BTE = EXP-0053 trusted `loso_worst` **0.2092** / `embryo_nested_worst` **0.4193** (fold0 0.4193 / fold1 0.6136). Challengers must beat this envelope. **Do not BTE Forge 0.946** (`lb_external_untrusted`).
+- BTE = EXP-0053 trusted `loso_worst` **0.2092** / `embryo_nested_worst` **0.4193** (fold0 0.4193 / fold1 0.6136). Primary promotion gate = `embryo_nested_worst` (trusted); `loso_worst`/`loso_micro` = robustness only (C1 AUDIT-FIX Wave3, 2026-09-20; PROTOCOL §2.4/§4/§5). Challengers must beat this envelope. **Do not BTE Forge 0.946** (`lb_external_untrusted`).
 - Spec: `docs/TRUSTED_CV.md` + `docs/PROTOCOL.md` §2. Ledger: `knowledge/LB_CALIBRATION.md`.
 
 ## Goal
@@ -188,7 +188,7 @@ for Kaggle **Biohub – Cell Tracking During Development**, not a one-off notebo
 - EXP-0019 CANDIDATE: gate-10+r10 combo, worst-fold 1.0895, div 3/0/1, fold0 identical (0 clean-tissue forks).
 - EXP-0020 verdict: promotion DENIED (seed0 −4e-4), candidacy REVOKED per pre-registered rule — narrowly, as designed. Config retained in variant pool; re-nomination path = appearance-confirmed forks (jitter-invariant evidence).
 - Superseded floor: EXP-0003 gate-7 (worst 1.0705) — kept for reference, no longer the number to beat.
-- Standing IMAGE policy (submittable path): submit still uses 44b6@99.0 + 6bba@98.5 gate-7 (LB 0.668); tuned_ref worst adj 0.8194 is NOT BTE. **Trusted BTE = EXP-0053** loso_worst 0.2092 / nested_worst 0.4193 — image side rejected widening; oracle best is not submittable (needs GT nodes).
+- Standing IMAGE policy (submittable path): submit still uses 44b6@99.0 + 6bba@98.5 gate-7 (LB 0.668); tuned_ref worst adj 0.8194 is NOT BTE. **Trusted BTE = EXP-0053** loso_worst 0.2092 / nested_worst 0.4193 (primary gate = nested_worst; LOSO robustness only) — image side rejected widening; oracle best is not submittable (needs GT nodes).
 - r10: ensemble-candidate, re-scoped onto the new best (proposals validated on gate-7 links; combination untested).
 - Harness (toy): EXP-0001 0.600/0.333; EXP-0002 perfect 1.1, idswitch 0.333.
 - Next: v11 kernel RUNNING on Kaggle GPU (do NOT restart); watch gate logs → harvest on COMPLETE → EXP-0061 live eval; LB reaction on movement; 5 slots left. Harvested weights: data/weights/unet_best.pt (gitignored, ep4).

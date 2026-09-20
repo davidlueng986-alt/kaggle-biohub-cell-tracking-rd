@@ -5,7 +5,8 @@ Det sources: frozen manifests (EXP-0008/0039/0040, verified 100f) or
 EXP-0060/det fresh. Scorer v1.1.0 score.score_samples; runtime-only scipy
 Hungarian swap (scripts/* untouched) after equivalence gate on one sparse
 sample scored both ways (identical edge/div counts required).
-Writes pred_*.json, scores.json, metrics.json (cv_tag trusted + HP provenance).
+Writes pred_*.json, scores.json, metrics.json (cv_tag tuned_ref — rule sign
+chosen using EXP-0059 eval-sample outcomes per PROTOCOL 2.3 — + HP provenance).
 """
 import json
 import os
@@ -150,7 +151,9 @@ def main():
     decision = "CANDIDATE" if all(bars.values()) else "keep-trying"
 
     metrics = {
-        "protocol_version": "1.2", "cv_tag": "trusted", "scorer_version": "1.1.0",
+        "protocol_version": "1.2", "cv_tag": "tuned_ref",
+        "cv_detail": "rule sign (HIGH-B->96) chosen using EXP-0059 eval-sample outcomes per PROTOCOL 2.3",
+        "scorer_version": "1.1.0",
         "exp_id": "EXP-0060", "title": "Sign-corrected nested binary-brightness rule",
         "hypothesis_id": "H-002", "dry_run": False, "real_data": True,
         "image_based": True, "simplified_scorer": False,

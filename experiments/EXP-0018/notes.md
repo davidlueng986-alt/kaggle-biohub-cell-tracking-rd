@@ -16,8 +16,11 @@
   deterministic re-runnable via run.sh.
 
 ## Decisions
-- **PROMOTE** — gate-10 oracle links become the new best (worst-fold
-  1.0884: 44b6 1.0998 / 6bba 1.0884; div 0/0/4; FP+1 vs old floor). First
+- **PROMOTE** — gate-10 oracle links become the new best (unperturbed
+  1.0884: 44b6 1.0998 / 6bba 1.0884; replicated min-seed worst 1.0873;
+  div 0/0/4; FP+1 vs old floor). [C1 note 2026-09-20: pre-v1.2 artifact, no
+  `cv_tag` in metrics.json — missing tag is pre-schema, not trusted;
+  oracle-based result, treat as `cv_tag: oracle`. Metrics numbers untouched.] First
   promotion in ladder history, earned through the pre-registered bar
   (both-fold win + replication + div-neutrality + LOO), not asserted.
 - Standing image policy unchanged (image side rejected widening in

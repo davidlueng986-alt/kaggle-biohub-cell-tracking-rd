@@ -48,6 +48,8 @@ Every reported number MUST carry one tag:
 
 **Standing image / model numbers may only be `trusted`.** Retag historical 0.8194-class results as `tuned_ref`.
 
+**Schema grandfather note (C1 AUDIT-FIX Wave3, 2026-09-20):** `cv_tag` became mandatory in v1.2. Metrics files written pre-v1.2 that carry no `cv_tag` are **pre-schema — NOT `trusted` by default**. No mass backfill: a missing tag must never be read as a trust claim. Single-sample / window-local probes that are not nested CV use `tuned_ref` with the original prose preserved in `cv_detail` (never freeform `cv_tag`). `protocol_version` is always the plain string `"1.2"` (not `"v1.2"`).
+
 ### 2.3 Nested hyperparameter rule
 Free HPs include (non-exhaustive): DoG percentile(s), link gate µm, fork thresholds, intensity calibrators, early-stopping epochs, post-process cutoffs.
 
@@ -67,7 +69,7 @@ On the current subset (6 samples: 3×`44b6` + 3×`6bba`; expand when more data l
    - fold1: symmetric.
    - Report **worst** of fold0/fold1 embryo micros as `embryo_nested_worst`.
 
-Primary ranking key for standing / BTE: **`loso_worst`**, then `loso_micro`, then `embryo_nested_worst`.
+Primary ranking key for standing / BTE: **`embryo_nested_worst`** (trusted; train/test are embryo-disjoint so embryo-nested is the true hidden-test proxy), then `loso_worst`, then `loso_micro` — LOSO is a robustness gate only (C1 AUDIT-FIX Wave3, 2026-09-20).
 
 ### 2.5 Embryo folds (unchanged topology; nested HPs required)
 Train still comes from **2 embryos** (`6bba`, `44b6`). Splitting by sample for **learned weights** still leaks embryo identity and remains forbidden for weight training.
@@ -94,8 +96,8 @@ Train still comes from **2 embryos** (`6bba`, `44b6`). Splitting by sample for *
 
 A candidate promotes (hypothesis → accepted → ensemble candidate) **iff all** hold:
 
-1. **Local trusted win:** beats the current best **`trusted`** standing on **`loso_worst`** (primary) and does not regress `loso_micro` beyond tolerance (default: 0 absolute). Win must replicate across **≥ 2 seeds** when stochastic; single-seed wins do not count. `tuned_ref` / `oracle` / LB numbers never satisfy this gate.
-2. **Embryo nested stability:** does not regress vs baseline on **`embryo_nested_worst`** beyond tolerance (default: 0 absolute regression).
+1. **Local trusted win:** beats the current best **`trusted`** standing on **`embryo_nested_worst`** (primary; embryo-disjoint proxy) and does not regress `loso_worst` / `loso_micro` (robustness gates) beyond tolerance (default: 0 absolute). Win must replicate across **≥ 2 seeds** when stochastic; single-seed wins do not count. `tuned_ref` / `oracle` / LB numbers never satisfy this gate.
+2. **Embryo nested stability:** covered by gate 1 (primary); report both embryo micros alongside the LOSO table for every candidate.
 3. **Diversity (for ensemble admission):** candidate must add a *different* error profile — measured by disagreement with current ensemble on edge-FN sets (or division-TP sets) — not just a higher mean. Near-duplicate predictions are rejected even with small wins.
 4. **LB diagnostic only:** our own public LB may be *observed* after gates 1–3 pass, to detect scorer-mirror bugs or CV miscalibration (`|loso_micro − public_lb| > 0.15` → flag `cv_lb_miscalibrated`, investigate before ship). LB movement alone never promotes / demotes. **External public LB (Forge etc.) never promotes, never sets targets.**
 5. **Division sub-gate:** any change that increases predicted-fork count must show division-Jaccard gain AND no adjusted-edge-Jaccard regression under the trusted envelope on both embryo sides. Fork-count inflation without division gain is an automatic reject.
@@ -103,7 +105,7 @@ A candidate promotes (hypothesis → accepted → ensemble candidate) **iff all*
 ## 5. Ensemble / selection / BTE policy
 
 - **BTE (Beat The Existing trusted):** the number to beat is our current best **`trusted`** envelope — **not** Forge 0.946, **not** public LB, **not** historical `tuned_ref` 0.8194.
-- Final selection maximises **`loso_worst`**, then `loso_micro`, then `embryo_nested_worst` — shake-up resistance over peak.
+- Final selection maximises **`embryo_nested_worst`**, then `loso_worst`, then `loso_micro` — embryo-disjoint generalisation over shake-up resistance over peak (C1 AUDIT-FIX Wave3, 2026-09-20).
 - Ensemble members chosen for **stability + diversity**: prefer 2–4 members with uncorrelated edge errors under LOSO over N copies of the best single seed.
 - Fusion method must itself pass gates 1–3 as if it were a model.
 - Keep a **fast fallback** single model that fits the 12 h budget with ≥ 2× headroom; the ensemble is only submitted if it fits the per-video time budget (§7) end-to-end in a dry run.
@@ -129,6 +131,8 @@ A candidate promotes (hypothesis → accepted → ensemble candidate) **iff all*
 - Policy: profile per-video latency in every experiment's `metrics.json` (`infer_s_per_video`); any experiment exceeding budget must either slim down or be marked non-submittable. Stage-3 dry run (EXP-0001) establishes the timing harness on CPU with a scale factor noted.
 
 ## Changelog
+
+- **C1 tags-protocol amendment (2026-09-20, AUDIT-FIX Wave3, no version bump):** EXP-0060 `trusted`→`tuned_ref` (§2.3 sign rule); freeform `cv_tag` (EXP-0055/0056/0057/0035/0061) → enum + `cv_detail`; missing `cv_tag` = pre-schema, never `trusted`, no mass backfill; `protocol_version` normalised to `"1.2"`; primary promotion gate rekeyed to `embryo_nested_worst` (trusted) with LOSO as robustness-only (§2.4/§4/§5); scorer + folds unchanged.
 
 - **v1.2 (2026-09-11):** Trusted-CV rebuild (Grandmaster nested). Mandatory `cv_tag`; LOSO + embryo-nested metrics (`loso_micro`, `loso_worst`, `embryo_nested_worst`); nested HP rule; BTE vs trusted standing only; external LB (e.g. Forge 0.946) marked untrusted and never a target; promotion gates rekeyed to trusted envelope; LB calibration ledger. Scorer v1.1.0 unchanged. Historical standing 0.8194 reclassified `tuned_ref`.
 - **v1.1 (2026-09-09):** Faithful scorer (`scripts/score.py` v1.1.0 + `scripts/test_score.py` 13 tests): per-timepoint 7 µm Hungarian matching with pinned voxel scale, sparse-aware edge FP, `T_true` penalty (`estimated_number_of_nodes`), division local-window with max-cardinality pairing, submission.csv micro-average, legacy-toy backward compat. EXP-0001 re-scored (hand-calc still 0.5/1.0/0.6, still keep-trying); EXP-0002 validates geometric path. Gates/folds unchanged.

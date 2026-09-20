@@ -21,7 +21,7 @@
   05db0fb1@96 edge 0.4822 reproduces EXP-0039; 05b6850b@99 edge 0.7121
   reproduces EXP-0008 (gate-7 row).
 
-## Results (PROTOCOL v1.2, scorer v1.1.0, cv_tag trusted, complete 6/6 + 3/3)
+## Results (PROTOCOL v1.2, scorer v1.1.0, cv_tag tuned_ref — rule sign chosen using EXP-0059 eval-sample outcomes per PROTOCOL 2.3, retagged C1 2026-09-20; complete 6/6 + 3/3)
 
 - LOSO (sign-corrected): 0113de3b@99 1.0382; 0b24845f@96 0.2872;
   0c582fdc@96 0.2874; 05b6850b@99 0.8121; 05db0fb1@96 0.4822;

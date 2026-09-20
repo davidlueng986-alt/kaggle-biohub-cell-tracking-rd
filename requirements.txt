@@ -9,3 +9,13 @@ scipy>=1.12  # DoG detection probe (EXP-0007+; CPU-only)
 # scipy>=1.12  # optional: cross-check Hungarian vs scripts/score.py pure-python
 # torch>=2.0  # tracking models (notebook only, never on this CPU VM)
 # --- test runner: stdlib unittest only (python3 scripts/test_score.py -v) ---
+# --- Official-oracle differential extras (AUDIT-FIX I5; CI-only, guarded) ---
+# Pinned to oracle env /tmp/opencode/venv-oracle (tracking_cellmot 0.1.0 @075fc5f):
+#   scipy==1.18.1, tracksdata==0.1.0rc10, polars==1.44.2
+# (system here: scipy 1.18.1 satisfies scipy>=1.12 above; tracksdata/polars live
+# only in the oracle venv — PyPI is unreachable from some VMs.)
+# Kept COMMENTED so `pip install -r requirements.txt` never breaks the base env.
+# CI installs them explicitly with fallback-skip before diff_a2/diff_a3:
+#   pip install "tracksdata==0.1.0rc10" "polars==1.44.2"  (see .github/workflows/smoke.yml)
+# tracksdata==0.1.0rc10
+# polars==1.44.2

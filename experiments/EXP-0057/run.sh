@@ -64,9 +64,10 @@ metrics = {
     "title": "05db0fb1 full-video @94.5 descent probe",
     "protocol_version": "1.2",
     "scorer_version": "1.1.0",
-    "cv_tag": "single-sample operating-point test (NOT a promotion claim): "
-              "single deterministic pass, HP fixed a priori at 94.5, "
-              "no selection on this sample",
+    "cv_tag": "tuned_ref",
+    "cv_detail": "single-sample operating-point test (NOT a promotion claim): "
+                 "single deterministic pass, HP fixed a priori at 94.5, "
+                 "no selection on this sample",
     "dry_run": False, "real_data": True, "image_based": True,
     "simplified_scorer": False,
     "sample": "6bba_05db0fb1", "frames": 100, "pct": 94.5,

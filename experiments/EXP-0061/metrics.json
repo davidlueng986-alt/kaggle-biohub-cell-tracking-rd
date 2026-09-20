@@ -3,9 +3,10 @@
   "title": "UNet v11 gated-detection eval",
   "status": "PENDING_CODE",
   "reason": "v11 weights missing (no data/weights/unet_v11*.pt and $V11_WEIGHTS unset); needs train agent output",
-  "protocol_version": "v1.2",
+  "protocol_version": "1.2",
   "scorer": "scripts/score.py v1.1.0",
-  "cv_tag": "learned:unet-v11-gated:signal-only:not-trusted-no-promotion",
+  "cv_tag": "tuned_ref",
+  "cv_detail": "learned:unet-v11-gated:signal-only:not-trusted-no-promotion (skeleton, PENDING_CODE)",
   "window": {
     "sample": "6bba_05b6850b",
     "t": [

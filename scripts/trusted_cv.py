@@ -97,8 +97,13 @@ def ensure_det(sid, pct, cache_dir, frames=DEFAULT_FRAMES):
         Z = zarr.open_group(os.path.join(DATA_TRAIN, f"{sid}.zarr"), mode="r")["0"]
         for t in missing:
             nodes, params = dog_detect_fn(__import__("numpy").asarray(Z[t]), pct=pct)
-            out = {"nodes": [{"id": i + 1, "t": t, "z": z, "y": y, "x": x}
-                             for i, (z, y, x, _, _) in enumerate(nodes)]}
+            # AUDIT-FIX C2 (P5): keep split/parent (dog_detect CLI schema)
+            # so the phased branch of baseline_link stays testable in CV.
+            # The old dict dropped them, silently disabling phased linking
+            # on every on-demand (non-manifest) sample.
+            out = {"nodes": [{"id": i + 1, "t": t, "z": z, "y": y, "x": x,
+                              "split": sp, "parent": pa}
+                             for i, (z, y, x, sp, pa) in enumerate(nodes)]}
             out["params"] = params
             with open(path_t.format(t=t), "w") as f:
                 json.dump(out, f)
@@ -113,7 +118,19 @@ def load_nodes(sid, pct, cache_dir, frames=DEFAULT_FRAMES):
             det = json.load(f)
         for n in det["nodes"]:
             gid += 1
-            nodes.append({"id": gid, "t": t, "z": n["z"], "y": n["y"], "x": n["x"]})
+            # AUDIT-FIX C2 (P5): propagate split/parent when the det file
+            # carries them (CLI schema + new on-demand writes), so phased
+            # linking engages in CV exactly when the detector split a
+            # component. Older frozen files lack the keys -> omitted (never
+            # invented); .get keeps link() behavior identical for them, so
+            # frozen-cache scores are unchanged. (parent is the per-frame
+            # component label from dog_detect, kept as provenance metadata;
+            # only split drives the phased branch.)
+            m = {"id": gid, "t": t, "z": n["z"], "y": n["y"], "x": n["x"]}
+            for k in ("split", "parent"):
+                if k in n:
+                    m[k] = n[k]
+            nodes.append(m)
     return nodes, gid
 
 

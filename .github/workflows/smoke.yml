@@ -7,20 +7,47 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # AUDIT-FIX I3: keep fast (<15min)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: python version
+      - name: pip install (runtime + scipy)
         run: |
-          python3 --version
-          python3 -c "import numpy; print('numpy', numpy.__version__)" || echo "numpy not installed (ok — pip install -r requirements.txt for local runs)"
+          python3 -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python3 -c "import numpy, scipy; print('numpy', numpy.__version__, '| scipy', scipy.__version__)"
       - name: scorer dry-run
         run: python3 scripts/score.py --dry-run
-      - name: scorer tests (if present)
+      - name: scorer + harness unit tests (required)
         run: |
-          if test -f scripts/test_score.py; then python3 scripts/test_score.py; else echo "test_score.py not present yet (scorer upgrade in-flight) — skipping"; fi
+          python3 scripts/test_score.py
+          python3 scripts/test_trusted_cv.py -v
+      - name: trusted_cv smoke (required, PM-locked micro)
+        run: python3 scripts/trusted_cv.py --smoke
+      - name: official-diff vs tracking_cellmot oracle (fixtures only, fast)
+        # AUDIT-FIX I3: differential gate (diff_a2 S4-S7/S11-S12 + diff_a3 S8-S10/S13).
+        # Oracle deps (tracksdata/polars) install guarded: if PyPI is unreachable the
+        # step SKIPs with a warning, but unittest + --smoke above stay required.
+        # When deps install, diffs MUST exit 0 (any count_diff=1 fails the build).
+        run: |
+          set -u
+          ORACLE_DIR="${RUNNER_TEMP:-/tmp}/official"
+          if [ ! -d "$ORACLE_DIR/src/tracking_cellmot" ]; then
+            rm -rf "$ORACLE_DIR"
+            git init "$ORACLE_DIR"
+            git -C "$ORACLE_DIR" remote add origin https://github.com/royerlab/kaggle-cell-tracking-competition
+            git -C "$ORACLE_DIR" fetch --depth 1 origin 075fc5f5a52d11077f9dc2b074644618f26939e2
+            git -C "$ORACLE_DIR" checkout FETCH_HEAD
+          fi
+          if pip install "tracksdata==0.1.0rc10" "polars==1.44.2"; then
+            echo "oracle deps installed — running required differential tests"
+            PYTHONPATH="$ORACLE_DIR/src" python3 RESULTS/EXP-AUDIT-00/diff_a2.py
+            PYTHONPATH="$ORACLE_DIR/src" python3 RESULTS/EXP-AUDIT-00/diff_a3.py
+          else
+            echo "::warning::oracle deps unavailable (tracksdata/polars) — SKIPPING official-diff; unittest + --smoke gates still enforced"
+          fi
       - name: run_loop dry-run
         run: bash scripts/run_loop.sh --dry-run
       - name: validate experiment JSON
@@ -29,8 +56,14 @@ jobs:
       - name: required files exist
         run: |
           test -f scripts/score.py
+          test -f scripts/test_score.py
+          test -f scripts/trusted_cv.py
+          test -f scripts/test_trusted_cv.py
+          test -f scripts/download_subset.py
           test -f scripts/new_experiment.sh
           test -f scripts/run_loop.sh
           test -f requirements.txt
+          test -f RESULTS/EXP-AUDIT-00/diff_a2.py
+          test -f RESULTS/EXP-AUDIT-00/diff_a3.py
           test -f .github/workflows/smoke.yml
           echo "required files OK"

@@ -29,7 +29,8 @@
 3. `python3 link_score.py` — link (BL.link gate 7, global gid
    reassignment) + score (score_samples v1.1.0; runtime-only scipy
    Hungarian swap after equivalence gate; scripts/* untouched). Writes
-   pred_*.json, scores.json, metrics.json (cv_tag trusted + per-fold HP
+   pred_*.json, scores.json, metrics.json (cv_tag tuned_ref — rule sign
+   chosen using EXP-0059 eval-sample outcomes per PROTOCOL 2.3 — + per-fold HP
    provenance + verdict vs BTE).
 4. Run `./experiments/EXP-0060/run.sh` (steps 1–3 in order; exits 0,
    verdict in metrics.json).

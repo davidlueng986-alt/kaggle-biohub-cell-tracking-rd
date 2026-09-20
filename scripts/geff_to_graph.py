@@ -27,6 +27,14 @@ def read_geff(path):
     y = [int(v) for v in g["nodes/props/y/values"][:].tolist()]
     x = [int(v) for v in g["nodes/props/x/values"][:].tolist()]
     edges = [[int(u), int(v)] for u, v in g["edges/ids"][:].tolist()]
+    # AUDIT-FIX C2 (P5): fail loud on ragged node arrays. zip() used to
+    # silently truncate to the shortest array, dropping nodes without a
+    # trace and corrupting every downstream score.
+    lens = {"ids": len(ids), "t": len(t), "z": len(z), "y": len(y),
+            "x": len(x)}
+    if len(set(lens.values())) != 1:
+        raise ValueError(f"read_geff {path}: mismatched node array lengths "
+                         f"{lens}; refusing to silently truncate")
     nodes = [{"id": i, "t": tt, "z": zz, "y": yy, "x": xx}
              for i, tt, zz, yy, xx in zip(ids, t, z, y, x)]
     attrs = json.loads(json.dumps(dict(g.attrs)))

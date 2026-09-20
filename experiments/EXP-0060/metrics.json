@@ -1,6 +1,7 @@
 {
   "protocol_version": "1.2",
-  "cv_tag": "trusted",
+  "cv_tag": "tuned_ref",
+  "cv_detail": "rule sign (HIGH-B->96) chosen using EXP-0059 eval-sample outcomes per PROTOCOL 2.3; at most tuned_ref (C1 retag 2026-09-20)",
   "scorer_version": "1.1.0",
   "exp_id": "EXP-0060",
   "title": "Sign-corrected nested binary-brightness rule",
