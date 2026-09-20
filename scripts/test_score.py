@@ -66,8 +66,10 @@ class TestMatching(unittest.TestCase):
 
 class TestEdge(unittest.TestCase):
     def test_tp_fn(self):
+        # S8/S10 PM-locked: adj finite only with GT T_true; supply T_true=2
+        # (official tracking_cellmot@075fc5f per_sample_metrics rule).
         pred = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]])
-        gt = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]])
+        gt = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]], T_true=2)
         s = S.score_single(pred, gt)
         self.assertEqual(s["edge_counts"], {"TP": 1, "FP": 0, "FN": 0})
         self.assertAlmostEqual(s["adjusted_edge_jaccard"], 1.0)
@@ -176,14 +178,18 @@ class TestDivision(unittest.TestCase):
 
 class TestAggregate(unittest.TestCase):
     def test_micro_weight(self):
+        # S8/S10 PM-locked: supply GT T_true so adj rows are finite
+        # (official per_sample_metrics rule; cf. fixture a3_weights).
         a = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]])
-        b = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]])
+        b = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]], T_true=2)
         # sample0 perfect (w=1), sample1 has extra FN (w=2, j=0.5)
         gt1 = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0),
-                 (3, 0, 0, 9, 9), (4, 1, 0, 9, 9)], [[1, 2], [3, 4]])
+                 (3, 0, 0, 9, 9), (4, 1, 0, 9, 9)], [[1, 2], [3, 4]], T_true=4)
         agg = S.score_samples([("s0", a, b, None), ("s1", a, gt1, None)])
-        # edge jaccards 1.0 (w1) and 0.5 (w2) -> weighted (1*1+0.5*2)/3 = 2/3
-        self.assertAlmostEqual(agg["adjusted_edge_jaccard"], 2 / 3)
+        # S8/S10 PM-locked: adj includes T_true penalty (official adjust):
+        # s0 adj=1.0 (w1), s1 raw 0.5 * (1-0.1*(2-4)/4)=0.525 (w2) ->
+        # (1*1+0.525*2)/3 = 0.68333... (cf. fixture a3_weights).
+        self.assertAlmostEqual(agg["adjusted_edge_jaccard"], 0.6833333333333332)
 
 
 if __name__ == "__main__":

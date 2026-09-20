@@ -32,7 +32,7 @@ import baseline_link as BL  # noqa: E402
 from dog_detect import detect as dog_detect_fn  # noqa: E402
 
 PROTOCOL_VERSION = "1.2"
-SCORER_VERSION = "1.1.0"
+SCORER_VERSION = "1.2.0"
 VOXEL = (1.625, 0.40625, 0.40625)
 # AUDIT-FIX A4 (C2): repo-relative portable paths (no absolute hardcode).
 # Previously absolute checkout paths crashed on any other machine even though
@@ -132,31 +132,37 @@ def link_and_score(sid, pct, gate, cache_dir, gt_cache):
 
 
 def _composite_micro(rows):
-    """Exact v1.1 micro semantics (mirrors score.score_samples, non-legacy).
+    """Exact micro semantics (mirrors score.score_samples, S9/S10 PM-locked).
 
-    composite = sum(adj_edge_i * w_i)/sum(w_i) + 0.1 * dTP/dden,
-    w_i = TP+FP+FN (w_i==0 -> 1, as in score_samples), div = 1.0 if dden==0.
-    AUDIT-FIX A4 (C1): previously callers used edge-only micro (dropped the
-    +0.1*div term), so loso_micro / embryo fold micro understated the
-    canonical score by up to 0.1 (e.g. EXP-0053 fold0 0.4193 -> 0.5193).
+    composite = sum(adj_edge_i * w_i)/sum(w_i) over FINITE-adj rows only
+    (w_i = TP+FP+FN; NaN-adj rows skipped, w==0 contributes nothing),
+    plus 0.1*dTP/dden when divisions exist, else div NaN and score=edge
+    only (S9 drop rule — no free +0.1 on division-less splits).
+    PM LOCK (N1): official oracle convention. 0.5193-style +0.1 on empty
+    division splits is legacy_harness only.
     """
     num = den = 0.0
     dTP = dFP = dFN = 0
+    import math
     for v in rows.values():
         c = v["ec"]
         w = c["TP"] + c["FP"] + c["FN"]
-        if w == 0:
-            w = 1  # score.score_samples zero-weight quirk
-        num += v["edge"] * w
-        den += w
+        e = v["edge"]
+        # S10: skip NaN-adj rows (T_true missing, zero events) like
+        # official summarise adj_rows filter; never w==0 -> 1.
+        if e == e and w > 0 and not (isinstance(e, float) and math.isnan(e)):
+            num += e * w
+            den += w
         d = v["dc"]
         dTP += d["TP"]
         dFP += d["FP"]
         dFN += d["FN"]
-    micro_edge = num / den if den else 0.0
+    micro_edge = num / den if den else float("nan")
     dden = dTP + dFP + dFN
-    micro_div = 1.0 if dden == 0 else dTP / dden
-    return micro_edge + 0.1 * micro_div, micro_edge, micro_div
+    # S9 PM-locked: division-less split drops term (div NaN).
+    micro_div = float("nan") if dden == 0 else dTP / dden
+    micro = micro_edge if micro_div != micro_div else micro_edge + 0.1 * micro_div
+    return micro, micro_edge, micro_div
 
 
 def fit_best(fit_sids, grid, cache, gt_cache=None):
@@ -166,6 +172,7 @@ def fit_best(fit_sids, grid, cache, gt_cache=None):
     there is no GT leakage beyond the fitted samples' cached scores) (C6).
     """
     table = []
+    import math as _math
     for pct, gate in grid:
         num = den = 0.0
         dTP = dFP = dFN = 0
@@ -174,20 +181,23 @@ def fit_best(fit_sids, grid, cache, gt_cache=None):
             r = cache[(sid, pct, gate)]
             c = r["ec"]
             w = c["TP"] + c["FP"] + c["FN"]
-            if w == 0:
-                w = 1  # score.score_samples zero-weight quirk
-            num += r["edge"] * w
-            den += w
+            e = r["edge"]
+            # S10 PM-locked: skip NaN-adj rows; never w==0 -> 1.
+            if e == e and w > 0 and not (isinstance(e, float) and _math.isnan(e)):
+                num += e * w
+                den += w
             d = r["dc"]
             dTP += d["TP"]
             dFP += d["FP"]
             dFN += d["FN"]
             n_det += r["n_det"]
-        micro_edge = num / den if den else 0.0
+        micro_edge = num / den if den else float("nan")
         dden = dTP + dFP + dFN
-        micro_div = 1.0 if dden == 0 else dTP / dden
+        # S9 PM-locked: division-less -> div NaN, score=edge only.
+        micro_div = float("nan") if dden == 0 else dTP / dden
+        score = micro_edge if micro_div != micro_div else micro_edge + 0.1 * micro_div
         table.append({"pct": pct, "gate": gate, "micro_edge": micro_edge,
-                      "micro_div": micro_div, "score": micro_edge + 0.1 * micro_div,
+                      "micro_div": micro_div, "score": score,
                       "n_det": n_det})
     table.sort(key=lambda r: (-r["score"], r["n_det"], r["gate"], -r["pct"]))
     best = table[0]

@@ -1,9 +1,12 @@
-# AUDIT-FIX Wave 0 + Wave 1 Stage A — Merge Ledger (Stage B)
+# AUDIT-FIX Wave 0 + Wave 1 Stage A — Merge Ledger (Stage B) + PM S9 LOCK ADDENDUM
+
+- PM LOCK (N1 S9-vs-C1, 2026-09-20, ADOPTED): external/RESULTS/STATE/promotion gate follows official oracle (S9). Division-less splits DROP div term (no free +0.1). EXP-0053 official standing: embryo_nested_worst = 0.4193 (official-comparable). 0.5193 = legacy_harness only — NOT trusted standing / NOT promotion baseline.
+- Hygiene applied pre-Wave2: trusted_cv H1 aligned to fixed score.py (skip NaN rows, w==0 contributes nothing, div NaN + drop-term), test_tp_fn + test_micro_weight fixed to oracle (14/14 green), smoke PM-locked loso_micro 0.7238688007 (edge-only, div NaN) saved as A4_smoke_pmlocked.json.
 
 - Date (UTC): 2026-09-20
 - Merger: orchestrator Stage B (after A1–A4 parallel)
 - Gold R&D: HALTED. PM owns direction. Forge 0.946 / 0.8194 NEVER used as targets.
-- Gate intent: official fixture diff=0, trusted_cv micro includes +0.1·div, EXP-0053 republished under corrected harness. Wave 2 NOT started.
+- Gate intent: official fixture diff=0, trusted_cv micro = edge-only + 0.1·div ONLY when divisions exist (S9 drop-term, PM-locked), EXP-0053 official standing 0.4193 (0.5193 recalc = legacy_harness only). Wave 2 NOT started.
 
 ## Wave 0 — Oracle pin + baseline (shared by A1–A4, re-verified by merger)
 
@@ -44,15 +47,15 @@
 - Evidence: RESULTS/EXP-AUDIT-00/A4.md, A4_corrected_EXP0053.json, A4_smoke_fixed.json
 - Merger re-run: test_trusted_cv 4/4 OK.
 - Fixes: C1 _composite_micro edge+0.1*div (loso + nested), C2 repo-relative REPO paths, C3 lazy zarr, C4 grid pct=96 process-only (no change), C5 test-gap evidence only, C6 gt_cache=None + N_FRAMES/DEFAULT_FRAMES + provenance (T_true/assign/div/dc/raw/n_det, micro_edge/micro_div).
-- Micro check: --smoke loso_micro 0.8238688007 vs edge-only 0.7238688007 delta +0.1000 (audit 0.7239/0.8239 to 4dp). grep home/box empty; frozen hits work with zarr blocked.
-- EXP-0053 recalc (stored v1.1.0 counts, no rescore, HPs unchanged): loso_micro 0.4825902886 unchanged (div 0.0), loso_worst 0.2091686409 unchanged, embryo_nested.44b6 0.4192839812→0.5192839812 (div 1.0), 6bba 0.6135725168 unchanged (div 0.0), embryo_nested_worst 0.4193→0.5193.
+- Micro check (legacy_harness, superseded by PM LOCK): --smoke loso_micro 0.8238688007 vs edge-only 0.7238688007 delta +0.1000 (audit 0.7239/0.8239 to 4dp). PM-locked smoke is 0.7238688007 edge-only div-NaN (A4_smoke_pmlocked.json). grep home/box empty; frozen hits work with zarr blocked.
+- EXP-0053 recalc (stored v1.1.0 counts, no rescore, HPs unchanged): loso_micro 0.4825902886 unchanged (div 0.0), loso_worst 0.2091686409 unchanged, embryo_nested.44b6 0.4192839812→0.5192839812 (div 1.0), 6bba 0.6135725168 unchanged (div 0.0), embryo_nested_worst 0.4193→0.5193 [LEGACY_HARNESS — superseded by PM LOCK: official standing stays 0.4193 div-NaN, NOT promotion baseline].
 
 ## CRITICAL PM BLOCKER — S9 vs C1 convention (A3 F5 vs A4)
 
 - A3 (code-proven): official summarise on division-less split returns division NaN, score=adj (its own test asserts this). Hence 0.5193 is NOT official-comparable; official-comparable 44b6-fold stays 0.4193 div NaN.
 - A4 (old-harness convention): 0.5193 = 0.41928…+0.1 follows audit C1 headline, not oracle S9 rule.
 - A3 H1: trusted_cv `_composite_micro`/`fit_best` still hard-encodes w==0→1 + micro_div=1.0 if dden==0, mirroring OLD scorer; diverges from fixed score.py + oracle on division-less folds; NaN-edge poison risk if GT lacks T_true.
-- Decision needed (N1): recommend oracle (S9 drop-term; publish 0.4193 div-NaN as official-comparable) OR explicitly label 0.5193 as old-convention-composite. B1 must NOT republish 0.5193 as official until ruled. Wave-1 gate C1/S9 needs one convention.
+- N1 RULED (PM LOCK 2026-09-20, ADOPTED): oracle S9 drop-term; official standing 0.4193 div-NaN; 0.5193 = legacy_harness only. B1 must NOT cite 0.5193 as official standing. Wave-1 gate C1/S9 convention = oracle.
 
 ## Merged-tree verification (orchestrator, 2026-09-20)
 
@@ -76,12 +79,12 @@
 ## Gate verdict
 
 - Official fixture diffs: A2 0, A3 0, A1 0 on owned fixtures (with harness-filter debt) — CONDITIONAL PASS
-- trusted_cv micro +0.1·div + portable + no hardcode — PASS (subject to H1 follow-up)
+- trusted_cv micro PM-locked (S9/S10: +0.1·div only when divisions exist, else div NaN + drop-term; H1 applied pre-Wave2) + portable + no hardcode — PASS
 - EXP-0053 corrected numbers published as recalc — DONE but BLOCKED on S9-vs-C1 ruling before B1 retag / Wave-2 entry
 - Wave 2 (B1 tags L*, B2 skeleton N1–N2, B3 detect/link P*): DO NOT ENTER until PM rules N1 + test_score 2 updates + diff_a1 prefix fix landed.
 
 ## Next for PM
 
-1. Rule N1 (S9 drop vs C1 +0.1): oracle 0.4193 div-NaN or old-convention 0.5193?
+1. [RULED per PM LOCK 2026-09-20] N1 = oracle S9 drop-term: official standing 0.4193 div-NaN; 0.5193 legacy_harness only.
 2. Approve Wave-1 merge follow-ups: diff_a1 prefix filter, test_tp_fn/test_micro_weight updates, A4 H1 (w==0/NaN/div-NaN alignment).
 3. Confirm merger commit SHA below, then authorize Wave 2 scope.

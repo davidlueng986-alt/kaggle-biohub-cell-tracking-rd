@@ -10,6 +10,13 @@ are skipped (never creates forks -> division-neutral by design);
 Usage:
   python3 scripts/gap_link.py pred.json --out closed.json [--gap-um 14] [--allow-forks]
 Input pred.json: {"nodes":[...], "edges":[[u,v]...]} (ids unique across t).
+
+Scorer note (AUDIT-FIX B3, P2/S2): the frozen/official scorer drops pred
+edges with t_target - t_source != 1 before counting, so t->t+2 gap edges
+are score-NEUTRAL (neither TP nor FP) — the pass can never move the honest
+number. It only fires when an intermediate frame contributes zero nodes
+(consecutive frame lists never satisfy b == a+2). No logic change here;
+this note keeps EXP-0017-type conclusions honest.
 """
 import json
 import sys
@@ -19,6 +26,17 @@ VOXEL = (1.625, 0.40625, 0.40625)
 
 def gap_close(nodes, edges, gap_um=14.0, allow_forks=False):
     import baseline_link as BL
+    # AUDIT-FIX B3 (P2 id handling): ids must be unique across t. A
+    # per-frame-restarted id present at both t=a and t=b previously produced
+    # a silent self-edge [k,k]; the scorer then collapses t_of[k] to one t
+    # and misscores silently. Fail fast instead.
+    seen = set()
+    for n in nodes:
+        if n["id"] in seen:
+            raise ValueError(
+                f"duplicate node id {n['id']!r} across frames: "
+                "reassign globally-unique ids per video before gap_close()")
+        seen.add(n["id"])
     by_t = {}
     for n in nodes:
         by_t.setdefault(n["t"], []).append(n)
@@ -54,6 +72,8 @@ def gap_close(nodes, edges, gap_um=14.0, allow_forks=False):
         for i in range(n):
             j = A[i]
             if 0 <= j < m and C[i][j] <= gap_um:
+                if P[i]["id"] == Q[j]["id"]:
+                    continue  # defensive: never emit self-edges
                 new_edges.append([P[i]["id"], Q[j]["id"]])
                 out.add(P[i]["id"])
                 inn.add(Q[j]["id"])

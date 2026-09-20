@@ -1,0 +1,138 @@
+{
+  "protocol_version": "1.2",
+  "cv_tag": "trusted",
+  "scorer_version": "1.2.0",
+  "grid": {
+    "pct": [
+      98.5,
+      99.0
+    ],
+    "gate": [
+      7.0
+    ]
+  },
+  "loso_micro": 0.7238688007371508,
+  "loso_worst": 0.7120683921897376,
+  "embryo_nested_worst": 0.7120683921897375,
+  "loso_table": {
+    "44b6_0113de3b": {
+      "fitted_pct": 98.5,
+      "fitted_gate": 7.0,
+      "fit_on": [
+        "6bba_05b6850b"
+      ],
+      "fit_winner_score": 0.819437571293843,
+      "edge": 0.9281066409808402,
+      "raw": 0.9038461538461539,
+      "div": NaN,
+      "score": 0.9281066409808402,
+      "ec": {
+        "TP": 47,
+        "FP": 2,
+        "FN": 3
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_det": 18842,
+      "T_true": 25755,
+      "assign": "scipy"
+    },
+    "6bba_05b6850b": {
+      "fitted_pct": 99.0,
+      "fitted_gate": 7.0,
+      "fit_on": [
+        "44b6_0113de3b"
+      ],
+      "fit_winner_score": 0.938213715036662,
+      "edge": 0.7120683921897376,
+      "raw": 0.6922222222222222,
+      "div": NaN,
+      "score": 0.7120683921897376,
+      "ec": {
+        "TP": 623,
+        "FP": 55,
+        "FN": 222
+      },
+      "dc": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "n_det": 4538,
+      "T_true": 6362,
+      "assign": "pure"
+    }
+  },
+  "embryo_nested": {
+    "44b6": {
+      "HP": [
+        98.5,
+        7.0
+      ],
+      "fit_on": [
+        "6bba_05b6850b"
+      ],
+      "micro": 0.9281066409808402,
+      "micro_edge": 0.9281066409808402,
+      "micro_div": NaN,
+      "per_sample": {
+        "44b6_0113de3b": {
+          "edge": 0.9281066409808402,
+          "raw": 0.9038461538461539,
+          "div": NaN,
+          "score": 0.9281066409808402,
+          "ec": {
+            "TP": 47,
+            "FP": 2,
+            "FN": 3
+          },
+          "dc": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 0
+          },
+          "n_det": 18842,
+          "T_true": 25755,
+          "assign": "scipy"
+        }
+      }
+    },
+    "6bba": {
+      "HP": [
+        99.0,
+        7.0
+      ],
+      "fit_on": [
+        "44b6_0113de3b"
+      ],
+      "micro": 0.7120683921897375,
+      "micro_edge": 0.7120683921897375,
+      "micro_div": NaN,
+      "per_sample": {
+        "6bba_05b6850b": {
+          "edge": 0.7120683921897376,
+          "raw": 0.6922222222222222,
+          "div": NaN,
+          "score": 0.7120683921897376,
+          "ec": {
+            "TP": 623,
+            "FP": 55,
+            "FN": 222
+          },
+          "dc": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 0
+          },
+          "n_det": 4538,
+          "T_true": 6362,
+          "assign": "pure"
+        }
+      }
+    }
+  },
+  "elapsed_s": 16.0
+}

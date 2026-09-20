@@ -91,7 +91,14 @@ _assign.backend = "pure"
 
 
 def _pair(P, Q, maxd=MAXD):
-    """Optimal gated assignment for one adjacent frame pair. Returns edges."""
+    """Optimal gated assignment for one adjacent frame pair. Returns edges.
+
+    AUDIT-FIX B3 (P3): ties (equal-cost optima) may resolve differently in
+    the scipy C path (N>60) vs the pure-python path — both are optimal
+    (equal total cost), but the edge SET can differ. Provenance therefore
+    records which backend ran (see link(): `assign` + `assign_backends`).
+    No semantic change: solver choice is unchanged.
+    """
     n, m = len(P), len(Q)
     if not n or not m:
         return []
@@ -121,9 +128,25 @@ def link(gt, maxd=MAXD):
     by_t = {}
     for n in gt["nodes"]:
         by_t.setdefault(n["t"], []).append(n)
+    # AUDIT-FIX B3 (P2/P5 id handling): node ids must be unique across t.
+    # Per-frame-restarted ids silently corrupt edges (scorer t_of collapses
+    # dup ids; gap-style passes can emit self-edges). Fail fast with a clear
+    # message instead of silently misscoring; callers must reassign global
+    # ids per video (cf. trusted_cv.load_nodes).
+    seen = set()
+    for n in gt["nodes"]:
+        if n["id"] in seen:
+            raise ValueError(
+                f"duplicate node id {n['id']!r} across frames: "
+                "reassign globally-unique ids per video before link()")
+        seen.add(n["id"])
     ts = sorted(by_t)
     phased = any(n.get("split") for ns in by_t.values() for n in ns)
     edges = []
+    # AUDIT-FIX B3 (P3): track every _pair backend so `assign` provenance is
+    # honest on multi-pair videos (previously only the LAST pair's backend
+    # was reported — a lie when pairs mix scipy/pure).
+    backends = []
     for a, b in zip(ts, ts[1:]):
         if b != a + 1:
             continue  # only adjacent frames (causal chain links)
@@ -131,20 +154,25 @@ def link(gt, maxd=MAXD):
         Q = sorted(by_t[b], key=lambda d: d["id"])
         if not phased:
             edges.extend(_pair(P, Q, maxd))  # legacy single-Hungarian path
+            backends.append(_assign.backend)
             continue
         # two-phase: primaries claim first (all targets visible, base intact),
         # split parts link only to leftovers (conservative, EXP-0013).
         prim = [n for n in P if not n.get("split")]
         frag = [n for n in P if n.get("split")]
         e1 = _pair(prim, Q, maxd)
+        backends.append(_assign.backend)
         used = {v for _, v in e1}
         Qleft = [n for n in Q if n["id"] not in used]
         edges.extend(e1)
         edges.extend(_pair(frag, Qleft, maxd))
+        backends.append(_assign.backend)
     edges.sort()
+    uniq = sorted(set(backends)) if backends else ["pure"]
+    assign = uniq[0] if len(uniq) == 1 else "mixed:" + "+".join(uniq)
     return {"nodes": gt["nodes"], "edges": edges, "T_true": gt.get("T_true"),
-            "voxel_size_um": list(VOXEL), "assign": _assign.backend,
-            "phased": phased}
+            "voxel_size_um": list(VOXEL), "assign": assign,
+            "assign_backends": backends, "phased": phased}
 
 
 def main(argv=None):

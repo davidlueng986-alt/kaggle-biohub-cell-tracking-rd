@@ -117,7 +117,13 @@ def detect(vol, pct=99.5, min_size=50, max_size=50000,
                 if min_size <= int(sizes[i]) <= max_size]
         if keep:
             cents = center_of_mass(bw, lab, keep)
-            if len(keep) == 1:
+            # AUDIT-FIX B3 (P1): scipy returns a bare tuple only when index
+            # is a scalar; with a list index (our case) it already returns a
+            # list of tuples — even for len(keep)==1. The old
+            # `if len(keep)==1: cents=[cents]` double-wrapped that list and
+            # crashed sparse frames with exactly one kept component
+            # (ValueError: not enough values to unpack). Wrap only tuples.
+            if isinstance(cents, tuple):
                 cents = [cents]
             for i, (z, y, x) in zip(keep, cents):
                 parts.append((None, False, i, (float(z), float(y), float(x))))
