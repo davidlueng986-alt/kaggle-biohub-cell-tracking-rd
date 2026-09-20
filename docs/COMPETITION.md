@@ -4,7 +4,7 @@
 - **Title:** Biohub – Cell Tracking During Development
 - **Competition page:** https://www.kaggle.com/competitions/biohub-cell-tracking-during-development
 - **Metric spec (ground truth):** https://github.com/royerlab/kaggle-cell-tracking-competition/blob/main/metrics.md
-- **Deadline:** 2026-09-29 23:59 UTC (verify on competition page; observed via `kaggle competitions list` on 2026-09-09)
+- **Deadline:** 2026-09-29 23:59 UTC final (live-verified via `kaggle competitions list --search "biohub" --csv` on 2026-09-20: `2026-09-29 23:59:00`); **Entry deadline 2026-09-22 + Team merger deadline 2026-09-22** (live-verified via web metadata of official competition/rules pages on 2026-09-20; all deadlines 11:59 PM UTC).
 - **Prize / entrants (observed 2026-09-09):** $60,000 research competition, ~3287 teams
 
 ## Rules (code competition)

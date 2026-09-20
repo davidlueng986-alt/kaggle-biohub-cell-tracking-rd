@@ -26,6 +26,8 @@
 
 1. **Dataset** `davidliang986/biohub-cell-tracking-rd-data` (adjust username after `huggingface-cli whoami`)
    - Contents: per-embryo train subset used by trusted CV; layout documented in `data/README.md` (git) with HF paths.
+   - **TODO (D4 2026-09-20):** intended name only — HF unreachable (stored token 401, no `huggingface-cli` on box).
+     Do not invent URLs; confirm via whoami, create, then record real paths in root README + `data/HF_MANIFEST.md` (D2-owned).
 2. **Models** `davidliang986/biohub-cell-tracking-rd-ckpts`
    - Contents: promoted / reference checkpoints only (tagged by EXP id).
 
@@ -35,7 +37,8 @@ If username differs, rename repos to match whoami and update README table.
 
 1. Clone GitHub repo; read `README.md` → `docs/PROTOCOL.md` → `knowledge/STATE.md`.
 2. Install `requirements.txt`; place Kaggle + HF credentials locally (not in repo).
-3. `python scripts/hf_pull.py` (or documented `huggingface-cli download …`) to fetch data/ckpts listed in `data/HF_MANIFEST.md`.
+3. Fetch data/ckpts per `data/HF_MANIFEST.md` (`huggingface-cli download …` as documented there).
+   (`scripts/hf_pull.py` does not exist yet — use the manifest commands until it lands.)
 4. Run `python scripts/score.py --dry-run` + `python scripts/trusted_cv.py --smoke` before any EXP.
 5. Follow PROTOCOL v1.2 trusted CV; do not trust old 0.8194 / Forge 0.946 as BTE.
 

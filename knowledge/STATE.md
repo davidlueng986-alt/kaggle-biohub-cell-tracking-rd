@@ -1,6 +1,6 @@
 # STATE — cold resume in ≤5 min
 
-Last updated: 2026-09-13 (v11 kernel PUSHED+RUNNING on Kaggle GPU —ids liangwanyiudavid/biohub-unet-train-v11, v1 untouched; EXP-0061 PENDING_CODE awaiting weights; LB steady, slots 5; hygiene 2026-09-13 RESULTS range →0061). Maintainer: gold-watch.
+Last updated: 2026-09-20 (D3-hygiene: v11 CANCEL_ACKNOWLEDGED per `kaggle kernels status` 2026-09-20 — NOT RUNNING/COMPLETE, lastRun 2026-09-13 08:38 UTC, log ep0–ep5 then stop, output unet_last.pt retrievable; prior 2026-09-13 RUNNING claim superseded, history below untouched). Maintainer: gold-watch.
 Prior: scorer v1.1 + EXP-0002 green. `PROMPT-RD-SYSTEM.md` done; active brief is `PROMPT-GOLD.md` (continuous gold run, PM owns go).
 
 ## GOAL / GO (PM 2026-09-13)

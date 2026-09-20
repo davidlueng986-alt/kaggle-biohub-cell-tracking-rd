@@ -1,5 +1,7 @@
-# Data (never commit)
-data/
+# Data (never commit blobs; keep pointer docs tracked)
+data/*
+!data/README.md
+!data/HF_MANIFEST.md
 *.zarr/
 *.tif/
 *.tiff/
