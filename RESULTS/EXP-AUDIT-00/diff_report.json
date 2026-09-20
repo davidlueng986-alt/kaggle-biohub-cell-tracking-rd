@@ -1,0 +1,164 @@
+{
+  "oracle_pin": {
+    "repo": "https://github.com/royerlab/kaggle-cell-tracking-competition",
+    "commit": "075fc5f5a52d11077f9dc2b074644618f26939e2",
+    "package": "tracking-cellmot 0.1.0",
+    "tracksdata": "0.1.0rc10",
+    "scipy": "1.18.1",
+    "polars": "1.44.2",
+    "path": "/tmp/opencode/official"
+  },
+  "fixtures": [
+    {
+      "fixture": "a1_s1_pairing",
+      "audit_ids": [
+        "S1"
+      ],
+      "repo_pairing": {
+        "2": 11,
+        "1": 12,
+        "3": 13
+      },
+      "oracle_pairing": {
+        "1": 12,
+        "2": 11,
+        "3": 13
+      },
+      "pair_diff": 0,
+      "repo_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true,
+      "edge_id_order_ok": true
+    },
+    {
+      "fixture": "a1_s2_gap",
+      "audit_ids": [
+        "S2"
+      ],
+      "repo_pairing": {
+        "1": 1,
+        "2": 2
+      },
+      "oracle_pairing": {
+        "1": 1,
+        "2": 2
+      },
+      "pair_diff": 0,
+      "repo_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2
+      },
+      "oracle_counts": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true,
+      "edge_id_order_ok": true
+    },
+    {
+      "fixture": "a1_s3_dup",
+      "audit_ids": [
+        "S3"
+      ],
+      "repo_pairing": {
+        "1": 1,
+        "2": 2
+      },
+      "oracle_pairing": {
+        "1": 1,
+        "2": 2
+      },
+      "pair_diff": 0,
+      "repo_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true,
+      "edge_id_order_ok": true
+    },
+    {
+      "fixture": "a1_s3_outdeg",
+      "audit_ids": [
+        "S3"
+      ],
+      "repo_pairing": {
+        "1": 1,
+        "2": 2,
+        "3": 5,
+        "4": 6
+      },
+      "oracle_pairing": {
+        "1": 1,
+        "2": 2,
+        "3": 5,
+        "4": 6
+      },
+      "pair_diff": 0,
+      "repo_counts": {
+        "TP": 0,
+        "FP": 2,
+        "FN": 1
+      },
+      "oracle_counts": {
+        "TP": 0,
+        "FP": 2,
+        "FN": 1
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true,
+      "edge_id_order_ok": true
+    },
+    {
+      "fixture": "a1_s3_shared_gt",
+      "audit_ids": [
+        "S3"
+      ],
+      "repo_pairing": {
+        "1": 1,
+        "3": 2
+      },
+      "oracle_pairing": {
+        "1": 1,
+        "3": 2
+      },
+      "pair_diff": 0,
+      "repo_counts": {
+        "TP": 1,
+        "FP": 1,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 1,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true,
+      "edge_id_order_ok": true
+    }
+  ],
+  "fuzz": {
+    "n": 3000,
+    "seed": 7,
+    "diffs": 0
+  }
+}

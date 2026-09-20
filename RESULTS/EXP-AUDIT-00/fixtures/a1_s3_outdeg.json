@@ -1,0 +1,19 @@
+{
+  "name": "a1_s3_outdeg",
+  "audit_ids": ["S3"],
+  "note": "Pred node 1 has 3 outgoing edges (ids 0,1,2); the TRUE edge [1,2] is listed LAST (id 2). Official keeps the 2 lowest edge ids ([1,3],[1,4]) and drops the true edge: TP=0,FP=2,FN=1. Old repo (no cap): TP=1,FP=2,FN=0. Proves id-ordered cap, not match-aware keep.",
+  "voxel": [1.0, 1.0, 1.0],
+  "max_dist": 50.0,
+  "pred": {
+    "nodes": [[1, 0, 0, 0, 0], [2, 1, 0, 0, 0], [3, 1, 0, 0, 10], [4, 1, 0, 0, 20]],
+    "edges": [[1, 3], [1, 4], [1, 2]]
+  },
+  "gt": {
+    "nodes": [[1, 0, 0, 0, 0], [2, 1, 0, 0, 0], [5, 1, 0, 0, 10], [6, 1, 0, 0, 20]],
+    "edges": [[1, 2]]
+  },
+  "oracle": {
+    "pairing": {"1": 1, "2": 2, "3": 5, "4": 6},
+    "edge_counts": {"TP": 0, "FP": 2, "FN": 1}
+  }
+}

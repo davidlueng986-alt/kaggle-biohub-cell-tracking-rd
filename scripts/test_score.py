@@ -84,15 +84,27 @@ class TestEdge(unittest.TestCase):
         self.assertEqual(s["edge_counts"]["FN"], 0)
 
     def test_wrong_link_is_fp(self):
-        # GT 1->2 and 1->3 (division); pred 2->3 reuses annotated endpoints
-        # with wrong topology: target 3 has incoming GT edge => FP case1.
-        pred = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0), (3, 1, 0, 5, 0)],
-                 [[2, 3]])
+        # GT 1->2; pred 1->3 reuses the annotated source with wrong topology:
+        # source 1 matches GT 1 which has outgoing GT edge => FP case2.
+        # (AUDIT-FIX A1/S2: the edge must be consecutive-frame; a same-t
+        # edge would be dropped by the official filter, not counted FP.)
+        pred = G([(1, 0, 0, 0, 0), (3, 1, 0, 5, 0)],
+                 [[1, 3]])
         gt = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0), (3, 1, 0, 5, 0)],
-               [[1, 2], [1, 3]])
+               [[1, 2]])
         s = S.score_single(pred, gt)
         self.assertEqual(s["edge_counts"]["FP"], 1)
-        self.assertEqual(s["edge_counts"]["FN"], 2)
+        self.assertEqual(s["edge_counts"]["FN"], 1)
+
+    def test_nonconsecutive_edge_ignored(self):
+        # AUDIT-FIX A1/S2: official drops pred edges with t_t - t_s != 1
+        # before counting (no TP, no FP).
+        pred = G([(1, 0, 0, 0, 0), (2, 2, 0, 0, 0)], [[1, 2]])
+        gt = G([(1, 0, 0, 0, 0), (9, 1, 0, 0, 0), (2, 2, 0, 0, 0)],
+               [[1, 9], [9, 2]])
+        s = S.score_single(pred, gt)
+        self.assertEqual(
+            s["edge_counts"], {"TP": 0, "FP": 0, "FN": 2})
 
     def test_T_true_penalty(self):
         pred = G([(1, 0, 0, 0, 0), (2, 1, 0, 0, 0)], [[1, 2]])
@@ -128,10 +140,12 @@ class TestDivision(unittest.TestCase):
         self.assertEqual(s["division_counts"]["FN"], 0)
 
     def test_plus1tp_still_tp(self):
-        # spec explicitly allows +-1tp fork offset; our window uses directed
-        # topology + lineage matching so +1 offset with shifted window still TP.
-        # Here we shift pred fork to t=2 but keep GT window reachable via
-        # parent-anchor (successor of matched parent) + downstream branches.
+        # S12 (AUDIT-FIX A2): metrics.md allows a predicted fork +-1tp from
+        # the GT split (see official late_division figure). Pinned to oracle
+        # tracking_cellmot 0.1.0 @ 075fc5f: evaluate_divisions gives
+        # TP=1,FP=0,FN=0 on this +1tp-shifted fork (pred 110@t2 successor of
+        # matched parent 100@t0->GT1, branches t3 match GT children t2/t3
+        # lineages via the per-window rematch). Vacuous assertIn((0,1)) REMOVED.
         p, g = self._div_graphs(0)
         # move fork one tp later but keep anchor: pred 110@t2 still successor
         # of matched parent-side node 100 (matches GT 1)? No — 100@t0 matches
@@ -140,10 +154,10 @@ class TestDivision(unittest.TestCase):
                 (120, 3, 0, 0, 0), (130, 3, 0, 10, 0),
                 (121, 4, 0, 0, 0), (131, 4, 0, 10, 0)],
                [[100, 110], [110, 120], [110, 130], [120, 121], [130, 131]])
-        # GT window only spans t0..t3; pred branches at t3/t4 partially miss
-        # per-t matching, so we assert no crash and documented behavior:
         s = S.score_single(p2, g)
-        self.assertIn(s["division_counts"]["TP"], (0, 1))
+        self.assertEqual(s["division_counts"]["TP"], 1)
+        self.assertEqual(s["division_counts"]["FP"], 0)
+        self.assertEqual(s["division_counts"]["FN"], 0)
 
     def test_spurious_fork_ignored_or_fp(self):
         # lone fork in empty region: no GT evidence -> ignored (FP=0)

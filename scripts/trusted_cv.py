@@ -25,6 +25,7 @@ import sys
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.abspath(os.path.join(HERE, ".."))
 sys.path.insert(0, HERE)
 from score import score_samples  # noqa: E402
 import baseline_link as BL  # noqa: E402
@@ -33,9 +34,16 @@ from dog_detect import detect as dog_detect_fn  # noqa: E402
 PROTOCOL_VERSION = "1.2"
 SCORER_VERSION = "1.1.0"
 VOXEL = (1.625, 0.40625, 0.40625)
-DATA_TRAIN = "/home/box/workspace/kaggle-biohub-rd/data/train"
-GT_DIR = "/home/box/workspace/kaggle-biohub-rd/experiments/EXP-0003/gt"
-EXP_DIR = "/home/box/workspace/kaggle-biohub-rd/experiments"
+# AUDIT-FIX A4 (C2): repo-relative portable paths (no absolute hardcode).
+# Previously absolute checkout paths crashed on any other machine even though
+# all artifacts are committed.
+DATA_TRAIN = os.path.join(REPO, "data/train")
+GT_DIR = os.path.join(REPO, "experiments/EXP-0003/gt")
+EXP_DIR = os.path.join(REPO, "experiments")
+# Training videos are 100 frames (verified: data/train/*.zarr shape
+# (100,64,256,256)); kept as named constant instead of bare range(100) (C6).
+N_FRAMES = 100
+DEFAULT_FRAMES = range(N_FRAMES)
 
 SAMPLES = [
     ("44b6_0113de3b", "44b6"), ("44b6_0b24845f", "44b6"),
@@ -76,14 +84,16 @@ def det_path_for(sid, pct, cache_dir):
     return os.path.join(cache_dir, f"{sid}_p{pct}_t{{t}}.json"), False
 
 
-def ensure_det(sid, pct, cache_dir, frames=range(100)):
-    import zarr
+def ensure_det(sid, pct, cache_dir, frames=DEFAULT_FRAMES):
+    # AUDIT-FIX A4 (C3): lazy zarr import — frozen-manifest hits must run
+    # without zarr installed. Previously `import zarr` ran unconditionally.
     path_t, frozen = det_path_for(sid, pct, cache_dir)
     missing = [t for t in frames
                if not (os.path.exists(path_t.format(t=t)))]
     if missing and frozen:
         raise FileNotFoundError(f"frozen det missing frames for {(sid, pct)}: {missing[:5]}")
     if missing:
+        import zarr  # noqa: E402  (lazy: on-demand detection only, C3)
         Z = zarr.open_group(os.path.join(DATA_TRAIN, f"{sid}.zarr"), mode="r")["0"]
         for t in missing:
             nodes, params = dog_detect_fn(__import__("numpy").asarray(Z[t]), pct=pct)
@@ -95,7 +105,7 @@ def ensure_det(sid, pct, cache_dir, frames=range(100)):
     return path_t
 
 
-def load_nodes(sid, pct, cache_dir, frames=range(100)):
+def load_nodes(sid, pct, cache_dir, frames=DEFAULT_FRAMES):
     path_t = ensure_det(sid, pct, cache_dir, frames)
     nodes, gid = [], 0
     for t in frames:
@@ -121,8 +131,40 @@ def link_and_score(sid, pct, gate, cache_dir, gt_cache):
                   "T_true": s["T_true"]}
 
 
-def fit_best(fit_sids, grid, cache, gt_cache):
-    """Argmax trusted micro score on fit samples only. Returns (cfg, table)."""
+def _composite_micro(rows):
+    """Exact v1.1 micro semantics (mirrors score.score_samples, non-legacy).
+
+    composite = sum(adj_edge_i * w_i)/sum(w_i) + 0.1 * dTP/dden,
+    w_i = TP+FP+FN (w_i==0 -> 1, as in score_samples), div = 1.0 if dden==0.
+    AUDIT-FIX A4 (C1): previously callers used edge-only micro (dropped the
+    +0.1*div term), so loso_micro / embryo fold micro understated the
+    canonical score by up to 0.1 (e.g. EXP-0053 fold0 0.4193 -> 0.5193).
+    """
+    num = den = 0.0
+    dTP = dFP = dFN = 0
+    for v in rows.values():
+        c = v["ec"]
+        w = c["TP"] + c["FP"] + c["FN"]
+        if w == 0:
+            w = 1  # score.score_samples zero-weight quirk
+        num += v["edge"] * w
+        den += w
+        d = v["dc"]
+        dTP += d["TP"]
+        dFP += d["FP"]
+        dFN += d["FN"]
+    micro_edge = num / den if den else 0.0
+    dden = dTP + dFP + dFN
+    micro_div = 1.0 if dden == 0 else dTP / dden
+    return micro_edge + 0.1 * micro_div, micro_edge, micro_div
+
+
+def fit_best(fit_sids, grid, cache, gt_cache=None):
+    """Argmax trusted micro score on fit samples only. Returns (cfg, table).
+
+    gt_cache is legacy unused (kept for API compat; fit uses cache only, so
+    there is no GT leakage beyond the fitted samples' cached scores) (C6).
+    """
     table = []
     for pct, gate in grid:
         num = den = 0.0
@@ -132,6 +174,8 @@ def fit_best(fit_sids, grid, cache, gt_cache):
             r = cache[(sid, pct, gate)]
             c = r["ec"]
             w = c["TP"] + c["FP"] + c["FN"]
+            if w == 0:
+                w = 1  # score.score_samples zero-weight quirk
             num += r["edge"] * w
             den += w
             d = r["dc"]
@@ -173,7 +217,8 @@ def run_cv(samples, grid, cache_dir, gt_cache, verbose=True):
                            "fit_on": fit, "fit_winner_score": ftable[0]["score"],
                            "edge": r["edge"], "raw": r["raw"], "div": r["div"],
                            "score": r["score"], "ec": r["ec"], "dc": r["dc"],
-                           "n_det": r["n_det"]}
+                           "n_det": r["n_det"], "T_true": r["T_true"],
+                           "assign": r["assign"]}  # C6 provenance
         if verbose:
             print(f"  [loso] holdout {sid}: HP=({bp},{bg}) edge={r['edge']:.4f} "
                   f"score={r['score']:.4f}", flush=True)
@@ -184,30 +229,24 @@ def run_cv(samples, grid, cache_dir, gt_cache, verbose=True):
         fit = [s for s, e in samples if e != hold]
         test = [s for s, e in samples if e == hold]
         (bp, bg), _ = fit_best(fit, cfgs, cache, gt_cache)
-        num = den = 0.0
+        fold_rows = {sid: cache[(sid, bp, bg)] for sid in test}
+        micro, micro_edge, micro_div = _composite_micro(fold_rows)  # C1
         per = {}
         for sid in test:
             r = cache[(sid, bp, bg)]
-            c = r["ec"]
-            w = c["TP"] + c["FP"] + c["FN"]
-            num += r["edge"] * w
-            den += w
-            per[sid] = {"edge": r["edge"], "score": r["score"], "ec": r["ec"]}
+            # C6: keep full provenance (was edge/score/ec only)
+            per[sid] = {"edge": r["edge"], "raw": r["raw"], "div": r["div"],
+                        "score": r["score"], "ec": r["ec"], "dc": r["dc"],
+                        "n_det": r["n_det"], "T_true": r["T_true"],
+                        "assign": r["assign"]}
         nested[hold] = {"HP": [bp, bg], "fit_on": fit,
-                        "micro": num / den if den else 0.0, "per_sample": per}
+                        "micro": micro, "micro_edge": micro_edge,
+                        "micro_div": micro_div, "per_sample": per}
         if verbose:
             print(f"  [nested] holdout {hold}: HP=({bp},{bg}) "
                   f"micro={nested[hold]['micro']:.4f}", flush=True)
     # Phase 3: aggregates with exact micro semantics (recomputed from held-out pairs).
-    def micro_of(rows):
-        num = den = 0.0
-        for v in rows.values():
-            c = v["ec"]
-            w = c["TP"] + c["FP"] + c["FN"]
-            num += v["edge"] * w
-            den += w
-        return num / den if den else 0.0
-    loso_micro = micro_of(loso_rows)
+    loso_micro, _, _ = _composite_micro(loso_rows)  # C1: was edge-only
     loso_worst = min(v["score"] for v in loso_rows.values())
     nested_worst = min(v["micro"] for v in nested.values())
     return {
@@ -240,7 +279,8 @@ def main(argv=None):
     else:
         samples = SAMPLES
         grid = (GRID_PCT, GRID_GATE)
-        cache_dir = args.det_cache or "det_cache"
+        # AUDIT-FIX A4 (C2): repo-relative default (was cwd-relative "det_cache").
+        cache_dir = args.det_cache or os.path.join(REPO, "det_cache")
     os.makedirs(cache_dir, exist_ok=True)
     gt_cache = {sid: load_gt(sid) for sid, _ in samples}
     res = run_cv(samples, grid, cache_dir, gt_cache)

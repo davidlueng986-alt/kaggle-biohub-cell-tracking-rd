@@ -1,0 +1,45 @@
+{
+  "exp_id": "EXP-0053",
+  "note": "Recalculated from stored EXP-0053 counts with fixed composite micro (edge+0.1*div). No rescore; HP selections unchanged (fit_best was already composite).",
+  "stored": {
+    "loso_micro": 0.4825902885914996,
+    "loso_worst": 0.209168640934884,
+    "embryo_nested_worst": 0.4192839811593832,
+    "embryo_nested": {
+      "44b6": 0.4192839811593832,
+      "6bba": 0.6135725168230305
+    }
+  },
+  "corrected": {
+    "loso_micro": 0.4825902885914996,
+    "loso_micro_edge": 0.4825902885914996,
+    "loso_micro_div": 0.0,
+    "loso_worst": 0.209168640934884,
+    "embryo_nested": {
+      "44b6": {
+        "micro": 0.5192839811593832,
+        "micro_edge": 0.4192839811593832,
+        "micro_div": 1.0,
+        "HP": [
+          97.0,
+          7.0
+        ]
+      },
+      "6bba": {
+        "micro": 0.6135725168230305,
+        "micro_edge": 0.6135725168230305,
+        "micro_div": 0.0,
+        "HP": [
+          97.0,
+          7.0
+        ]
+      }
+    },
+    "embryo_nested_worst": 0.5192839811593832
+  },
+  "derivation": {
+    "44b6": "3 holdouts at HP 97/7 all dc=0,0,0 (GT divs=0 for all three 44b6 samples) => micro_div=1.0 => 0.4192839811593832+0.1=0.5192839811593832",
+    "6bba": "GT divs: 05b6850b=0, 05db0fb1=3, 062c8d37=1. Stored per-sample div: 1.0,0.0,0.0 => dTP=0, dden>0 (05db0fb1 FN=3, 062c8d37 FN=1) => micro_div=0.0 => unchanged 0.6135725168230305",
+    "loso": "dc sum (0,0,4): 05db0fb1 (0,0,3) + 062c8d37 (0,0,1), rest zero => micro_div=0.0 => unchanged 0.4825902885914996; loso_worst already composite => unchanged"
+  }
+}

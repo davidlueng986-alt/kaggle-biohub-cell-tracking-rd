@@ -1,0 +1,85 @@
+{
+  "name": "a3_zero_div",
+  "audit_ids": [
+    "S9"
+  ],
+  "note": "S9 gift: perfect edge match, no divisions anywhere, T_true present. Old repo set div_j=1.0 -> score=1.1. Official drops the term (summarise warns, division NaN, score=adj=1.0).",
+  "voxel": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "max_dist": 7.0,
+  "samples": [
+    {
+      "name": "s0",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "T_true": 2
+      }
+    }
+  ],
+  "oracle": {
+    "adj": 1.0,
+    "div": "NaN",
+    "score": 1.0,
+    "n_adj": 1,
+    "skipped": [],
+    "per": [
+      {
+        "sample": "s0",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 0
+        },
+        "adj": 1.0
+      }
+    ]
+  }
+}

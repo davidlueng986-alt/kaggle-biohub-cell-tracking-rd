@@ -1,0 +1,19 @@
+{
+  "name": "a1_s3_dup",
+  "audit_ids": ["S3"],
+  "note": "Exact-duplicate pred edge [1,2]x2. Official dedups on (source,target) keeping the lowest edge id: TP=1, not 2. Old repo double-counted TP=2 (FN still 0, hiding the inflation in Jaccard denominator).",
+  "voxel": [1.625, 0.40625, 0.40625],
+  "max_dist": 7.0,
+  "pred": {
+    "nodes": [[1, 0, 32, 128, 128], [2, 1, 32, 128, 128]],
+    "edges": [[1, 2], [1, 2]]
+  },
+  "gt": {
+    "nodes": [[1, 0, 32, 128, 128], [2, 1, 32, 128, 128]],
+    "edges": [[1, 2]]
+  },
+  "oracle": {
+    "pairing": {"1": 1, "2": 2},
+    "edge_counts": {"TP": 1, "FP": 0, "FN": 0}
+  }
+}

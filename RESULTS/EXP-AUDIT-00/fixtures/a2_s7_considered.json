@@ -1,0 +1,159 @@
+{
+  "name": "s7_considered",
+  "audit_ids": [
+    "S7"
+  ],
+  "note": "S7 considered FP: pred fork 110@t2 is unmatched but anchor-adjacent (successor of matched 101->GT10); its branches are unmatched while separate nodes 200/201 supply both daughter lineages, so the window is evaluable but the fork fails topology. Official: considered FP=1. Old repo ignored (FP=0).",
+  "voxel": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "max_dist": 7.0,
+  "pred": {
+    "nodes": [
+      [
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        50,
+        0
+      ],
+      [
+        120,
+        3,
+        0,
+        50,
+        0
+      ],
+      [
+        130,
+        3,
+        0,
+        60,
+        0
+      ],
+      [
+        200,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        201,
+        2,
+        0,
+        10,
+        0
+      ]
+    ],
+    "edges": [
+      [
+        100,
+        101
+      ],
+      [
+        101,
+        110
+      ],
+      [
+        110,
+        120
+      ],
+      [
+        110,
+        130
+      ]
+    ]
+  },
+  "gt": {
+    "nodes": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        20,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        30,
+        2,
+        0,
+        10,
+        0
+      ],
+      [
+        21,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        31,
+        3,
+        0,
+        10,
+        0
+      ]
+    ],
+    "edges": [
+      [
+        1,
+        10
+      ],
+      [
+        10,
+        20
+      ],
+      [
+        10,
+        30
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        30,
+        31
+      ]
+    ]
+  },
+  "oracle": {
+    "division_counts": {
+      "TP": 0,
+      "FP": 1,
+      "FN": 1
+    }
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "oracle_pin": {
+    "repo": "https://github.com/royerlab/kaggle-cell-tracking-competition",
+    "commit": "075fc5f5a52d11077f9dc2b074644618f26939e2",
+    "package": "tracking-cellmot 0.1.0",
+    "tracksdata": "0.1.0rc10",
+    "scipy": "1.18.1",
+    "polars": "1.44.2",
+    "path": "/tmp/opencode/official"
+  },
+  "scorer_version": "1.2.0",
+  "fixtures": [
+    {
+      "fixture": "a3_dup_ids",
+      "audit_ids": [
+        "S13"
+      ],
+      "repo": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0,
+            "div": "NaN"
+          }
+        ],
+        "adj": 1.0,
+        "div": "NaN",
+        "score": 1.0,
+        "n_adj": 1
+      },
+      "oracle_live": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0
+          }
+        ],
+        "adj": 1.0,
+        "div": "NaN",
+        "score": 1.0,
+        "n_adj": 1,
+        "skipped": []
+      },
+      "diffs": [],
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "a3_t_true_fallback",
+      "audit_ids": [
+        "S8"
+      ],
+      "repo": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": "NaN",
+            "div": "NaN"
+          }
+        ],
+        "adj": "NaN",
+        "div": "NaN",
+        "score": "NaN",
+        "n_adj": 0
+      },
+      "oracle_live": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": "NaN"
+          }
+        ],
+        "adj": "NaN",
+        "div": "NaN",
+        "score": "NaN",
+        "n_adj": 0,
+        "skipped": []
+      },
+      "diffs": [],
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "a3_weights",
+      "audit_ids": [
+        "S10"
+      ],
+      "repo": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0,
+            "div": "NaN"
+          },
+          {
+            "sample": "s1",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 1
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 0.525,
+            "div": "NaN"
+          }
+        ],
+        "adj": 0.6833333333333332,
+        "div": "NaN",
+        "score": 0.6833333333333332,
+        "n_adj": 2
+      },
+      "oracle_live": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0
+          },
+          {
+            "sample": "s1",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 1
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 0.525
+          }
+        ],
+        "adj": 0.6833333333333332,
+        "div": "NaN",
+        "score": 0.6833333333333332,
+        "n_adj": 2,
+        "skipped": []
+      },
+      "diffs": [],
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "a3_zero_counts",
+      "audit_ids": [
+        "S10",
+        "S8"
+      ],
+      "repo": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0,
+            "div": "NaN"
+          },
+          {
+            "sample": "s1_empty",
+            "edge_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": "NaN",
+            "div": "NaN"
+          },
+          {
+            "sample": "s2_no_T_true",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": "NaN",
+            "div": "NaN"
+          },
+          {
+            "sample": "s3_empty_pred",
+            "edge_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 1
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 0.0,
+            "div": "NaN"
+          },
+          {
+            "sample": "s4_empty_gt",
+            "edge_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": "NaN",
+            "div": "NaN"
+          }
+        ],
+        "adj": 0.5,
+        "div": "NaN",
+        "score": 0.5,
+        "n_adj": 2
+      },
+      "oracle_live": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0
+          },
+          {
+            "sample": "s2_no_T_true",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": "NaN"
+          },
+          {
+            "sample": "s3_empty_pred",
+            "edge_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 1
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 0.0
+          }
+        ],
+        "adj": 0.5,
+        "div": "NaN",
+        "score": 0.5,
+        "n_adj": 2,
+        "skipped": [
+          {
+            "sample": "s1_empty",
+            "error": "TypeError: reduce() of empty iterable with no initial value"
+          },
+          {
+            "sample": "s4_empty_gt",
+            "error": "SchemaError: datatypes of join keys don't match - `match_node_id`: i64 on left does not match `node_id`: null on right (and no other type was available to cast to)"
+          }
+        ]
+      },
+      "diffs": [],
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "a3_zero_div",
+      "audit_ids": [
+        "S9"
+      ],
+      "repo": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0,
+            "div": "NaN"
+          }
+        ],
+        "adj": 1.0,
+        "div": "NaN",
+        "score": 1.0,
+        "n_adj": 1
+      },
+      "oracle_live": {
+        "per": [
+          {
+            "sample": "s0",
+            "edge_counts": {
+              "TP": 1,
+              "FP": 0,
+              "FN": 0
+            },
+            "division_counts": {
+              "TP": 0,
+              "FP": 0,
+              "FN": 0
+            },
+            "adj": 1.0
+          }
+        ],
+        "adj": 1.0,
+        "div": "NaN",
+        "score": 1.0,
+        "n_adj": 1,
+        "skipped": []
+      },
+      "diffs": [],
+      "pinned_oracle_match": true
+    }
+  ]
+}

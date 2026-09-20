@@ -1,0 +1,164 @@
+{
+  "name": "a3_weights",
+  "audit_ids": [
+    "S10"
+  ],
+  "note": "S10 positive proof: w_i=TP+FP+FN weighting retained for finite samples. s0 perfect (adj 1.0, w 1); s1 one TP one FN (J 0.5, T 2/4 -> factor 1.05 -> adj 0.525, w 2). Official adj=(1.0*1+0.525*2)/3=0.68333, div NaN, score 0.68333.",
+  "voxel": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "max_dist": 7.0,
+  "samples": [
+    {
+      "name": "s0",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "T_true": 2
+      }
+    },
+    {
+      "name": "s1",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            0,
+            9,
+            9
+          ],
+          [
+            4,
+            1,
+            0,
+            9,
+            9
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "T_true": 4
+      }
+    }
+  ],
+  "oracle": {
+    "adj": 0.6833333333333332,
+    "div": "NaN",
+    "score": 0.6833333333333332,
+    "n_adj": 2,
+    "skipped": [],
+    "per": [
+      {
+        "sample": "s0",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 0
+        },
+        "adj": 1.0
+      },
+      {
+        "sample": "s1",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 1
+        },
+        "adj": 0.525
+      }
+    ]
+  }
+}

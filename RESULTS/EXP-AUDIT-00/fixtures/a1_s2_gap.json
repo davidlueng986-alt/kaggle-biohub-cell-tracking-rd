@@ -1,0 +1,19 @@
+{
+  "name": "a1_s2_gap",
+  "audit_ids": ["S2"],
+  "note": "Pred edge 1->2 spans t0->t2 (gap_link style). Official drops it before counting: no TP, no FP; both GT edges are FN. Old repo counted FP=1. Audit repro: {TP:0,FP:1,FN:2} -> official {TP:0,FP:0,FN:2}.",
+  "voxel": [1.625, 0.40625, 0.40625],
+  "max_dist": 7.0,
+  "pred": {
+    "nodes": [[1, 0, 32, 128, 128], [2, 2, 32, 128, 128]],
+    "edges": [[1, 2]]
+  },
+  "gt": {
+    "nodes": [[1, 0, 32, 128, 128], [9, 1, 32, 128, 128], [2, 2, 32, 128, 128]],
+    "edges": [[1, 9], [9, 2]]
+  },
+  "oracle": {
+    "pairing": {"1": 1, "2": 2},
+    "edge_counts": {"TP": 0, "FP": 0, "FN": 2}
+  }
+}

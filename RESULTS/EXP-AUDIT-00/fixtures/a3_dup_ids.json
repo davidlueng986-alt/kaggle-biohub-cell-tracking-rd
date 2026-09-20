@@ -1,0 +1,99 @@
+{
+  "name": "a3_dup_ids",
+  "audit_ids": [
+    "S13"
+  ],
+  "note": "S13: pred node_id 1 occurs twice at t0 (first y=50 isolated lineage, last y=0 TP lineage). Official keeps both nodes, resolves edge 1->2 via LAST occurrence -> TP=1 FP=0 FN=0. Old repo collapsed the match map (scipy pair order kept the 1a->7 match) -> TP=0 FP=1 FN=1, plus one-to-many gt_to_pred {5:1,7:1}.",
+  "voxel": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "max_dist": 7.0,
+  "samples": [
+    {
+      "name": "s0",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            50,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [
+          [
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            6,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            7,
+            0,
+            0,
+            50,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            5,
+            6
+          ]
+        ],
+        "T_true": 3
+      }
+    }
+  ],
+  "oracle": {
+    "adj": 1.0,
+    "div": "NaN",
+    "score": 1.0,
+    "n_adj": 1,
+    "skipped": [],
+    "per": [
+      {
+        "sample": "s0",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 0
+        },
+        "adj": 1.0
+      }
+    ]
+  }
+}

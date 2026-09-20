@@ -1,0 +1,85 @@
+{
+  "name": "a3_t_true_fallback",
+  "audit_ids": [
+    "S8"
+  ],
+  "note": "S8 exploit: pred ships T_true=2 (= its own node count) while GT has NO T_true. Old repo fell back to pred T_true -> adj=1.0, div gift +0.1 -> score=1.1. Official reads T_true GT-only (evaluate._read_estimated_n_total -> NaN) -> adj NaN, sample excluded, score NaN.",
+  "voxel": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "max_dist": 7.0,
+  "samples": [
+    {
+      "name": "s0",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "T_true": 2
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      }
+    }
+  ],
+  "oracle": {
+    "adj": "NaN",
+    "div": "NaN",
+    "score": "NaN",
+    "n_adj": 0,
+    "skipped": [],
+    "per": [
+      {
+        "sample": "s0",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 0
+        },
+        "adj": "NaN"
+      }
+    ]
+  }
+}

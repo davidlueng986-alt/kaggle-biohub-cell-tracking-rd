@@ -1,0 +1,233 @@
+{
+  "name": "a3_zero_counts",
+  "audit_ids": [
+    "S10",
+    "S8"
+  ],
+  "note": "S10+S8 exclusion: s0 finite (adj 1.0, w 1); s1 empty/empty (official evaluate() CRASHES in division matching -> evaluate.py SKIPS the sample; repo NaN-skips it); s2 perfect edges but GT T_true missing (adj NaN both sides); s3 empty pred vs 1-edge GT (official OK: 0/0/1, adj 0.0 w 1 -- included both sides); s4 1-edge pred vs empty GT (official CRASHES SchemaError in division join -> skipped; repo sparse-ignores to 0/0/0 -> NaN-skips). Net: adj=1.0*1+0.0*1 / 2 = 0.5, n_adj=2. Old repo: s1 w=1 adj=1.1, s2 counted, s4 0/0->1.0 counted w=1 -> inflated.",
+  "voxel": [
+    1.625,
+    0.40625,
+    0.40625
+  ],
+  "max_dist": 7.0,
+  "samples": [
+    {
+      "name": "s0",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "T_true": 2
+      }
+    },
+    {
+      "name": "s1_empty",
+      "pred": {
+        "nodes": [],
+        "edges": []
+      },
+      "gt": {
+        "nodes": [],
+        "edges": [],
+        "T_true": 4
+      }
+    },
+    {
+      "name": "s2_no_T_true",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      }
+    },
+    {
+      "name": "s3_empty_pred",
+      "pred": {
+        "nodes": [],
+        "edges": []
+      },
+      "gt": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "T_true": 2
+      }
+    },
+    {
+      "name": "s4_empty_gt",
+      "pred": {
+        "nodes": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "edges": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "gt": {
+        "nodes": [],
+        "edges": []
+      }
+    }
+  ],
+  "oracle": {
+    "adj": 0.5,
+    "div": "NaN",
+    "score": 0.5,
+    "n_adj": 2,
+    "skipped": [
+      "s1_empty",
+      "s4_empty_gt"
+    ],
+    "per": [
+      {
+        "sample": "s0",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 0
+        },
+        "adj": 1.0
+      },
+      {
+        "sample": "s2_no_T_true",
+        "edge_counts": {
+          "TP": 1,
+          "FP": 0,
+          "FN": 0
+        },
+        "adj": "NaN"
+      },
+      {
+        "sample": "s3_empty_pred",
+        "edge_counts": {
+          "TP": 0,
+          "FP": 0,
+          "FN": 1
+        },
+        "adj": 0.0
+      }
+    ]
+  }
+}

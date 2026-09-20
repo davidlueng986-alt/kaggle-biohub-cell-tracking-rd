@@ -39,3 +39,9 @@ opencode-web.png
 
 # Derived detection caches (reproducible via run.sh; never commit)
 experiments/EXP-0053/det/
+
+# secrets
+.secrets/
+**/.hf_token
+.env
+.env.*

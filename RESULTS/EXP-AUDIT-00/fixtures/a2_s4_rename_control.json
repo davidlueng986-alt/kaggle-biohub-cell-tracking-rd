@@ -1,0 +1,174 @@
+{
+  "name": "s4_rename_control",
+  "audit_ids": [
+    "S4"
+  ],
+  "note": "S4 rename control: identical geometry to s4_precedence with child/gc ids swapped (child 8, gc 13; set iterates child-first). Old repo flipped to TP=1 here while s4_precedence gave TP=0 (rename instability); official TP=1 on both. Post-fix repo is stable TP=1.",
+  "voxel": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "max_dist": 7.0,
+  "pred": {
+    "nodes": [
+      [
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        130,
+        2,
+        0,
+        10,
+        0
+      ],
+      [
+        13,
+        3,
+        0,
+        100,
+        0
+      ],
+      [
+        131,
+        3,
+        0,
+        10,
+        0
+      ]
+    ],
+    "edges": [
+      [
+        100,
+        110
+      ],
+      [
+        110,
+        8
+      ],
+      [
+        110,
+        130
+      ],
+      [
+        8,
+        13
+      ],
+      [
+        130,
+        131
+      ]
+    ]
+  },
+  "gt": {
+    "nodes": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        20,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        30,
+        2,
+        0,
+        10,
+        0
+      ],
+      [
+        21,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        31,
+        3,
+        0,
+        10,
+        0
+      ],
+      [
+        90,
+        3,
+        0,
+        100,
+        0
+      ],
+      [
+        91,
+        2,
+        0,
+        100,
+        0
+      ]
+    ],
+    "edges": [
+      [
+        1,
+        10
+      ],
+      [
+        10,
+        20
+      ],
+      [
+        10,
+        30
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        91,
+        90
+      ]
+    ]
+  },
+  "oracle": {
+    "division_counts": {
+      "TP": 1,
+      "FP": 0,
+      "FN": 0
+    }
+  }
+}

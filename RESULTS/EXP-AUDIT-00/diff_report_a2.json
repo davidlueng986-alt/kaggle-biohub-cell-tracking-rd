@@ -1,0 +1,166 @@
+{
+  "oracle_pin": {
+    "repo": "https://github.com/royerlab/kaggle-cell-tracking-competition",
+    "commit": "075fc5f5a52d11077f9dc2b074644618f26939e2",
+    "package": "tracking-cellmot 0.1.0",
+    "tracksdata": "0.1.0rc10",
+    "scipy": "1.18.1",
+    "polars": "1.44.2",
+    "path": "/tmp/opencode/official"
+  },
+  "fixtures": [
+    {
+      "fixture": "aligned",
+      "audit_ids": [
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S11"
+      ],
+      "repo_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s11_rematch",
+      "audit_ids": [
+        "S11"
+      ],
+      "repo_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 1
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 1
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s12_offset",
+      "audit_ids": [
+        "S12"
+      ],
+      "repo_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s4_precedence",
+      "audit_ids": [
+        "S4"
+      ],
+      "repo_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s4_rename_control",
+      "audit_ids": [
+        "S4"
+      ],
+      "repo_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s5_poison",
+      "audit_ids": [
+        "S5"
+      ],
+      "repo_counts": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 1
+      },
+      "oracle_counts": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 1
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s6_threechild",
+      "audit_ids": [
+        "S6"
+      ],
+      "repo_counts": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 0
+      },
+      "oracle_counts": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 0
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    },
+    {
+      "fixture": "s7_considered",
+      "audit_ids": [
+        "S7"
+      ],
+      "repo_counts": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 1
+      },
+      "oracle_counts": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 1
+      },
+      "count_diff": 0,
+      "pinned_oracle_match": true
+    }
+  ],
+  "fuzz": {
+    "n": 100,
+    "seed": 7,
+    "diffs": 0
+  }
+}
